@@ -1,0 +1,1195 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--    <link href="src/main/resources/templates/static/css/portfolio_style.css" rel="stylesheet" type="text/css"/>-->
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--    <meta charset="ISO-8859-1">-->
+    <title>Financial Assessment</title>
+</head>
+<body>
+
+<div id="header">
+    <img th:src="@{/images/koshantra_logo.PNG}" alt="Koshantra Logo" id="logo" src="/images/koshantra_logo.PNG">
+    <div id="koshantra_header">
+        <hr id="line_before_logo">
+        <h1 id="Koshantra_title">Welcome to Koshantra Financials</h1>
+        <hr id="line_after_logo">
+        <a href="https://www.koshantrafinancials.com">www.koshantrafinancials.com</a>
+<!--        <h4 id="koshantra_link">www.koshantrafinancials.com</h4>-->
+    </div>
+</div>
+<div align="center">
+    <br>
+
+<!--    <h1>Financial Assessment</h1>-->
+<!--    enctype="multipart/form-data"-->
+    <form id="input" action="#" th:action="@{/register}" method="post" enctype="multipart/form-data" onsubmit="myFunction()"
+    style="padding-bottom: 30px;">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" class="plain_text" name="firstName" required/>
+        <br>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" class="plain_text" name="lastName" required/>
+        </br>
+        <label>Date of Birth</label>
+        <input type="date" id="DOB" class="plain_text" name="DOB" required/>
+        </br>
+        <div class="radio_box">
+        <label>Gender:</label>
+<!--        <label class="container" for="Male">Male-->
+        <input type="radio" id="Male" name="Gender" value="Male" required>Male
+        <span class="checkmark"></span>
+<!--        </label>-->
+<!--        <label class="container" for="Female">Female-->
+        <input type="radio" id="Female" name="Gender" value="Female">Female
+        <span class="checkmark"></span>
+<!--        </label>-->
+<!--        <label class="container" for="Other">Other-->
+        <input type="radio" id="Other" name="Gender" value="Other">Other
+        <span class="checkmark"></span>
+<!--        </label>-->
+        </div>
+        </br>
+        <label>Mobile No.</label>
+        <input type="text" id="mobileNo" class="plain_text" name="mobileNo" pattern="[789][0-9]{9}" required/>
+        </br>
+        <label>Email Id</label>
+        <input type="email" id="email" class="plain_text" name="email" required/>
+        </br>
+        <label>Profession</label>
+        <input type="text" id="profession" class="plain_text" name="profession" required/>
+        </br>
+        <div class="radio_box">
+        <label>Marital Status:</label>
+        <input type="radio" id="Married" name="marital" value="Married" required/> Married
+<!--        <label for="Married">Married</label>-->
+        <input type="radio" id="Single" name="marital" value="Single" /> Single
+<!--        <label for="Single">Single</label>-->
+        </div>
+        </br>
+        <label>Address</label>
+        <input type="text" name="address" class="plain_text" id="address" />
+        </br>
+        <label>Annual Income</label>
+        <input type="number" id="income" class="plain_text" name="income" required/>
+        </br>
+        <label>Annual Expense</label>
+        <input type="number" id="expense" class="plain_text" name="expense" required/>
+        </br>
+        <div class="select_options">
+        <label>Risk Profile</label>
+        <br><br>
+        <select id='riskProfile' size="3" style="width: 300px; text-align: center;" required>
+            <option style="padding: 3px 3px 3px 3px">Aggressive</option>
+            <option style="padding: 3px 3px 3px 3px">Moderate</option>
+            <option style="padding: 3px 3px 3px 3px">Conservative</option>
+        </select>
+        </div>
+        </br>
+        <div class="plain_text">
+        <label>Life Goals:</label>
+        <input type="checkbox" id="wealthCreation" name="lifeGoals" value="Wealth Creation">Wealth Creation
+        <input type="checkbox" id="childEducation" name="lifeGoals" value="Child Education">Child Education
+        <input type="checkbox" id="selfMarriage" name="lifeGoals" value="Self Marriage"> Self Marriage
+        <input type="checkbox" id="childMarriage" name="lifeGoals" value="Child Marriage"> Child Marriage
+        <input type="checkbox" id="Retirement" name="lifeGoals" value="Retirement"> Retirement
+        <input type="checkbox" id="TaxSaving" name="lifeGoals" value="Tax Saving"> Tax Saving
+        </div>
+        </br>
+        <div id="dependents">
+            <h2>Dependents</h2>
+        <label>Add Number of Dependents</label>
+        <input type="number" class="plain_text" id="noOfDependents" name="NoOfDependents"/>
+        <span onclick="addDependents()" id="button_add">Add Dependents</span>
+
+        <div id="dependent">
+        </div>
+
+        </div>
+
+        <!--        <div th:object="${stockList}">-->
+<!--        <select class='selected' size="3">-->
+<!--            <option>Option 1</option>-->
+<!--            <option>Option 2</option>-->
+<!--            <option>Option 3</option>-->
+<!--        </select>-->
+
+        <div id="stocks-section">
+            <h2>Add Stocks ?</h2>
+            <input type="radio" id="stocks-yes" name="stocks-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="stocks-no" name="stocks-yes-or-no" value="No"> No
+
+            <div id="stocks-input" hidden>
+            <input type="text" id="stock-name" placeholder="Stock Name" />
+            <input type="number" id="stock-invested" placeholder="Stock Amount" />
+            <input type="number" id="stock-market-value" placeholder="Market Value"  />
+            <input type="date" id="stock-date-of-investment" placeholder="Date of Investment" />
+            <label for="stock-frequency">Choose Stock Frequency</label>
+            <select name="stock-frequency" id="stock-frequency">
+                <option value="Lumpsum">Lumpsum</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Annually">Annually</option>
+            </select>
+            <div onclick="addStocks()" id="stock-add" class="button_add">Add</div>
+            </div>
+            <ul id="stocks">
+                <!--                <div class="stock">-->
+                <!--                    <label>Stock name:</label>-->
+                <!--                    <input type="text" class="stock-name" name="stockName"/><br/>-->
+
+                <!--                    <label>Invested Amount:</label>-->
+                <!--                    <input type="number" class="stock-investedAmount" name="investedAmount"/><br/>-->
+                <!--                </div>-->
+            </ul>
+            <!--                <i class="fa fa-plus-circle" th:attr="onclick='add()'"></i>-->
+        </div>
+
+        <div id="mf-section">
+            <h2>Add Mutual Funds ?</h2>
+            <input type="radio" id="mf-yes" name="mf-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="mf-no" name="mf-yes-or-no" value="No"> No
+
+            <div id="mf-input" hidden>
+                <label for="mf-type">Choose MF Type</label>
+                <select name="mf-type" id="mf-type">
+                    <option value="Lumpsum">Lumpsum</option>
+                    <option value="Growth">Growth</option>
+                    <option value="Dividend">Dividend</option>
+                    <option value="ELSS">ELSS</option>
+                </select>
+                <input type="number" id="mf-invested" placeholder="MF Amount" />
+                <input type="number" id="mf-market-value" placeholder="Market Value"  />
+                <input type="date" id="mf-date-of-investment" placeholder="Date of Investment" />
+                <label for="mf-frequency">Choose MF Frequency:</label>
+                <select name="mf-frequency" id="mf-frequency">
+                    <option value="Daily">Daily</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Annually">Annually</option>
+                </select>
+                <div onclick="addMfs()" id="mf-add" class="button_add">Add</div>
+            </div>
+            <ul id="mfs">
+            </ul>
+        </div>
+
+        <div id="life-insurance-section">
+            <h2>Add Life Insurance ?</h2>
+            <input type="radio" id="life-insurance-yes" name="life-insurance-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="life-insurance-no" name="life-insurance-yes-or-no" value="No"> No
+
+            <div id="life-insurance-input" hidden>
+                <label for="life-insurance-type">Choose a Type:</label>
+                <select name="life-insurance-type" id="life-insurance-type">
+                    <option value="Term">Term</option>
+                    <option value="Traditional">Traditional</option>
+                </select>
+                <input type="text" id="life-insurance-name" placeholder="Insurance Name" />
+                <input type="number" id="life-insurance-policy-term" placeholder="Policy Term" />
+                <input type="number" id="life-insurance-premium-amount" placeholder="Premium Amount"  />
+                <input type="number" id="life-insurance-premium-paying-term" placeholder="Premium Paying Term"  />
+                <input type="number" id="life-insurance-sum-insured" placeholder="Sum Insured" />
+                <input type="date" id="life-insurance-start-date" placeholder="Start Date" />
+
+                <div onclick="addLifeInsurance()" id="life-insurance-add" class="button_add">Add</div>
+            </div>
+            <ul id="life-insurance">
+            </ul>
+        </div>
+
+        <div id="health-insurance-section">
+            <h2>Add Health Insurance ?</h2>
+            <input type="radio" id="health-insurance-yes" name="health-insurance-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="health-insurance-no" name="health-insurance-yes-or-no" value="No"> No
+
+            <div id="health-insurance-input" hidden>
+                <input type="text" id="health-insurance-company-name" placeholder="Company Name" />
+                <input type="number" id="health-insurance-premium-amount" placeholder="Premium Amount" />
+                <input type="number" id="health-insurance-sum-insured" placeholder="Sum Insured"  />
+                <input type="date" id="health-insurance-start-date" placeholder="Start Date" />
+                <label for="health-insurance-type">Choose a Frequency:</label>
+                <select name="health-insurance-type" id="health-insurance-type">
+                    <option value="Individual">Individual</option>
+                    <option value="Floater">Floater</option>
+                </select>
+                <div onclick="addHealthInsurance()" id="health-insurance-add" class="button_add">Add</div>
+            </div>
+            <ul id="health-insurance">
+            </ul>
+        </div>
+
+        <div id="bonds-section">
+            <h2>Add Bonds ?</h2>
+            <input type="radio" id="bonds-yes" name="bonds-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="bonds-no" name="bonds-yes-or-no" value="No"> No
+
+            <div id="bonds-input" hidden>
+                <input type="text" id="bonds-name" placeholder="Name" />
+                <input type="date" id="bonds-date-of-investment" placeholder="Date of Investment" />
+                <input type="number" id="bonds-invested" placeholder="Enter Amount" />
+                <input type="date" id="bonds-maturity-date" placeholder="Maturity Date"  />
+                <div onclick="addBonds()" id="bonds-add" class="button_add">Add</div>
+            </div>
+            <ul id="bonds">
+            </ul>
+        </div>
+
+        <div id="fd-section">
+            <h2>Add Fixed Deposits ?</h2>
+            <input type="radio" id="fd-yes" name="fd-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="fd-no" name="fd-yes-or-no" value="No"> No
+
+            <div id="fd-input" hidden>
+                <input type="text" id="fd-name" placeholder="Bank/NBFC name" />
+                <input type="number" id="fd-invested" placeholder="Amount Invested" />
+                <input type="number" id="fd-investment-rate" placeholder="Investment Rate"  />
+                <input type="date" id="fd-start-date" placeholder="Start Date" />
+                <input type="date" id="fd-maturity-date" placeholder="Maturity Date" />
+                <div onclick="addFDs()" id="fd-add" class="button_add">Add</div>
+            </div>
+            <ul id="fd">
+            </ul>
+        </div>
+
+        <div id="ppf-section">
+            <h2>Add PPF ?</h2>
+            <input type="radio" id="ppf-yes" name="ppf-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="ppf-no" name="ppf-yes-or-no" value="No"> No
+
+            <div id="ppf-input" hidden>
+                <input type="number" id="ppf-invested" placeholder="Amount" />
+                <input type="date" id="ppf-date-of-investment" placeholder="Date of Investment" />
+                <label for="ppf-frequency">Choose a Frequency:</label>
+                <select name="ppf-frequency" id="ppf-frequency">
+                    <option value="Lumpsum">Lumpsum</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Annually">Annually</option>
+                </select>
+                <div onclick="addPPFs()" id="ppf-add" class="button_add">Add</div>
+            </div>
+            <ul id="ppf">
+            </ul>
+        </div>
+
+        <div id="loan-emi-section">
+            <h2>Add Loan/Emi ?</h2>
+            <input type="radio" id="loan-emi-yes" name="loan-emi-yes-or-no" value="Yes" required> Yes
+            <input type="radio" id="loan-emi-no" name="loan-emi-yes-or-no" value="No"> No
+            <div id="loan-emi-input" hidden>
+                <input type="number" id="loan-emi-amount" placeholder="Loan Amount" />
+                <input type="number" id="loan-emi-instalment-left" placeholder="Instalment Left"  />
+                <input type="number" id="loan-emi-amount-of-instalment" placeholder="Amount of Instalment"  />
+                <input type="date" id="loan-emi-start-date" placeholder="Start Date" />
+                <select name="loan-type" id="loan-type">
+                    <option value="None">None</option>
+                    <option value="Home Loan">Home Loan</option>
+                    <option value="Personal Loan">Personal Loan</option>
+                </select>
+                <div onclick="addLoanOrEMI()" id="loan-emi-add" class="button_add">Add</div>
+            </div>
+            <ul id="loan-emi">
+            </ul>
+        </div>
+        <!--        </div>-->
+
+        <!--        <button type="button" class="fa fa-plus-circle" th:onclick="'alert(\'a\');'"></button>-->
+
+        <!--        add js function to append content/section(class) or remove content/section(class)-->
+<!--        <i class="fa fa-plus-circle" th:attr="onclick='alert(\'a\');'"></i>-->
+        <input type="submit" value="Register">
+<!--        <div id="mybutton" onclick="myFunction()">Register</div>-->
+<!--        <button id="mybutton" onclick="myFunction()" type="submit">Register</button>-->
+    </form>
+
+
+    <!--    <form action="#" th:action="@{/register}" method="post" th:object="${stock}">-->
+    <!--        <label>Stock name:</label>-->
+    <!--        <input type="text" th:field="*{name}" /><br/>-->
+
+    <!--        <label>Invested Amount:</label>-->
+    <!--        <input type="number" th:field="*{investedAmount}" /><br/>-->
+
+    <!--        &lt;!&ndash;        <button type="button" class="fa fa-plus-circle" th:onclick="'alert(\'a\');'"></button>&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;        add js function to append content/section(class) or remove content/section(class)&ndash;&gt;-->
+    <!--        <i class="fa fa-plus-circle" th:attr="onclick='alert(\'a\');'"></i>-->
+
+    <!--        <button type="submit">Register</button>-->
+    <!--    </form>-->
+</div>
+
+<div id="footer">
+
+    KOSHANTRA FINANCIALS<br>
+    Contact Us at 9311566022, 9650934919 or Email at <a href="info@koshantrafinancials.com">info@koshantrafinancials.com</a>
+
+<!--    <h3 id="koshantra_address">Koshantra Financials</h3>-->
+<!--    <div class="vl"></div>-->
+<!--    <h4 id="koshantra_contact">www.koshantrafinancials.com</h4>-->
+</div>
+
+<script>
+
+    // document.onload = function (){
+    //     makeRequired();
+    // }
+    //
+    // function makeRequired(){
+    //     document.getElementById("firstName").required = true;
+    // }
+
+
+    function addDependents() {
+        let number_of_dependents = document.getElementById("noOfDependents").value;
+        let dependents = document.getElementById("dependent");
+        console.log(dependents.innerText);
+        dependents.innerText = '';
+        for(let num=0; num<number_of_dependents; num++) {
+            dependents.innerHTML +=
+                '<label>Name </label>' +
+                '<input type="text"' + ' class ="dependent_plain_text" id=' + "name-"+num + ' name="name" required/></br>' +
+                '<label>Date of Birth </label>' +
+                '<input type="date"' + ' class="dependent_plain_text" id=' + "DOB-"+num + ' name="DOB" required/></br>' +
+                '<label>Relation </label>' +
+                '<input type="text"' + ' class="dependent_plain_text" id=' + "relation-"+num + ' name="relation" required/></br>' +
+                '<hr style="width: 50%; padding-bottom: 5px;">'
+        }
+        console.log("dependnets: " , dependents);
+    }
+
+    var stocks_name = [], stocks_amount = [], stocks_mkt_value = [], stocks_date_of_purchase = [], stocks_frequency = []
+    var mf_type = [], mf_amount = [], mf_mkt_value = [], mf_date_of_purchase = [], mf_frequency = []
+    var li_type = [], li_name = [], li_policy_term = [], li_premium_paying_term = [], li_sum_insured = [], li_start_date = []
+    var hi_name = [], hi_premium_amount = [], hi_sum_insured = [], hi_start_date = [], hi_type = []
+    var fd_name = [], fd_amount = [], fd_start_date = [], fd_maturity_date = []
+    var ppf_invested = [], ppf_date_of_investment = [], ppf_frequency = []
+    var loan_emi_installement_left = [], loan_emi_installment_amount = [], loan_emi_start_date = []
+    var dependents_name = [], dependents_dob = [] , dependents_relation = []
+    var bonds_name = [], bonds_date_of_investment = [], bonds_invested = [], bonds_maturity_date = []
+    var loan_emi_type = []
+
+    function addMfs() {
+        let ulElement = document.getElementById('mfs');
+        let mfType = document.getElementById('mf-type');
+        let mfAmount = document.getElementById('mf-invested');
+        let mfMktValue = document.getElementById('mf-market-value');
+        let mfInvestmentDate = document.getElementById('mf-date-of-investment');
+        let mfFrequency = document.getElementById('mf-frequency');
+
+        if(!mfType.value ||  !mfAmount.value || !mfMktValue.value || !mfInvestmentDate.value || !mfFrequency.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "mf-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="mf-type">' +
+            mfType.value + '</td>' + '<td class="mf-invested">' +
+            mfAmount.value + '</td>' + '<td class="mf-market-value">' +
+            mfMktValue.value + '</td>' + '<td class="mf-date-of-investment">' +
+            mfInvestmentDate.value + '</td>' + '<td class="mf-frequency">' +
+            mfFrequency.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        mf_amount.push(mfAmount.value);
+        mf_type.push(mfType.value);
+        mf_mkt_value.push(mfMktValue.value);
+        mf_date_of_purchase.push(mfInvestmentDate.value);
+        mf_frequency.push(mfFrequency.value);
+        mfType.value = '';
+        mfAmount.value = '';
+        mfMktValue.value = '';
+        mfInvestmentDate.value = '';
+        mfFrequency.value = '';
+    }
+
+    function addLifeInsurance() {
+        let ulElement = document.getElementById('life-insurance');
+        let liType = document.getElementById('life-insurance-type');
+        let liName = document.getElementById('life-insurance-name');
+        let liPolicyTerm = document.getElementById('life-insurance-policy-term');
+        let liPremiumPayingTerm = document.getElementById('life-insurance-premium-paying-term');
+        let liSumInsured = document.getElementById('life-insurance-sum-insured');
+        let liStartDate = document.getElementById('life-insurance-start-date');
+
+        if(!liType.value ||  !liName.value || !liPolicyTerm.value ||
+            !liPremiumPayingTerm.value || !liSumInsured.value || !liStartDate.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "li-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="life-insurance-type">' +
+            liType.value + '</td>' + '<td class="life-insurance-name">' +
+            liName.value + '</td>' + '<td class="life-insurance-policy-term">' +
+            liPolicyTerm.value + '</td>' + '<td class="life-insurance-premium-paying-term">' +
+            liPremiumPayingTerm.value + '</td>' + '<td class="life-insurance-sum-insured">' +
+            liSumInsured.value + '</td>' + '<td class="life-insurance-start-date">' +
+            liStartDate.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        li_type.push(liType.value);
+        li_name.push(liName.value);
+        li_policy_term.push(liPolicyTerm.value);
+        li_premium_paying_term.push(liPremiumPayingTerm.value);
+        li_sum_insured.push(liSumInsured.value);
+        li_start_date.push(liStartDate.value);
+        liType.value = '';
+        liName.value = '';
+        liPolicyTerm.value = '';
+        liPremiumPayingTerm.value = '';
+        liSumInsured.value = '';
+        liStartDate.value = '';
+    }
+
+    function addHealthInsurance() {
+        let ulElement = document.getElementById('health-insurance');
+        let hiCompanyName = document.getElementById('health-insurance-company-name');
+        let hiPremiumAmount = document.getElementById('health-insurance-premium-amount');
+        let hiSumInsured = document.getElementById('health-insurance-sum-insured');
+        let hiStartDate = document.getElementById('health-insurance-start-date');
+        let hiInsuranceType = document.getElementById('health-insurance-type');
+
+        if(!hiCompanyName.value ||  !hiPremiumAmount.value || !hiSumInsured.value || !hiStartDate.value || !hiInsuranceType.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "hi-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="health-insurance-company-name">' +
+            hiCompanyName.value + '</td>' + '<td class="health-insurance-premium-amount">' +
+            hiPremiumAmount.value + '</td>' + '<td class="health-insurance-sum-insured">' +
+            hiSumInsured.value + '</td>' + '<td class="health-insurance-start-date">' +
+            hiStartDate.value + '</td>' + '<td class="health-insurance-type">' +
+            hiInsuranceType.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        hi_name.push(hiCompanyName.value);
+        hi_premium_amount.push(hiPremiumAmount.value);
+        hi_sum_insured.push(hiSumInsured.value);
+        hi_start_date.push(hiStartDate.value);
+        hi_type.push(hiInsuranceType.value);
+        hiCompanyName.value = '';
+        hiPremiumAmount.value = '';
+        hiSumInsured.value = '';
+        hiStartDate.value = '';
+        hiInsuranceType.value = '';
+    }
+
+    function addBonds() {
+        let ulElement = document.getElementById('bonds');
+        let bondsName = document.getElementById('bonds-name');
+        let bondsDateOfInvestment = document.getElementById('bonds-date-of-investment');
+        let bondsInvested = document.getElementById('bonds-invested');
+        let bondsMaturityDate = document.getElementById('bonds-maturity-date');
+
+        if(!bondsName.value ||  !bondsDateOfInvestment.value || !bondsInvested.value || !bondsMaturityDate.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "bonds-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="bonds-name">' +
+            bondsName.value + '</td>' + '<td class="bonds-date-of-investment">' +
+            bondsDateOfInvestment.value + '</td>' + '<td class="bonds-invested">' +
+            bondsInvested.value + '</td>' + '<td class="bonds-maturity-date">' +
+            bondsMaturityDate.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        bonds_name.push(bondsName.value);
+        bonds_date_of_investment.push(bondsDateOfInvestment.value);
+        bonds_invested.push(bondsInvested.value);
+        bonds_maturity_date.push(bondsMaturityDate.value);
+        bondsName.value = '';
+        bondsDateOfInvestment.value = '';
+        bondsInvested.value = '';
+        bondsMaturityDate.value = '';
+    }
+
+    function addFDs() {
+        let ulElement = document.getElementById('fd');
+        let fdName = document.getElementById('fd-name');
+        let fdInvested = document.getElementById('fd-invested');
+        let fdStartDate = document.getElementById('fd-start-date');
+        let fdMaturityDate = document.getElementById('fd-maturity-date');
+
+        if(!fdName.value ||  !fdInvested.value || !fdStartDate.value || !fdMaturityDate.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "fd-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="fd-name">' +
+            fdName.value + '</td>' + '<td class="fd-invested">' +
+            fdInvested.value + '</td>' + '<td class="fd-start-date">' +
+            fdStartDate.value + '</td>' + '<td class="fd-maturity-date">' +
+            fdMaturityDate.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        fd_name.push(fdName.value);
+        fd_amount.push(fdInvested.value);
+        fd_start_date.push(fdStartDate.value);
+        fd_maturity_date.push(fdMaturityDate.value);
+        fdInvested.value = '';
+        fdInvested.value = '';
+        fdStartDate.value = '';
+        fdMaturityDate.value = '';
+    }
+
+    function addPPFs() {
+
+        let ulElement = document.getElementById('ppf');
+        let ppfInvested = document.getElementById('ppf-invested');
+        let ppfDateOfInvestment = document.getElementById('ppf-date-of-investment');
+        let ppfFrequency = document.getElementById('ppf-frequency');
+
+        if(!ppfInvested.value ||  !ppfDateOfInvestment.value || !ppfFrequency.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "ppf-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="ppf-invested">' +
+            ppfInvested.value + '</td>' + '<td class="ppf-date-of-investment">' +
+            ppfDateOfInvestment.value + '</td>' + '<td class="ppf-frequency">' +
+            ppfFrequency.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        ppf_invested.push(ppfInvested.value);
+        ppf_date_of_investment.push(ppfDateOfInvestment.value);
+        ppf_frequency.push(ppfFrequency.value);
+        ppfInvested.value = '';
+        ppfDateOfInvestment.value = '';
+        ppfFrequency.value = '';
+    }
+
+    function addLoanOrEMI() {
+
+        let ulElement = document.getElementById('loan-emi');
+        let loanEmiInstallmentLeft = document.getElementById('loan-emi-instalment-left');
+        let loanEmiInstallmentAmount = document.getElementById('loan-emi-amount-of-instalment');
+        let loanEmiStartDate = document.getElementById('loan-emi-start-date');
+
+        if(!loanEmiInstallmentLeft.value ||  !loanEmiInstallmentAmount.value || !loanEmiStartDate.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "loan-emi-list" + index;
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="loan-emi-instalment-left">' +
+            loanEmiInstallmentLeft.value + '</td>' + '<td class="loan-emi-amount-of-instalment">' +
+            loanEmiInstallmentAmount.value + '</td>' + '<td class="loan-emi-start-date">' +
+            loanEmiStartDate.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        loan_emi_installement_left.push(loanEmiInstallmentLeft.value);
+        loan_emi_installment_amount.push(loanEmiInstallmentAmount.value);
+        loan_emi_start_date.push(loanEmiStartDate.value);
+
+        loanEmiInstallmentLeft.value = '';
+        loanEmiInstallmentAmount.value = '';
+        loanEmiStartDate.value = '';
+
+    }
+
+    function addStocks(){
+        let ulElement = document.getElementById('stocks');
+        let stockName = document.getElementById('stock-name');
+        let stockAmount = document.getElementById('stock-invested');
+        let stockMktValue = document.getElementById('stock-market-value');
+        let stockInvestmentDate = document.getElementById('stock-date-of-investment');
+        let stockFrequency = document.getElementById('stock-frequency');
+
+        if(!stockName.value ||  !stockAmount.value || !stockMktValue.value || !stockInvestmentDate.value || !stockFrequency.value){
+            alert('Please fill all the values');
+            return;
+        }
+
+        let index = ulElement.children.length;
+        let idName = "stock-list" + index;
+
+        // console.log(ulElement.children.length);
+
+        // if(!stockName.value ||  !stockAmount.value){
+        //     console.log('no value in input element');
+        //     return;
+        // }
+
+        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="stock-name">' +
+            stockName.value + '</td>' + '<td class="stock-invested">' +
+            stockAmount.value + '</td>' + '<td class="stock-market-value">' +
+            stockMktValue.value + '</td>' + '<td class="stock-date-of-investment">' +
+            stockInvestmentDate.value + '</td>' + '<td class="stock-frequency-class">' +
+            stockFrequency.value + '</td>' +
+            '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
+            '</tr></table>';
+
+        stocks_amount.push(stockAmount.value);
+        stocks_name.push(stockName.value);
+        stocks_mkt_value.push(stockMktValue.value);
+        stocks_date_of_purchase.push(stockInvestmentDate.value);
+        stocks_frequency.push(stockFrequency.value);
+        stockName.value = '';
+        stockAmount.value = '';
+        stockMktValue.value = '';
+        stockInvestmentDate.value = '';
+        stockFrequency.value = '';
+    }
+
+    document.querySelector('#stocks').onclick = (event)=>{
+        console.log("event: " , event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(10);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#mfs').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(7);
+            mf_type.splice(index, 1);
+            mf_amount.splice(index,1);
+            mf_mkt_value.splice(index,1);
+            mf_date_of_purchase.splice(index,1);
+            mf_frequency.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#life-insurance').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(7);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#health-insurance').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(7);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#bonds').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(10);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#fd').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(7);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#ppf').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(8);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    document.querySelector('#loan-emi').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            let index = event.target.parentElement.parentElement.id.substring(13);
+            stocks_frequency.splice(index, 1);
+            stocks_date_of_purchase.splice(index,1);
+            stocks_mkt_value.splice(index,1);
+            stocks_amount.splice(index,1);
+            stocks_name.splice(index, 1);
+            let deleteButton = event.target.parentElement.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    // document.querySelector('input[name="stocks-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('stocks-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="stocks-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="stocks-yes-or-no"]:checked').id === "stocks-yes"){
+    //         document.getElementById('stocks-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('stocks-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="stocks-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="stocks-yes-or-no"]:checked').id === "stocks-yes"){
+                document.getElementById('stocks-input').removeAttribute('hidden');
+                document.getElementById('stocks').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="stocks-yes-or-no"]:checked').id === "stocks-no"){
+                document.getElementById('stocks-input').setAttribute('hidden',true);
+                document.getElementById('stocks').setAttribute('hidden', true);
+                stocks_name = [];
+                stocks_amount = [];
+                stocks_date_of_purchase = [];
+                stocks_mkt_value = [];
+                stocks_frequency = [];
+                stock_investedAmount = [];
+            }
+        }));
+
+    // document.querySelector('input[name="mf-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('mf-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="mf-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="mf-yes-or-no"]:checked').id === "mf-yes"){
+    //         document.getElementById('mf-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('mf-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="mf-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="mf-yes-or-no"]:checked').id === "mf-yes"){
+                document.getElementById('mf-input').removeAttribute('hidden');
+                document.getElementById('mfs').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="mf-yes-or-no"]:checked').id === "mf-no"){
+                document.getElementById('mf-input').setAttribute('hidden',true);
+                document.getElementById('mfs').setAttribute('hidden', true);
+                mf_frequency = [];
+                mf_type = [];
+                mf_date_of_purchase = [];
+                mf_amount = [];
+                mf_mkt_value = [];
+            }
+        }));
+
+
+    // document.querySelector('input[name="life-insurance-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('life-insurance-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="life-insurance-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="life-insurance-yes-or-no"]:checked').id === "life-insurance-yes"){
+    //         document.getElementById('life-insurance-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('life-insurance-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="life-insurance-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="life-insurance-yes-or-no"]:checked').id === "life-insurance-yes"){
+                document.getElementById('life-insurance-input').removeAttribute('hidden');
+                document.getElementById('life-insurance').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="life-insurance-yes-or-no"]:checked').id === "life-insurance-no"){
+                document.getElementById('life-insurance-input').setAttribute('hidden',true);
+                document.getElementById('life-insurance').setAttribute('hidden', true);
+                li_type = [];
+                li_policy_term = [];
+                li_sum_insured = [];
+                li_premium_paying_term = [];
+                li_start_date = [];
+            }
+        }));
+
+    // document.querySelector('input[name="health-insurance-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('health-insurance-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="health-insurance-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="health-insurance-yes-or-no"]:checked').id === "health-insurance-yes"){
+    //         document.getElementById('health-insurance-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('health-insurance-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="health-insurance-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="health-insurance-yes-or-no"]:checked').id === "health-insurance-yes"){
+                document.getElementById('health-insurance-input').removeAttribute('hidden');
+                document.getElementById('health-insurance').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="health-insurance-yes-or-no"]:checked').id === "health-insurance-no"){
+                document.getElementById('health-insurance-input').setAttribute('hidden',true);
+                document.getElementById('health-insurance').setAttribute('hidden', true);
+                hi_type = [];
+                hi_start_date = [];
+                hi_sum_insured = [];
+                hi_name = [];
+                hi_premium_amount = [];
+            }
+        }));
+
+    // document.querySelector('input[name="bonds-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('bonds-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="bonds-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="bonds-yes-or-no"]:checked').id === "bonds-yes"){
+    //         document.getElementById('bonds-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('bonds-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="bonds-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="bonds-yes-or-no"]:checked').id === "bonds-yes"){
+                document.getElementById('bonds-input').removeAttribute('hidden');
+                document.getElementById('bonds').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="bonds-yes-or-no"]:checked').id === "bonds-no"){
+                document.getElementById('bonds-input').setAttribute('hidden',true);
+                document.getElementById('bonds').setAttribute('hidden', true);
+                bonds_maturity_date = [];
+                bonds_date_of_investment = [];
+                bonds_invested = [];
+                bonds_name = [];
+            }
+        }));
+
+    // document.querySelector('input[name="fd-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('fd-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="fd-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="fd-yes-or-no"]:checked').id === "fd-yes"){
+    //         document.getElementById('fd-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('fd-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="fd-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="fd-yes-or-no"]:checked').id === "fd-yes"){
+                document.getElementById('fd-input').removeAttribute('hidden');
+                document.getElementById('fd').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="fd-yes-or-no"]:checked').id === "fd-no"){
+                document.getElementById('fd-input').setAttribute('hidden',true);
+                document.getElementById('fd').setAttribute('hidden', true);
+                fd_amount = [];
+                fd_name = [];
+                fd_maturity_date = [];
+                fd_start_date = [];
+            }
+        }));
+
+
+    // document.querySelector('input[name="ppf-yes-or-no"]').onclick = () => {
+    //     console.log("before remove: " , document.getElementById('ppf-input'));
+    //     console.log("yes or no: ", document.querySelector('input[name="ppf-yes-or-no"]:checked').id );
+    //     if(document.querySelector('input[name="ppf-yes-or-no"]:checked').id === "ppf-yes"){
+    //         document.getElementById('ppf-input').removeAttribute('hidden');
+    //         console.log("after remove: " , document.getElementById('ppf-input'));
+    //     }
+    // }
+
+    document.querySelectorAll('input[name="ppf-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="ppf-yes-or-no"]:checked').id === "ppf-yes"){
+                document.getElementById('ppf-input').removeAttribute('hidden');
+                document.getElementById('ppf').removeAttribute('hidden');
+            }
+
+            if(document.querySelector('input[name="ppf-yes-or-no"]:checked').id === "ppf-no"){
+                document.getElementById('ppf-input').setAttribute('hidden',true);
+                document.getElementById('ppf').setAttribute('hidden', true);
+                ppf_frequency = [];
+                ppf_date_of_investment = [];
+                ppf_invested = [];
+            }
+        }));
+
+    document.querySelectorAll('input[name="loan-emi-yes-or-no"]').forEach(elem => elem.addEventListener("click",
+        () => {
+            if(document.querySelector('input[name="loan-emi-yes-or-no"]:checked').id === "loan-emi-yes"){
+                document.getElementById('loan-emi-input').removeAttribute('hidden');
+                document.getElementById('loan-emi').removeAttribute('hidden');
+            }
+
+                if(document.querySelector('input[name="loan-emi-yes-or-no"]:checked').id === "loan-emi-no"){
+                    document.getElementById('loan-emi-input').setAttribute('hidden',true);
+                    document.getElementById('loan-emi').setAttribute('hidden', true);
+                    loan_emi_installement_left = [];
+                    loan_emi_installment_amount = [];
+                    loan_emi_start_date = [];
+                }
+        }));
+
+
+
+    function selectVal() {
+        var selected = [];
+        for (var option of document.getElementsByClassName('selected')) {
+            if (option.selected) {
+                selected.push(option.value);
+            }
+        }
+        alert(selected);
+        return selected;
+    }
+
+    function riskProfile() {
+        for(var option of document.getElementById("riskProfile")) {
+            if(option.selected){
+                return option.value;
+            }
+        }
+        return "";
+    }
+
+    function lifeGoals() {
+        var checkboxes = document.getElementsByName('lifeGoals');
+        var vals = "";
+        for (var i=0, n=checkboxes.length;i<n;i++)
+        {
+            if (checkboxes[i].checked)
+            {
+                vals += ","+checkboxes[i].value;
+            }
+        }
+        if (vals) vals = vals.substring(1);
+        return vals;
+    }
+
+    function getDependents() {
+        let number_of_dependents = document.getElementById("noOfDependents").value;
+        for(let num=0; num<number_of_dependents; num++) {
+            dependents_name.push(document.getElementById("name-"+num).value);
+            dependents_dob.push(document.getElementById("DOB-"+num).value);
+            dependents_relation.push(document.getElementById("relation-"+num).value);
+        }
+    }
+
+    function validate(){
+        first_name = document.getElementById("firstName").value;
+        last_name = document.getElementById("lastName").value;
+        dob = document.getElementById("DOB").value;
+        mobile_no = document.getElementById("mobileNo").value;
+        email = document.getElementById("email").value;
+        gender = document.querySelector('input[name="Gender"]:checked').value;
+        risk_profile = riskProfile();
+        profession = document.getElementById("profession").value;
+        marital_status = document.querySelector('input[name="marital"]:checked').value;
+        income = document.getElementById("income").value;
+        expense = document.getElementById("expense").value;
+        life_goals = lifeGoals();
+        getDependents();
+    }
+
+    function myFunction() {
+        // formInput = document.getElementById("input");
+        // console.log(formInput);
+        // let stock_name = document.getElementsByClassName("stock-name");
+        // let stock_investedAmount = document.getElementsByClassName("stock-investedAmount");
+
+        // let stocks = document.getElementById("stocks");
+        // console.log("stocks - " , stocks);
+
+        // console.log("stock-name - " , stock_name, stock_name.length);
+        // console.log("stock-name.value - " , stock_name.value, stock_name.length);
+        // console.log("stock-name[0].value - " , stock_name[0].value, stock_name.length);
+        // console.log("stock-name[0].innerText - " , stock_name[0].innerText, stock_name.length);
+        // console.log("stock-invested- ", stock_investedAmount);
+
+        console.log(stocks_name);
+        console.log(stocks_amount);
+
+        first_name = document.getElementById("firstName").value;
+        last_name = document.getElementById("lastName").value;
+        dob = document.getElementById("DOB").value;
+        mobile_no = document.getElementById("mobileNo").value;
+        email = document.getElementById("email").value;
+        gender = document.querySelector('input[name="Gender"]:checked').value;
+        address = document.getElementById("address").value;
+        risk_profile = riskProfile();
+        profession = document.getElementById("profession").value;
+        marital_status = document.querySelector('input[name="marital"]:checked').value;
+        income = document.getElementById("income").value;
+        expense = document.getElementById("expense").value;
+        life_goals = lifeGoals();
+        getDependents();
+        number_of_dependents = document.getElementById("noOfDependents").value;
+
+
+        // Creating a XHR object
+        let xhr = new XMLHttpRequest();
+        let url = "/register";
+
+        // open a connection
+        xhr.open("POST", url, true);
+
+        // Set the request header i.e. which type of content you are sending
+        xhr.setRequestHeader("Content-Type", "application/json");
+        // Create a state change callback
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(this.responseText);
+                // Print received data from server
+                // result.innerHTML = this.responseText;
+                window.location.href = "http://localhost:8080/registerSucess";
+            }
+        };
+
+        // var data = JSON.stringify({ "stock-name": "heya", "stock-invested": "78"});
+        // console.log(data);
+        // Converting JSON data to string
+        // var names = [];
+        // for (var i=0;i<stock_name.length;i++) {
+        //     console.log("i: ", i)
+        //     console.log("name[i]: ", stock_name[i].innerText);
+        //     names.push(stock_name[i].innerText);
+        //     // var data = JSON.stringify({
+        //     //     "stock-name": stock_name[i].innerText
+        //     //     // "stock-investedAmount": 12
+        //     // });
+        // }
+        var data = JSON.stringify({
+            "first_name": first_name,
+            "last_name": last_name,
+            "dob": dob,
+            "profession": profession,
+            "income": income,
+            "expense": expense,
+            "mobile_no": mobile_no,
+            "email": email,
+            "gender": gender,
+            "address": address,
+            "riskProfile": risk_profile,
+            "life_goals": life_goals,
+            "number_of_dependents": number_of_dependents,
+            "dependents_name": dependents_name,
+            "dependents_dob": dependents_dob,
+            "dependents_relation": dependents_relation,
+            "stocks_name": stocks_name,
+            "stocks_amount": stocks_amount,
+            "stocks_market_value": stocks_mkt_value,
+            "stocks_date_of_purchase": stocks_date_of_purchase,
+            "stocks_frequency": stocks_frequency,
+            "mf_mkt_value": mf_mkt_value,
+            "mf_amount": mf_amount,
+            "mf_type": mf_type,
+            "mf_date_of_purchase": mf_date_of_purchase,
+            "mf_frequency": mf_frequency,
+            "li_start_date": li_start_date,
+            "li_premium_paying_term": li_premium_paying_term,
+            "li_type": li_type,
+            "li_sum_insured": li_sum_insured,
+            "li_name": li_name,
+            "li_policy_term": li_policy_term,
+            "hi_premium_amount": hi_premium_amount,
+            "hi_name": hi_name,
+            "hi_type": hi_type,
+            "hi_sum_insured": hi_sum_insured,
+            "hi_start_date": hi_start_date,
+            "bonds_name": bonds_name,
+            "bonds_invested": bonds_invested,
+            "bonds_date_of_investment": bonds_date_of_investment,
+            "bonds_maturity_date": bonds_maturity_date,
+            "ppf_invested": ppf_invested,
+            "ppf_date_of_investment": ppf_date_of_investment,
+            "ppf_frequency": ppf_frequency,
+            "fd_start_date": fd_start_date,
+            "fd_name": fd_name,
+            "fd_maturity_date": fd_maturity_date,
+            "fd_amount": fd_amount,
+            "loan_emi_start_date": loan_emi_start_date,
+            "loan_emi_installment_amount": loan_emi_installment_amount,
+            "loan_emi_installement_left": loan_emi_installement_left,
+            "loan_emi_type": loan_emi_type
+
+            // "selected-value": selectVal()
+            // "stock-investedAmount": 12
+        });
+        // console.log("data: ", data)
+        // var data = { 'user': 'myUser', 'pass': 'myPass' };
+        // Sending data with the request
+        xhr.send(data);
+    }
+
+    // $(function() {
+    //     $( "#mybutton").click(function() {
+    //         var testdata = JSON.stringify({
+    //             'name': 'name',
+    //             'desc':'test'
+    //         });
+    //
+    //
+    //         $.ajax({
+    //             type: "POST",
+    //             url:"/register_success",
+    //             data: { d : testdata },
+    //             dataType: "json",
+    //             contentType: "application/json",
+    //             success : function(data){
+    //                 console.log("success:", data);
+    //             },
+    //             error : function(data) {
+    //                 console.log("error:", data);
+    //             }
+    //
+    //         });
+    //     });
+    // });
+
+</script>
+
+</body>
+</html>

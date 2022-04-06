@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="ISO-8859-1">
+    <title>User Registration</title>
+</head>
+<body>
+<div align="center">
+    <h1>User Registration</h1>
+    <form id="input" action="#" th:action="@{/register}" method="post">
+        <!--        <label>Full name:</label>-->
+        <!--        <input type="text" th:value="${user.name}" name="name"/><br/>-->
+
+        <!--        <label>E-mail:</label>-->
+        <!--        <input type="text" th:field="*{email}" /><br/>-->
+
+        <!--        <label>Password:</label>-->
+        <!--        <input type="password" th:field="*{password}" /><br/>-->
+
+        <!--        <label>Birthday (yyyy-mm-dd):</label>-->
+        <!--        <input type="text" th:field="*{birthday}" /><br/>-->
+
+        <!--        <label>Gender:</label>-->
+        <!--        <input type="radio" th:field="*{gender}" value="Male" />Male-->
+        <!--        <input type="radio" th:field="*{gender}" value="Female" />Female<br/>-->
+
+        <!--        <label>Profession:</label>-->
+        <!--        <select th:field="*{profession}">-->
+        <!--            <option th:each="p : ${listProfession}" th:value="${p}" th:text="${p}" />-->
+        <!--        </select>-->
+        <!--        <br/>-->
+
+        <!--        <label>Married?</label>-->
+        <!--        <input type="checkbox" th:field="*{married}" /><br/>-->
+
+        <!--        <label>Note:</label>-->
+        <!--        <textarea rows="5" cols="25" th:field="*{note}"></textarea>-->
+        <!--        <br/>-->
+
+        <!--        <div th:object="${stockList}">-->
+        <div id="stocks-section">
+            <input type="text" id="name" placeholder="Enter Stock Name"/>
+            <input type="text" id="amount" placeholder="Enter Stock Amount"/>
+            <div onclick="addStocks()" id="stock-add">Add</div>
+            <ul id="stocks">
+                <!--                <div class="stock">-->
+                <!--                    <label>Stock name:</label>-->
+                <!--                    <input type="text" class="stock-name" name="stockName"/><br/>-->
+
+                <!--                    <label>Invested Amount:</label>-->
+                <!--                    <input type="number" class="stock-investedAmount" name="investedAmount"/><br/>-->
+                <!--                </div>-->
+            </ul>
+            <!--                <i class="fa fa-plus-circle" th:attr="onclick='add()'"></i>-->
+        </div>
+        <!--        </div>-->
+
+        <!--        <button type="button" class="fa fa-plus-circle" th:onclick="'alert(\'a\');'"></button>-->
+
+        <!--        add js function to append content/section(class) or remove content/section(class)-->
+        <i class="fa fa-plus-circle" th:attr="onclick='alert(\'a\');'"></i>
+
+        <button id="mybutton" onclick="myFunction()" type="submit">Register</button>
+    </form>
+
+
+    <!--    <form action="#" th:action="@{/register}" method="post" th:object="${stock}">-->
+    <!--        <label>Stock name:</label>-->
+    <!--        <input type="text" th:field="*{name}" /><br/>-->
+
+    <!--        <label>Invested Amount:</label>-->
+    <!--        <input type="number" th:field="*{investedAmount}" /><br/>-->
+
+    <!--        &lt;!&ndash;        <button type="button" class="fa fa-plus-circle" th:onclick="'alert(\'a\');'"></button>&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;        add js function to append content/section(class) or remove content/section(class)&ndash;&gt;-->
+    <!--        <i class="fa fa-plus-circle" th:attr="onclick='alert(\'a\');'"></i>-->
+
+    <!--        <button type="submit">Register</button>-->
+    <!--    </form>-->
+</div>
+
+<script>
+
+
+    let stock_name = document.getElementsByClassName("stock-name");
+    let stock_investedAmount = document.getElementsByClassName("stock-investedAmount");
+    console.log("name - ", stock_name , " amount - " , stock_investedAmount);
+
+    function addStocks(){
+        let ulElement = document.getElementById('stocks');
+        let stockName = document.getElementById('name');
+        let stockAmount = document.getElementById('amount');
+
+        console.log(ulElement.children.length);
+
+        if(!stockName.value ||  !stockAmount.value){
+            console.log('no value in input element');
+            return;
+        }
+
+        ulElement.innerHTML += '<li id="list">' +'<span class="stock-name">' +
+            stockName.value + '</span>' + '</br> <span class="stock-invested">' +
+            stockAmount.value + '</span>' +
+            // '<button id="up">Up</button>' +
+            // '<button type="button" class="up" contentEditable=false>Up</button>'+
+            // '<button type="button" class="down" contentEditable=false>Down</button>'+
+            // '<button type="button" class="edit" contentEditable=false>Edit</button>'+
+            // '<button type="button" class="save InActive" contentEditable=false>Save</button>'+
+            '<button type="button" class="delete" contentEditable=false>Delete</button>'+
+            '</li>';
+        stockName.value = '';
+        stockAmount.value = '';
+    }
+
+    document.querySelector('#stocks').onclick = (event)=>{
+        console.log(event.target);
+        if(event.target.innerText === 'Delete'){
+            console.log('Delete EVENT');
+            console.log(document.getElementById('list'));
+            let deleteButton = event.target.parentElement;
+            deleteButton.remove();
+        }
+    }
+
+    function add(){
+        // let stock = document.getElementsByClassName("stock");
+        let stocks = document.getElementById("stocks");
+        // var element = document.createElement(stock[0]);
+        // element.appendChild(stock[0]);
+        console.log(stocks);
+        // console.log(stock);
+        stocks.innerHTML += '<div class="stock">' +
+            '<label>Stock name:</label>'+
+            '<input type="text" class="stock-name" name="stockName"/><br/>'+
+
+            '<label>Invested Amount:</label>'+
+            '<input type="number" class="stock-investedAmount" name="investedAmount"/><br/>'+
+            '</div>';
+        // stocks.appendChild(stockDiv());
+        console.log(stocks.innerHTML);
+        // console.log(stock.innerHTML);
+        // console.log(stock[0].innerHTML);
+
+        console.log(stocks.childElementCount);
+
+        let stock_name = document.getElementsByClassName('stock-name');
+        let stock_investedAmount = document.getElementsByClassName('stock-investedAmount');
+
+
+        console.log(stock_name);
+        console.log(stock_investedAmount);
+
+
+        console.log(stock_name.value);
+        console.log(stock_investedAmount.value);
+
+
+        console.log(stock_name.innerText);
+        console.log(stock_investedAmount.innerText);
+
+
+        console.log(stock_name.innerHTML);
+        console.log(stock_investedAmount.innerHTML);
+
+    }
+
+    function stockDiv(){
+        var stock = document.createElement("div");
+        var stock_name_label = document.createElement("label");
+        var stock_invested_amount_label = document.createElement("label");
+        var stock_name_input = document.createElement("input");
+        var stock_invested_amount_input = document.createElement("input");
+
+        stock_name_label.innerText = "Stock Name:";
+        stock_invested_amount_label.innerText = "Stock Invested Amount:";
+
+        stock_name_input.type = "text";
+        stock_invested_amount_input.type = "number";
+        stock_name_input.className = ".stock-name";
+        stock_invested_amount_input.className = ".stock-investedAmount";
+        stock_name_input.value = "";
+        stock_invested_amount_input.value = "";
+
+        console.log(stock_name_input);
+        console.log(stock_invested_amount_input);
+
+        stock.append(stock_name_label, stock_name_input, stock_invested_amount_label, stock_invested_amount_input);
+
+        return stock;
+    }
+
+    function myFunction() {
+        // formInput = document.getElementById("input");
+        // console.log(formInput);
+        let stock_name = document.getElementsByClassName("stock-name");
+        let stock_investedAmount = document.getElementsByClassName("stock-investedAmount");
+
+        let stocks = document.getElementById("stocks");
+        console.log("stocks - " , stocks);
+
+        console.log("stock-name - " , stock_name, stock_name.length);
+        console.log("stock-name.value - " , stock_name.value, stock_name.length);
+        console.log("stock-name[0].value - " , stock_name[0].value, stock_name.length);
+        console.log("stock-name[0].innerText - " , stock_name[0].innerText, stock_name.length);
+        console.log("stock-invested- ", stock_investedAmount);
+
+        // Creating a XHR object
+        let xhr = new XMLHttpRequest();
+        let url = "PortfolioPublisher.java";
+
+        // open a connection
+        xhr.open("POST", url, true);
+
+        // Set the request header i.e. which type of content you are sending
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Create a state change callback
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+
+                // Print received data from server
+                result.innerHTML = this.responseText;
+
+            }
+        };
+
+        // Converting JSON data to string
+        for (var i=0;i<stock_name.length;i++) {
+            console.log("i: ", i)
+            console.log("name[i]: ", stock_name[i].innerText);
+            var data = JSON.stringify({
+                "stock-name": stock_name[i].innerText
+                // "stock-investedAmount": 12
+            });
+        }
+
+        // Sending data with the request
+        xhr.send(data);
+    }
+
+    // $(function() {
+    //     $( "#mybutton").click(function() {
+    //         var testdata = JSON.stringify({
+    //             'name': 'name',
+    //             'desc':'test'
+    //         });
+    //
+    //
+    //         $.ajax({
+    //             type: "POST",
+    //             url:"/register_success",
+    //             data: { d : testdata },
+    //             dataType: "json",
+    //             contentType: "application/json",
+    //             success : function(data){
+    //                 console.log("success:", data);
+    //             },
+    //             error : function(data) {
+    //                 console.log("error:", data);
+    //             }
+    //
+    //         });
+    //     });
+    // });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="fragments/header :: head"></div>
+<h1>
+<!--    <img width="50" height="50" style="float:left;" src="src/main/resources/templates/images/person-icon.png"></img>-->
+    Personal Information
+<!--    <img width="50" height="50" style="float:right;" src="src/main/resources/templates/images/person-icon.png"></img>-->
+</h1>
+<p style="color: blue">
+<img width="50" height="50" src="src/main/resources/templates/images/person-icon.png" style="vertical-align: middle; padding-left: 35%;"/>Personal Information
+</p>
+<br/>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${personalInfoColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${personalInfoData}" id="tablerow">
+        <td th:each="header: ${personalInfoColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

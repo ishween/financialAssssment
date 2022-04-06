@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Client Assumptions Details</h1>
+<h4 th:text="${client_name}"></h4>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${assumptionColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="even pointer" th:each="row: ${assumptionData}" id="tablerow">
+        <td th:each="header: ${assumptionColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

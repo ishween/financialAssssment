@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="fragments/header :: head"></div>
+<h1>
+    Your Networth
+</h1>
+<p></p>
+<br/>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${assetsColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${assetsData}" id="tablerow">
+        <td th:each="header: ${assetsColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+    <br/><br/>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${liabilitiesColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${liabilitiesData}" id="tablerow">
+        <td th:each="header: ${liabilitiesColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

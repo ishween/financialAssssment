@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--    <link href="static/css/style.css" rel="stylesheet"/>-->
+    <style>
+        table{
+            background-color: antiquewhite;
+        }
+        /*@page {*/
+        /*    @bottom-right {*/
+        /*        content: "Page " counter(page) " of " counter(pages);*/
+        /*    }*/
+        /*}*/
+    </style>
+</head>
+<body>
+<p th:text="'Hello, ' + ${client_name} + '!'" />
+
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${headers}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="even pointer" th:each="row: ${rows}" id="tablerow">
+        <td th:each="header: ${headers}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,59 @@
+/*@page {*/
+/*    @bottom-right {*/
+/*        content: "Page " counter(page) " of " counter(pages);*/
+/*    }*/
+/*    !*@bottom-left {*!*/
+/*    !*    content: "Hi";*!*/
+/*    !*}*!*/
+/*    !*@top-left {*!*/
+/*    !*    content: "top left";*!*/
+/*    !*}*!*/
+/*    !*@top-right {*!*/
+/*    !*    content: "top-right";*!*/
+/*    !*}*!*/
+/*}*/
+table{
+    width: 100%;
+}
+th{
+    background-color: lightblue;
+    border-width: 4px;
+    border-color: white;
+    color: white;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+td{
+    background-color: rgb(220, 231, 247);
+    text-align: left;
+    border-width: 3px;
+    border-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+h1{
+    background-color: lightblue;
+    color: white;
+    text-align: center;
+    line-height:50px;
+}
+h2{
+    background-color: lightblue;
+    color: white;
+    text-align: center;
+}
+h4{
+    background-color:rgb(220, 231, 247);
+    color:Black;
+    text-align:left;
+    padding:5px 5px 5px 5px;
+}
+.image-center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}

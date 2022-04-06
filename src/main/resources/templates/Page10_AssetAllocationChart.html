@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Asset Allocation</h1>
+<p>One of the most important stages in analyzing your investments to understand your asset allocation. Asset allocation represents the mix of
+equity, debt and fixed income assets that you own. It is important to have a right asset mix in order to enhance your return potential and provide you the
+right diversification to benefit from the various investment opportunities.</p>
+<h4>Your Current Financial Asset Allocation</h4>
+<img class="image-center" alt="pie_chart_1" th:src="@{${pie_chart_1}}" />
+<h4>Based on type of investor you are your recommended financial asset allocation is</h4>
+<img class="image-center" alt="pie_chart_2 " th:src="@{${pie_chart_2}}" />
+</body>
+</html>
