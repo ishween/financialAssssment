@@ -6,6 +6,7 @@ import com.example.financialassessment.dto.Portfolio;
 import com.example.financialassessment.service.PdfService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -22,7 +23,8 @@ public class PortfolioConsumer {
 //        System.out.println("CONSUMER: " + msg);
 //    }
 
-    @RabbitListener(queues = MessagingConfig.QUEUE)
+//    @RabbitListener(queues = MessagingConfig.QUEUE)
+    @RabbitListener(queues = {"${QUEUE}"})
     public void consumeQueue(Map<String, Object> payload){
 
         try {

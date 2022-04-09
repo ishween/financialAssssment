@@ -57,8 +57,23 @@
         <label>Email Id</label>
         <input type="email" id="email" class="plain_text" name="email" required/>
         </br>
-        <label>Profession</label>
-        <input type="text" id="profession" class="plain_text" name="profession" required/>
+        <div class="radio_box">
+            <label>Profession:</label>
+            <!--        <label class="container" for="Male">Male-->
+            <input type="radio" id="Service" name="Profession" value="Service" required>Service
+            <span class="checkmark"></span>
+            <!--        </label>-->
+            <!--        <label class="container" for="Female">Female-->
+            <input type="radio" id="Self Employed" name="Profession" value="Self Employed">Self Employed
+            <span class="checkmark"></span>
+            <!--        </label>-->
+            <!--        <label class="container" for="Other">Other-->
+<!--            <input type="radio" id="Other" name="Gender" value="Other">Other-->
+<!--            <span class="checkmark"></span>-->
+<!--            &lt;!&ndash;        </label>&ndash;&gt;-->
+        </div>
+<!--        <label>Professixon</label>-->
+<!--        <input type="tet" id="profession" class="plain_text" name="profession" required/>-->
         </br>
         <div class="radio_box">
         <label>Marital Status:</label>
@@ -101,7 +116,7 @@
             <h2>Dependents</h2>
         <label>Add Number of Dependents</label>
         <input type="number" class="plain_text" id="noOfDependents" name="NoOfDependents"/>
-        <span onclick="addDependents()" id="button_add">Add Dependents</span>
+        <div onclick="addDependents()" class="button_add_dependents">Add Dependents</div>
 
         <div id="dependent">
         </div>
@@ -124,7 +139,7 @@
             <input type="text" id="stock-name" placeholder="Stock Name" />
             <input type="number" id="stock-invested" placeholder="Stock Amount" />
             <input type="number" id="stock-market-value" placeholder="Market Value"  />
-            <input type="date" id="stock-date-of-investment" placeholder="Date of Investment" />
+            Date of Investment: <input type="date" id="stock-date-of-investment" placeholder="Date of Investment" />
             <label for="stock-frequency">Choose Stock Frequency</label>
             <select name="stock-frequency" id="stock-frequency">
                 <option value="Lumpsum">Lumpsum</option>
@@ -161,7 +176,7 @@
                 </select>
                 <input type="number" id="mf-invested" placeholder="MF Amount" />
                 <input type="number" id="mf-market-value" placeholder="Market Value"  />
-                <input type="date" id="mf-date-of-investment" placeholder="Date of Investment" />
+                Date of Investment: <input type="date" id="mf-date-of-investment" placeholder="Date of Investment" />
                 <label for="mf-frequency">Choose MF Frequency:</label>
                 <select name="mf-frequency" id="mf-frequency">
                     <option value="Daily">Daily</option>
@@ -190,7 +205,7 @@
                 <input type="number" id="life-insurance-premium-amount" placeholder="Premium Amount"  />
                 <input type="number" id="life-insurance-premium-paying-term" placeholder="Premium Paying Term"  />
                 <input type="number" id="life-insurance-sum-insured" placeholder="Sum Insured" />
-                <input type="date" id="life-insurance-start-date" placeholder="Start Date" />
+                Start Date: <input type="date" id="life-insurance-start-date" placeholder="Start Date" />
 
                 <div onclick="addLifeInsurance()" id="life-insurance-add" class="button_add">Add</div>
             </div>
@@ -207,7 +222,7 @@
                 <input type="text" id="health-insurance-company-name" placeholder="Company Name" />
                 <input type="number" id="health-insurance-premium-amount" placeholder="Premium Amount" />
                 <input type="number" id="health-insurance-sum-insured" placeholder="Sum Insured"  />
-                <input type="date" id="health-insurance-start-date" placeholder="Start Date" />
+                Start Date: <input type="date" id="health-insurance-start-date" placeholder="Start Date" />
                 <label for="health-insurance-type">Choose a Frequency:</label>
                 <select name="health-insurance-type" id="health-insurance-type">
                     <option value="Individual">Individual</option>
@@ -226,9 +241,9 @@
 
             <div id="bonds-input" hidden>
                 <input type="text" id="bonds-name" placeholder="Name" />
-                <input type="date" id="bonds-date-of-investment" placeholder="Date of Investment" />
+                Date of Investment: <input type="date" id="bonds-date-of-investment" placeholder="Date of Investment" />
                 <input type="number" id="bonds-invested" placeholder="Enter Amount" />
-                <input type="date" id="bonds-maturity-date" placeholder="Maturity Date"  />
+                Maturity Date: <input type="date" id="bonds-maturity-date" placeholder="Maturity Date"  />
                 <div onclick="addBonds()" id="bonds-add" class="button_add">Add</div>
             </div>
             <ul id="bonds">
@@ -244,8 +259,8 @@
                 <input type="text" id="fd-name" placeholder="Bank/NBFC name" />
                 <input type="number" id="fd-invested" placeholder="Amount Invested" />
                 <input type="number" id="fd-investment-rate" placeholder="Investment Rate"  />
-                <input type="date" id="fd-start-date" placeholder="Start Date" />
-                <input type="date" id="fd-maturity-date" placeholder="Maturity Date" />
+                Start Date: <input type="date" id="fd-start-date" placeholder="Start Date" />
+                Maturity Date: <input type="date" id="fd-maturity-date" placeholder="Maturity Date" />
                 <div onclick="addFDs()" id="fd-add" class="button_add">Add</div>
             </div>
             <ul id="fd">
@@ -259,7 +274,7 @@
 
             <div id="ppf-input" hidden>
                 <input type="number" id="ppf-invested" placeholder="Amount" />
-                <input type="date" id="ppf-date-of-investment" placeholder="Date of Investment" />
+                Date of Investment: <input type="date" id="ppf-date-of-investment" placeholder="Date of Investment" />
                 <label for="ppf-frequency">Choose a Frequency:</label>
                 <select name="ppf-frequency" id="ppf-frequency">
                     <option value="Lumpsum">Lumpsum</option>
@@ -280,7 +295,7 @@
                 <input type="number" id="loan-emi-amount" placeholder="Loan Amount" />
                 <input type="number" id="loan-emi-instalment-left" placeholder="Instalment Left"  />
                 <input type="number" id="loan-emi-amount-of-instalment" placeholder="Amount of Instalment"  />
-                <input type="date" id="loan-emi-start-date" placeholder="Start Date" />
+                Start Date: <input type="date" id="loan-emi-start-date" placeholder="Start Date" />
                 <select name="loan-type" id="loan-type">
                     <option value="None">None</option>
                     <option value="Home Loan">Home Loan</option>
@@ -331,6 +346,20 @@
 
 <script>
 
+    document.getElementById('loan-emi-start-date').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('stock-date-of-investment').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('DOB').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('mf-date-of-investment').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('life-insurance-start-date').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('health-insurance-start-date').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('bonds-date-of-investment').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('bonds-maturity-date').min = new Date().toLocaleDateString('en-ca');
+    document.getElementById('fd-start-date').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('fd-maturity-date').min = new Date().toLocaleDateString('en-ca');
+    document.getElementById('ppf-date-of-investment').max = new Date().toLocaleDateString('en-ca');
+    document.getElementById('loan-emi-start-date').max = new Date().toLocaleDateString('en-ca');
+
+
     // document.onload = function (){
     //     makeRequired();
     // }
@@ -352,8 +381,13 @@
                 '<label>Date of Birth </label>' +
                 '<input type="date"' + ' class="dependent_plain_text" id=' + "DOB-"+num + ' name="DOB" required/></br>' +
                 '<label>Relation </label>' +
-                '<input type="text"' + ' class="dependent_plain_text" id=' + "relation-"+num + ' name="relation" required/></br>' +
-                '<hr style="width: 50%; padding-bottom: 5px;">'
+                // '<input type="text"' + ' class="dependent_plain_text" id=' + "relation-"+num + ' name="relation" required/></br>' +
+                '<select id=' + "dependent-relation-"+num + ' name="dependent-relation">' +
+                ' <option value="Spouse">Spouse</option>' +
+                ' <option value="Child">Child</option>' +
+                ' </select>' +
+                '<hr style="width: 50%; padding-bottom: 5px;">';
+            document.getElementById('DOB-'+num).max = new Date().toLocaleDateString('en-ca');
         }
         console.log("dependnets: " , dependents);
     }
@@ -364,10 +398,10 @@
     var hi_name = [], hi_premium_amount = [], hi_sum_insured = [], hi_start_date = [], hi_type = []
     var fd_name = [], fd_amount = [], fd_start_date = [], fd_maturity_date = []
     var ppf_invested = [], ppf_date_of_investment = [], ppf_frequency = []
-    var loan_emi_installement_left = [], loan_emi_installment_amount = [], loan_emi_start_date = []
+    var loan_emi_installement_left = [], loan_emi_installment_amount = [], loan_emi_start_date = [], loan_emi_type = []
     var dependents_name = [], dependents_dob = [] , dependents_relation = []
     var bonds_name = [], bonds_date_of_investment = [], bonds_invested = [], bonds_maturity_date = []
-    var loan_emi_type = []
+    // var loan_emi_type = []
 
     function addMfs() {
         let ulElement = document.getElementById('mfs');
@@ -587,6 +621,7 @@
         let loanEmiInstallmentLeft = document.getElementById('loan-emi-instalment-left');
         let loanEmiInstallmentAmount = document.getElementById('loan-emi-amount-of-instalment');
         let loanEmiStartDate = document.getElementById('loan-emi-start-date');
+        let loanEmiType = document.getElementById('loan-type');
 
         if(!loanEmiInstallmentLeft.value ||  !loanEmiInstallmentAmount.value || !loanEmiStartDate.value){
             alert('Please fill all the values');
@@ -599,18 +634,19 @@
         ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="loan-emi-instalment-left">' +
             loanEmiInstallmentLeft.value + '</td>' + '<td class="loan-emi-amount-of-instalment">' +
             loanEmiInstallmentAmount.value + '</td>' + '<td class="loan-emi-start-date">' +
-            loanEmiStartDate.value + '</td>' +
+            loanEmiStartDate.value + '</td>' + '<td class="loan-emi-type">' + loanEmiType.value + '</td>' +
             '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
             '</tr></table>';
 
         loan_emi_installement_left.push(loanEmiInstallmentLeft.value);
         loan_emi_installment_amount.push(loanEmiInstallmentAmount.value);
         loan_emi_start_date.push(loanEmiStartDate.value);
+        loan_emi_type.push(loanEmiType.value);
 
         loanEmiInstallmentLeft.value = '';
         loanEmiInstallmentAmount.value = '';
         loanEmiStartDate.value = '';
-
+        loanEmiType.value = '';
     }
 
     function addStocks(){
@@ -1014,7 +1050,8 @@
         for(let num=0; num<number_of_dependents; num++) {
             dependents_name.push(document.getElementById("name-"+num).value);
             dependents_dob.push(document.getElementById("DOB-"+num).value);
-            dependents_relation.push(document.getElementById("relation-"+num).value);
+            dependents_relation.push(document.getElementById('dependent-relation-'+num).value);
+            // dependents_relation.push(document.getElementById("relation-"+num).value);
         }
     }
 
@@ -1058,9 +1095,10 @@
         mobile_no = document.getElementById("mobileNo").value;
         email = document.getElementById("email").value;
         gender = document.querySelector('input[name="Gender"]:checked').value;
+        profession = document.querySelector('input[name="Profession"]:checked').value;
         address = document.getElementById("address").value;
         risk_profile = riskProfile();
-        profession = document.getElementById("profession").value;
+        // profession = document.getElementById("profession").value;
         marital_status = document.querySelector('input[name="marital"]:checked').value;
         income = document.getElementById("income").value;
         expense = document.getElementById("expense").value;
@@ -1112,7 +1150,7 @@
             "email": email,
             "gender": gender,
             "address": address,
-            "riskProfile": risk_profile,
+            "risk_profile": risk_profile,
             "life_goals": life_goals,
             "number_of_dependents": number_of_dependents,
             "dependents_name": dependents_name,

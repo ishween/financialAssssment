@@ -47,8 +47,158 @@ public class PdfService {
         data.put("headers", headers);
         data.put("rows", rows);
 
+        Map<String,Object> koshantra_data = new HashMap<>();
+        koshantra_data.put("first_name", payload.get("first_name"));
+        koshantra_data.put("last_name", payload.get("last_name"));
+        koshantra_data.put("dob", payload.get("dob"));
+        koshantra_data.put("profession", payload.get("profession"));
+        koshantra_data.put("income", payload.get("income"));
+        koshantra_data.put("expense", payload.get("expense"));
+        koshantra_data.put("mobile_no", payload.get("mobile_no"));
+        koshantra_data.put("gender", payload.get("gender"));
+        koshantra_data.put("email", payload.get("email"));
+        koshantra_data.put("address", payload.get("address"));
+        koshantra_data.put("risk_profile", payload.get("risk_profile"));
+        koshantra_data.put("life_goals", payload.get("life_goals"));
+
+        koshantra_data.put("number_of_dependents", payload.get("number_of_dependents"));
+        List<String> dependentsColumns = Arrays.asList("Name", "DOB", "Relation");
+        List<Map<String,Object>> dependentsData = new ArrayList<>();
+        koshantra_data.put("dependentsColumns", dependentsColumns);
+        koshantra_data.put("dependentsData", dependentsData);
+
+        List<String> stocksColumns = Arrays.asList("Name", "Amount", "Market Value", "Date of Purchase", "Frequency");
+        List<Map<String,Object>> stocksData = new ArrayList<>();
+        ArrayList<String> stocks_name = (ArrayList<String>) payload.get("stocks_name");
+        ArrayList<String> stock_amount = (ArrayList<String>) payload.get("stocks_amount");
+        ArrayList<String> stocks_market_value = (ArrayList<String>) payload.get("stocks_market_value");
+        ArrayList<String> stocks_date_of_purchase = (ArrayList<String>) payload.get("stocks_date_of_purchase");
+        ArrayList<String> stocks_frequency = (ArrayList<String>) payload.get("stocks_frequency");
+        for(int i=0;i<stocks_name.size(); i++){
+            stocksData.add(Map.of("Name", stocks_name.get(i),
+                    "Amount", stock_amount.get(i),
+                    "Market Value", stocks_market_value.get(i),
+                    "Date of Purchase", stocks_date_of_purchase.get(i),
+                    "Frequency", stocks_frequency.get(i)));
+        }
+        koshantra_data.put("stocksColumns", stocksColumns);
+        koshantra_data.put("stocksData", stocksData);
+
+        List<String> mfsColumns = Arrays.asList("Market Value", "Amount", "Type", "Date of Purchase", "Frequency");
+        List<Map<String,Object>> mfsData = new ArrayList<>();
+        ArrayList<String> mfs_mkt_value = (ArrayList<String>) payload.get("mf_mkt_value");
+        ArrayList<String> mf_amount = (ArrayList<String>) payload.get("mf_amount");
+        ArrayList<String> mfs_type = (ArrayList<String>) payload.get("mf_type");
+        ArrayList<String> mfs_date_of_purchase = (ArrayList<String>) payload.get("mf_date_of_purchase");
+        ArrayList<String> mfs_frequency = (ArrayList<String>) payload.get("mf_frequency");
+        for(int i=0;i<mfs_frequency.size(); i++){
+            mfsData.add(Map.of("Type", mfs_type.get(i),
+                    "Amount", mf_amount.get(i),
+                    "Market Value", mfs_mkt_value.get(i),
+                    "Date of Purchase", mfs_date_of_purchase.get(i),
+                    "Frequency", mfs_frequency.get(i)));
+        }
+        koshantra_data.put("mfsColumns", mfsColumns);
+        koshantra_data.put("mfsData", mfsData);
+
+        List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Insured", "Name", "Policy Term");
+        List<Map<String,Object>> lisData = new ArrayList<>();
+        ArrayList<String> lis_start_date = (ArrayList<String>) payload.get("li_start_date");
+        ArrayList<String> li_premium_paying_term = (ArrayList<String>) payload.get("li_premium_paying_term");
+        ArrayList<String> li_type = (ArrayList<String>) payload.get("li_type");
+        ArrayList<String> li_sum_insured = (ArrayList<String>) payload.get("li_sum_insured");
+        ArrayList<String> li_name = (ArrayList<String>) payload.get("li_name");
+        ArrayList<String> li_policy_term = (ArrayList<String>) payload.get("li_policy_term");
+        for(int i=0;i<li_name.size(); i++){
+            lisData.add(Map.of("Name", li_name.get(i),
+                    "Start Date", lis_start_date.get(i),
+                    "Premium Paying Term", li_premium_paying_term.get(i),
+                    "Sum Insured", li_sum_insured.get(i),
+                    "Type", li_type.get(i),
+                    "Policy Term", li_policy_term.get(i)));
+        }
+        koshantra_data.put("lisColumns", lisColumns);
+        koshantra_data.put("lisData", lisData);
+
+        List<String> hisColumns = Arrays.asList("Name", "Premium Amount", "Type", "Sum Insured", "Start Date");
+        List<Map<String,Object>> hisData = new ArrayList<>();
+        ArrayList<String> hi_premium_amount = (ArrayList<String>) payload.get("hi_premium_amount");
+        ArrayList<String> hi_name = (ArrayList<String>) payload.get("hi_name");
+        ArrayList<String> hi_type = (ArrayList<String>) payload.get("hi_type");
+        ArrayList<String> hi_start_date = (ArrayList<String>) payload.get("hi_start_date");
+        ArrayList<String> hi_sum_insured = (ArrayList<String>) payload.get("hi_sum_insured");
+        for(int i=0;i<hi_start_date.size(); i++){
+            hisData.add(Map.of("Name", hi_name.get(i),
+                    "Premium Amount", hi_premium_amount.get(i),
+                    "Type", hi_type.get(i),
+                    "Sum Insured", hi_sum_insured.get(i),
+                    "Start Date", hi_start_date.get(i)));
+        }
+        koshantra_data.put("hisColumns", hisColumns);
+        koshantra_data.put("hisData", hisData);
+
+        List<String> bondsColumns = Arrays.asList("Name", "Invested", "Maturity Date", "Date of Investment");
+        List<Map<String,Object>> bondsData = new ArrayList<>();
+        ArrayList<String> bonds_name = (ArrayList<String>) payload.get("bonds_name");
+        ArrayList<String> bond_invested = (ArrayList<String>) payload.get("bonds_invested");
+        ArrayList<String> bonds_date_of_investment = (ArrayList<String>) payload.get("bonds_date_of_investment");
+        ArrayList<String> bonds_maturity_date = (ArrayList<String>) payload.get("bonds_maturity_date");
+        for(int i=0;i<bonds_name.size(); i++){
+            bondsData.add(Map.of("Name", bonds_name.get(i),
+                    "Invested", bond_invested.get(i),
+                    "Maturity Date", bonds_maturity_date.get(i),
+                    "Date of Investment", bonds_date_of_investment.get(i)));
+        }
+        koshantra_data.put("bondsColumns", bondsColumns);
+        koshantra_data.put("bondsData", bondsData);
+
+        List<String> ppfsColumns = Arrays.asList("Invested", "Date of Investment", "Frequency");
+        List<Map<String,Object>> ppfsData = new ArrayList<>();
+        ArrayList<String> ppf_invested = (ArrayList<String>) payload.get("ppf_invested");
+        ArrayList<String> ppf_date_of_investment = (ArrayList<String>) payload.get("ppf_date_of_investment");
+        ArrayList<String> ppf_frequency = (ArrayList<String>) payload.get("ppf_frequency");
+        for(int i=0;i<ppf_invested.size(); i++){
+            ppfsData.add(Map.of("Invested", ppf_invested.get(i),
+                    "Date of Investment", ppf_date_of_investment.get(i),
+                    "Frequency", ppf_frequency.get(i)));
+        }
+        koshantra_data.put("ppfsColumns", ppfsColumns);
+        koshantra_data.put("ppfsData", ppfsData);
+
+        List<String> fdsColumns = Arrays.asList("Name", "Amount", "Start Date", "Maturity Date");
+        List<Map<String,Object>> fdsData = new ArrayList<>();
+        ArrayList<String> fd_start_date = (ArrayList<String>) payload.get("fd_start_date");
+        ArrayList<String> fd_name = (ArrayList<String>) payload.get("fd_name");
+        ArrayList<String> fd_maturity_date = (ArrayList<String>) payload.get("fd_maturity_date");
+        ArrayList<String> fd_amount = (ArrayList<String>) payload.get("fd_amount");
+        for(int i=0;i<fd_name.size(); i++){
+            fdsData.add(Map.of("Name", fd_name.get(i),
+                    "Amount", fd_amount.get(i),
+                    "Start Date", fd_start_date.get(i),
+                    "Maturity Date", fd_maturity_date.get(i)));
+        }
+        koshantra_data.put("fdsColumns", fdsColumns);
+        koshantra_data.put("fdsData", fdsData);
+
+        List<String> loanoremisColumns = Arrays.asList("Start Date", "Installment Amount", "Installment Left", "Type");
+        List<Map<String,Object>> loanoremisData = new ArrayList<>();
+        ArrayList<String> loan_emi_start_date = (ArrayList<String>) payload.get("loan_emi_start_date");
+        ArrayList<String> loan_emi_installment_amount = (ArrayList<String>) payload.get("loan_emi_installment_amount");
+        ArrayList<String> loan_emi_installement_left = (ArrayList<String>) payload.get("loan_emi_installement_left");
+        ArrayList<String> loan_emi_type = (ArrayList<String>) payload.get("loan_emi_type");
+        for(int i=0;i<loan_emi_installment_amount.size(); i++){
+            loanoremisData.add(Map.of("Start Date", loan_emi_start_date.get(i),
+                    "Installment Amount", loan_emi_installment_amount.get(i),
+                    "Installment Left", loan_emi_installement_left.get(i),
+                    "Type", loan_emi_type.get(i)));
+        }
+        koshantra_data.put("loanoremisColumns", loanoremisColumns);
+        koshantra_data.put("loanoremisData", loanoremisData);
+
+
         //Page 1
-        data.put("logo", "src/main/resources/templates/images/koshantra_logo.PNG");
+//        data.put("logo", "src/main/resources/templates/images/koshantra_logo.PNG");
+        data.put("logo", "src/main/resources/templates/images/koshantra_logo_with_text.png");
         data.put("client_name", payload.get("first_name")+" "+payload.get("last_name"));
         data.put("ID","1");
 
@@ -66,6 +216,10 @@ public class PdfService {
             personalInfoData.add(Map.of("Relationship", dependents_relationship.get(i),
                     "Name", dependents_name.get(i),
                     "DOB", dependents_dob.get(i)));
+
+            dependentsData.add(Map.of("Name", dependents_name.get(i),
+                    "DOB", dependents_dob.get(i),
+                    "Relation", dependents_relationship.get(i)));
         }
 
 //        personalInfoData.add(Map.of("Relationship", "Spouse", "Name", "Ishween", "DOB", "01/06/1999", "Occupation", "Salaried", "Mobile No.", "9540305678"));
@@ -211,8 +365,13 @@ public class PdfService {
 
         Long total = existing_equity_amount + existing_debt_amount;
 
-        int equity_percentage = total == 0 ? 0 : (int) ((existing_equity_amount/total) * 100);
-        int debt_percentage  = total == 0 ? 0 : (int) ((existing_debt_amount/total) * 100);
+        int equity_percentage = 0, debt_percentage = 0;
+        try {
+            equity_percentage = total.equals(0L) ? 0 : (int) ((existing_equity_amount / (total*1.0)) * 100);
+            debt_percentage = total.equals(0L) ? 0 : (int) ((existing_debt_amount / (total*1.0)) * 100);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         int age = Period.between(LocalDate.parse((String) payload.get("dob")), LocalDate.now()).getYears();
         int ideal_equity_percentage = (100-age);
@@ -358,23 +517,27 @@ public class PdfService {
 
         try {
 //            PdfGeneratorUtil pdfGeneratorUtil1 = new PdfGeneratorUtil();
-            File outputFile = pdfGeneratorUtil.createPdf(data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
-                    "Page7_Investment"/*, "Page8_Assumptions"*/,"Page9_FinancialGoals","Page10_AssetAllocationChart","your_networth", "Page11_ActionPlan",
-                    "Page12_ActionPlanChart");
-            File file = new File("payload_"+"id"+".txt");
-            BufferedWriter bf = new BufferedWriter(new FileWriter(file));
-            for (Map.Entry<String, Object> entry :
-                    payload.entrySet()) {
+            File outputFile = pdfGeneratorUtil.createPdf(payload.get("first_name")+ " " + payload.get("last_name") + "_customer_report",data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
+                    /*"Page7_Investment"*//*, "Page8_Assumptions",*/"Page9_FinancialGoals","Page10_AssetAllocationChart","your_networth", "Page11_ActionPlan",
+                    "Page12_ActionPlanChart", "Page14_Disclaimer");
 
-                // put key and value separated by a colon
-                bf.write(entry.getKey() + ":"
-                        + entry.getValue().toString());
+            File file = pdfGeneratorUtil.createPdf(payload.get("first_name")+ " " + payload.get("last_name") + "_client_all_data", koshantra_data,
+                    "clients_all_data");
 
-                // new line
-                bf.newLine();
-            }
-
-            bf.flush();
+//            File file = new File("payload_"+"id"+".txt");
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(file));
+//            for (Map.Entry<String, Object> entry :
+//                    payload.entrySet()) {
+//
+//                // put key and value separated by a colon
+//                bf.write(entry.getKey() + ":"
+//                        + entry.getValue().toString());
+//
+//                // new line
+//                bf.newLine();
+//            }
+//
+//            bf.flush();
 
 //            FileWriter payload_file = new FileWriter("payload_"+"id"+".txt");
 //            payload_file.write(payload.toString());

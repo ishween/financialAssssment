@@ -1,52 +1,52 @@
 first_name:Ishween
 last_name:Kaur
-dob:1971-02-01
-profession:mn
-income:100000
-expense:10000
+dob:2022-03-29
+profession:Service
+income:1200000
+expense:100000
 mobile_no:9154216117
 email:ishween.kaur@salesforce.com
 gender:Female
 address:B-194, Ground Floor, Fateh Nagar
-riskProfile:Aggressive
-life_goals:Self Marriage
+riskProfile:Moderate
+life_goals:Self Marriage,Retirement
 number_of_dependents:
 dependents_name:[]
 dependents_dob:[]
 dependents_relation:[]
-stocks_name:[test]
-stocks_amount:[4000]
-stocks_market_value:[12345]
-stocks_date_of_purchase:[2022-03-27]
+stocks_name:[s]
+stocks_amount:[1000]
+stocks_market_value:[456]
+stocks_date_of_purchase:[2022-03-29]
 stocks_frequency:[Lumpsum]
-mf_mkt_value:[12345]
-mf_amount:[2000]
+mf_mkt_value:[789]
+mf_amount:[4500]
 mf_type:[Lumpsum]
-mf_date_of_purchase:[2022-03-27]
+mf_date_of_purchase:[2022-03-28]
 mf_frequency:[Daily]
-li_start_date:[2022-03-28]
-li_premium_paying_term:[1234]
+li_start_date:[2022-03-27]
+li_premium_paying_term:[24]
 li_type:[Term]
-li_sum_insured:[123000]
-li_name:[wet]
-li_policy_term:[12345]
-hi_premium_amount:[1234]
-hi_name:[wqs]
+li_sum_insured:[100000]
+li_name:[li]
+li_policy_term:[12]
+hi_premium_amount:[400000]
+hi_name:[hi]
 hi_type:[Individual]
-hi_sum_insured:[3000]
-hi_start_date:[2022-03-27]
-bonds_name:[wedg]
-bonds_invested:[2900]
+hi_sum_insured:[500000]
+hi_start_date:[2022-03-29]
+bonds_name:[b]
+bonds_invested:[7000]
 bonds_date_of_investment:[2022-03-27]
-bonds_maturity_date:[2022-03-27]
-ppf_invested:[3000]
-ppf_date_of_investment:[2022-03-28]
+bonds_maturity_date:[2022-04-10]
+ppf_invested:[4500]
+ppf_date_of_investment:[2022-03-27]
 ppf_frequency:[Lumpsum]
-fd_start_date:[2022-03-27]
-fd_name:[werty]
-fd_maturity_date:[2022-03-28]
-fd_amount:[1200]
-loan_emi_start_date:[2022-04-03]
-loan_emi_installment_amount:[678]
-loan_emi_installement_left:[123]
-loan_emi_type:[]
+fd_start_date:[2022-03-28]
+fd_name:[fd1]
+fd_maturity_date:[2022-04-10]
+fd_amount:[1000]
+loan_emi_start_date:[2022-03-27, 2022-03-27]
+loan_emi_installment_amount:[200, 300]
+loan_emi_installement_left:[200, 300]
+loan_emi_type:[Home Loan, Personal Loan]

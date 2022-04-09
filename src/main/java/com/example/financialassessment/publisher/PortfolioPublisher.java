@@ -5,6 +5,7 @@ import com.example.financialassessment.config.MessagingConfig;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,12 @@ public class PortfolioPublisher {
 
     @Autowired
     private RabbitTemplate template;
+
+    @Value("${EXCHANGE}")
+    private String EXCHANGE;
+
+    @Value("${ROUTING_KEY}")
+    private String ROUTING_KEY;
 
 //    @PostMapping("/")
 //    public String createPortfolio(@RequestBody Portfolio portfolio){
@@ -53,7 +60,8 @@ public class PortfolioPublisher {
 //        MessageProperties properties = new MessageProperties();
 //        properties.setContentType("application/json");
 //        MessageBuilder.withBody(body.getBytes()).andProperties(properties).build()
-        template.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, payload);
+//        template.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, payload);
+        template.convertAndSend(EXCHANGE, ROUTING_KEY, payload);
         return "register_success";
     }
 
