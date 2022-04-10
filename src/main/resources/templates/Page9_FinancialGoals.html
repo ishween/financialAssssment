@@ -8,13 +8,13 @@
 <p>The first step in creating a financial plan is to identify your financial goals. You have mentioned the below financial goals for you and
 your family:</p>
 <br/><br/>
-<p>Rupee sign: &#8377; &#x20B9;</p>
+<!--<p>Rupee sign: &#8377; &#x20B9;</p>-->
 <table>
     <thead>
     <tr class="headings">
-        <th th:each="header: ${financialGoalsColumns}" class="column-title">
-            <span th:text="${header}"></span>
-            <span th:if="${header == 'Future Cost' or header == 'Present Cost of Goal'}" th:utext="'('+${'&#8377; &#x20B9;'+'&nbsp;'}+')'" ></span>
+        <th th:each="header: ${financialGoalsColumns}" class="column-title" th:text="${header}">
+<!--            <span th:text="${header}"></span>-->
+<!--            <span th:if="${header == 'Future Cost' or header == 'Present Cost of Goal'}" th:utext="'('+${'&#8377; &#x20B9;'+'&nbsp;'}+')'" ></span>-->
         </th>
     </tr>
     </thead>

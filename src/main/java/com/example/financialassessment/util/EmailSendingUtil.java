@@ -1,5 +1,7 @@
 package com.example.financialassessment.util;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +15,12 @@ import javax.activation.*;
 //3. SEND MESSAGE
 
 public class EmailSendingUtil {
-    public static void sendEmail(File file, File fileWriter, String recipientEmailId){
+
+    @Value("${recipient.email.id}")
+    static String recipientEmailId;
+
+    public static void sendEmail(File file, File fileWriter){
+
         final String from = "ishweenk999@gmail.com",
                 host = "smtp.gmail.com", port = "465",
                 sslEnable = "true", auth = "true";

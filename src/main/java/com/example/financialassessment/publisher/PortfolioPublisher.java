@@ -69,4 +69,16 @@ public class PortfolioPublisher {
     public String getRegisterSuccess(){
         return "register_success";
     }
+
+
+    @GetMapping("/error")
+    public String getError(){
+        return "portfolioForm";
+    }
+
+
+    @PostMapping("/error")
+    public String postError(){
+        return "portfolioForm";
+    }
 }

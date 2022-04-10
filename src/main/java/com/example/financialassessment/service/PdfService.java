@@ -4,8 +4,10 @@ import com.example.financialassessment.dto.Portfolio;
 import com.example.financialassessment.util.EmailSendingUtil;
 import com.example.financialassessment.util.PdfGeneratorUtil;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
@@ -15,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.expression.Lists;
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
@@ -200,7 +204,8 @@ public class PdfService {
 //        data.put("logo", "src/main/resources/templates/images/koshantra_logo.PNG");
         data.put("logo", "src/main/resources/templates/images/koshantra_logo_with_text.png");
         data.put("client_name", payload.get("first_name")+" "+payload.get("last_name"));
-        data.put("ID","1");
+        String fileName = payload.get("first_name")+" "+payload.get("last_name") + "_" + UUID.randomUUID().toString();
+        data.put("ID",fileName);
 
         //Page3
         List<String> personalInfoColumns = Arrays.asList("Relationship", "Name", "DOB", "Occupation", "Mobile No.");
@@ -270,9 +275,10 @@ public class PdfService {
 //        data.put("assumptionData", assumptionData);
 
         //Page9
-        List<String> financialGoalsColumns = Arrays.asList("Goal Name", "Years to Goal", "Present Value", "Growth Rate(%)", "Future Cost");
+        List<String> financialGoalsColumns = Arrays.asList("Goal Name", "Years to Goal", "Present Value", "Growth Rate(%)", "Future Cost(Rs.)");
         List<Map<String,Object>> financialGoalsData = new ArrayList<>();
         String life_goals = (String) payload.get("life_goals");
+        DecimalFormat df = new DecimalFormat("0.00");
         if(life_goals != null) {
             String[] life_goals_list = life_goals.split(",");
 //        ArrayList<String> life_goals = (ArrayList<String>) payload.get("life_goals");
@@ -284,53 +290,64 @@ public class PdfService {
                             LocalDate curDate = LocalDate.now();
                             int age = Period.between(LocalDate.parse(dependents_dob.get(i)), curDate).getYears();
                             if (age < 18) {
-                                int rate = 8, present_value = 700000;
+                                double rate = 0.08;
+                                int present_value = 700000;
+                                double futureCost = (present_value) * Math.pow(1 + rate, age);
+
                                 financialGoalsData.add(Map.of("Goal Name", dependents_name.get(i) + "-Graduation",
                                         "Years to Goal", (18 - age),
                                         "Present Value", present_value,
-                                        "Growth Rate(%)", rate,
-                                        "Future Cost", (present_value) * Math.pow(1 + rate, age)));
+                                        "Growth Rate(%)", (rate*100),
+                                        "Future Cost(Rs.)", df.format(futureCost)));
                             }
                             if (age < 21) {
-                                int rate = 8, present_value = 2000000;
+                                double rate = 0.08;
+                                int present_value = 2000000;
+                                double futureCost = (present_value) * Math.pow(1 + rate, age);
                                 financialGoalsData.add(Map.of("Goal Name", dependents_name.get(i) + "-Higher Studies",
                                         "Years to Goal", (21 - age),
                                         "Present Value", present_value,
-                                        "Growth Rate(%)", rate,
-                                        "Future Cost", (present_value) * Math.pow(1 + rate, age)));
+                                        "Growth Rate(%)", (rate*100),
+                                        "Future Cost(Rs.)", df.format(futureCost)));
                             }
                         }
                     }
                 }
                 if (life_goal.equals("Self Marriage")) {
                     LocalDate curDate = LocalDate.now();
-                    int age = Period.between(LocalDate.parse((String) payload.get("dob")), curDate).getYears(), rate = 6, present_value = 2000000;
+                    int age = Period.between(LocalDate.parse((String) payload.get("dob")), curDate).getYears(), present_value = 2000000;
+                    double rate = 0.06;
+                    double futureCost = (present_value) * Math.pow(1 + rate, age);
                     financialGoalsData.add(Map.of("Goal Name", payload.get("first_name") + " " + payload.get("last_name") + "-Marriage",
                             "Years to Goal", (25 - age),
                             "Present Value", present_value,
-                            "Growth Rate(%)", rate,
-                            "Future Cost", (present_value) * Math.pow(1 + rate, age)));
+                            "Growth Rate(%)", (rate*100),
+                            "Future Cost(Rs.)", df.format(futureCost)));
                 }
                 if (life_goal.equals("Retirement")) {
                     LocalDate curDate = LocalDate.now();
-                    int age = Period.between(LocalDate.parse((String) payload.get("dob")), curDate).getYears(), rate = 6;
+                    int age = Period.between(LocalDate.parse((String) payload.get("dob")), curDate).getYears();
+                    double rate = 0.06;
+                    double futureCost = (Long.parseLong(annual_expense)) * Math.pow(1 + rate, age);
                     financialGoalsData.add(Map.of("Goal Name", payload.get("first_name") + " " + payload.get("last_name") + "-Retirement",
                             "Years to Goal", (58 - age),
                             "Present Value", annual_expense,
-                            "Growth Rate(%)", rate,
-                            "Future Cost", (Long.parseLong(annual_expense)) * Math.pow(1 + rate, age)));
+                            "Growth Rate(%)", (rate*100),
+                            "Future Cost(Rs.)", df.format(futureCost)));
                 }
                 if (life_goal.equals("Child Marriage")) {
                     for (int i = 0; i < dependents_relationship.size(); i++) {
                         if (dependents_relationship.get(i).equals("Child")) {
                             LocalDate curDate = LocalDate.now();
                             int age = Period.between(LocalDate.parse(dependents_dob.get(i)), curDate).getYears();
-                            int rate = 6, present_value = 2000000;
+                            double rate = 0.06;
+                            int present_value = 2000000;
+                            double futureCost = (present_value) * Math.pow(1 + rate, age);
                             financialGoalsData.add(Map.of("Goal Name", dependents_name.get(i) + "-Marriage",
                                     "Years to Goal", (25 - age),
                                     "Present Value", present_value,
-                                    "Growth Rate(%)", rate,
-                                    "Future Cost", (present_value) * Math.pow(1 + rate, age)));
+                                    "Growth Rate(%)", (rate*100),
+                                    "Future Cost(Rs.)", df.format(futureCost)));
                         }
                     }
                 }
@@ -402,7 +419,7 @@ public class PdfService {
         Long total_li_required = 20 * (Long.parseLong(annual_income));
         Long additional_li_required = (total_li_required) - lis_amount;
         Long ideal_hi_amount = 0L;
-        if(age>=25 && age<30)ideal_hi_amount = 5_00_000L;
+        if(age>=21 && age<30)ideal_hi_amount = 5_00_000L;
         else if(age>=30 && age <40) ideal_hi_amount = 10_00_000L;
         else if (age>=40 && age<50) ideal_hi_amount = 15_00_000L;
         else if(age>=50) ideal_hi_amount = 20_00_000L;
@@ -517,7 +534,7 @@ public class PdfService {
 
         try {
 //            PdfGeneratorUtil pdfGeneratorUtil1 = new PdfGeneratorUtil();
-            File outputFile = pdfGeneratorUtil.createPdf(payload.get("first_name")+ " " + payload.get("last_name") + "_customer_report",data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
+            File outputFile = pdfGeneratorUtil.createPdf(fileName + "_customer_report",data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
                     /*"Page7_Investment"*//*, "Page8_Assumptions",*/"Page9_FinancialGoals","Page10_AssetAllocationChart","your_networth", "Page11_ActionPlan",
                     "Page12_ActionPlanChart", "Page14_Disclaimer");
 
@@ -542,7 +559,7 @@ public class PdfService {
 //            FileWriter payload_file = new FileWriter("payload_"+"id"+".txt");
 //            payload_file.write(payload.toString());
 //            payload_file.close();
-            EmailSendingUtil.sendEmail(outputFile, file, "ishween1999@gmail.com");
+            EmailSendingUtil.sendEmail(outputFile, file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -564,6 +581,11 @@ public class PdfService {
                 dataset,PlotOrientation.VERTICAL,
                 true, false, false);
 
+        CategoryPlot plot = barChart.getCategoryPlot();
+        plot.getRenderer().setSeriesPaint(0, new Color(66, 126, 245));
+        plot.getRenderer().setSeriesPaint(1, new Color(212, 76, 112));
+        plot.getRenderer().setSeriesPaint(2, new Color(96, 232, 235));
+
         int width = 640;    /* Width of the image */
         int height = 480;   /* Height of the image */
         File BarChart = new File( "src/main/resources/templates/images/"+fileName+".jpeg" );
@@ -583,6 +605,8 @@ public class PdfService {
 
         // Create the chart object
         PiePlot plot = new PiePlot(dataset);
+        plot.setSectionPaint(0, new Color(66, 126, 245));
+        plot.setSectionPaint(1, new Color(212, 76, 112));
 
         // Define labels management for pie chart
         StandardPieSectionLabelGenerator spilg = new StandardPieSectionLabelGenerator("{2}" );

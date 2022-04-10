@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PdfGeneratorUtil {
     @Autowired
     private TemplateEngine templateEngine;
-    public File createPdf(String name, Map map, String... templateName) throws Exception {
+    public File createPdf(String fileName, Map map, String... templateName) throws Exception {
         Assert.notNull(templateName, "The templateName can not be null");
         Context ctx = new Context();
         if (map != null) {
@@ -27,7 +27,7 @@ public class PdfGeneratorUtil {
 
 //        String processedHtml = templateEngine.process(templateName, ctx);
         FileOutputStream os = null;
-        String fileName = name + "_" + UUID.randomUUID().toString();
+//        String fileName = name + "_" + UUID.randomUUID().toString();
         File directory = new File("/Users/ishween.kaur/Documents/workspace/financialAssessment/");
         final File outputFile = File.createTempFile(fileName, ".pdf", directory);
 
