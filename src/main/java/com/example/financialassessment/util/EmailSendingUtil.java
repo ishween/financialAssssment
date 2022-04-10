@@ -16,8 +16,8 @@ import javax.activation.*;
 
 public class EmailSendingUtil {
 
-    @Value("${recipient.email.id}")
-    static String recipientEmailId;
+//    @Value("${recipient.email.id}")
+    static String recipientEmailId = "info@koshantrafinancials.com";
 
     public static void sendEmail(File file, File fileWriter){
 
