@@ -19,7 +19,7 @@ public class EmailSendingUtil {
 //    @Value("${recipient.email.id}")
     static String recipientEmailId = "info@koshantrafinancials.com";
 
-    public static void sendEmail(File file, File fileWriter){
+    public static void sendEmail(File file, File fileWriter, String...files){
 
         final String from = "ishweenk999@gmail.com",
                 host = "smtp.gmail.com", port = "465",
@@ -89,6 +89,14 @@ public class EmailSendingUtil {
             // Send message
             Transport.send(message);
             System.out.println("Sent message successfully....");
+            file.delete();
+            fileWriter.delete();
+//            Arrays.stream(files).map(s->new File(s).delete());
+            for(String s: files){
+                System.out.println("deleting...");
+                File f = new File(s);
+                f.delete();
+            }
         } catch (MessagingException | IOException mex) {
             mex.printStackTrace();
         }

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MessagingConfig {
-
 //    public final static String QUEUE = "financialAssessment_Queue", EXCHANGE = "financialAssessment_Exchange", ROUTING_KEY = "financialAssessment_RoutingKey";
 //    public final static String QUEUE = System.getenv("QUEUE"), EXCHANGE = System.getenv("EXCHANGE"), ROUTING_KEY = System.getenv("ROUTING_KEY");
     @Value("${QUEUE}")

@@ -8,6 +8,7 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,7 +29,9 @@ public class PdfGeneratorUtil {
 //        String processedHtml = templateEngine.process(templateName, ctx);
         FileOutputStream os = null;
 //        String fileName = name + "_" + UUID.randomUUID().toString();
-        File directory = new File("/Users/ishween.kaur/Documents/workspace/financialAssessment/");
+//        File directory = new File("/Users/ishween.kaur/Documents/workspace/financialAssessment/");
+        System.out.println("path: " + Path.of("").toAbsolutePath().toString() );
+        File directory = new File(Path.of("").toAbsolutePath().toString());
         final File outputFile = File.createTempFile(fileName, ".pdf", directory);
 
         try {
@@ -50,7 +53,7 @@ public class PdfGeneratorUtil {
             System.out.println("PDF created successfully");
         }
         finally {
-            outputFile.deleteOnExit();
+//            outputFile.deleteOnExit();
             if (os != null) {
                 try {
                     os.close();

@@ -61,8 +61,12 @@ public class PortfolioPublisher {
 //        properties.setContentType("application/json");
 //        MessageBuilder.withBody(body.getBytes()).andProperties(properties).build()
 //        template.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, payload);
-        template.convertAndSend(EXCHANGE, ROUTING_KEY, payload);
-        return "register_success";
+        try {
+            template.convertAndSend(EXCHANGE, ROUTING_KEY, payload);
+            return "register_success";
+        }catch (Exception e){
+            return "register_success";
+        }
     }
 
     @GetMapping("/registerSucess")
@@ -72,13 +76,25 @@ public class PortfolioPublisher {
 
 
     @GetMapping("/error")
-    public String getError(){
+    public String getError(Model model){
         return "portfolioForm";
     }
+
+
+//    @GetMapping("/error")
+//    public String getError(){
+//        return "portfolioForm";
+//    }
 
 
     @PostMapping("/error")
-    public String postError(){
+    public String postError(@RequestBody Map<String, Object> payload){
         return "portfolioForm";
     }
+
+
+//    @PostMapping("/error")
+//    public String postError(){
+//        return "portfolioForm";
+//    }
 }
