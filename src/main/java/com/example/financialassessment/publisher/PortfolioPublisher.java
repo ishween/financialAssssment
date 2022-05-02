@@ -3,6 +3,8 @@ package com.example.financialassessment.publisher;
 import com.example.financialassessment.config.MessagingConfig;
 //import com.example.financialassessment.dto.Portfolio;
 import org.json.JSONObject;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,9 +61,10 @@ public class PortfolioPublisher {
         System.out.println(payload);
 //        MessageProperties properties = new MessageProperties();
 //        properties.setContentType("application/json");
-//        MessageBuilder.withBody(body.getBytes()).andProperties(properties).build()
+//        MessageBuilder.withBody().andProperties(properties).build();
 //        template.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, payload);
         try {
+            template.setEncoding("UTF-8");
             template.convertAndSend(EXCHANGE, ROUTING_KEY, payload);
             return "register_success";
         }catch (Exception e){
