@@ -209,7 +209,7 @@ public class EmailSendingUtil {
             // Send message
 //            Transport.send(message);
             SMTPTransport transport = (SMTPTransport)session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", from, "");
+            transport.connect("smtp.gmail.com", from, accessTokenLocal);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
 
