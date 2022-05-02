@@ -11,6 +11,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,7 +205,8 @@ public class PdfService {
 //        data.put("logo", "src/main/resources/templates/images/koshantra_logo.PNG");
         data.put("logo", "src/main/resources/templates/images/koshantra_logo_with_text.png");
         data.put("client_name", payload.get("first_name")+" "+payload.get("last_name"));
-        String fileName = payload.get("first_name")+" "+payload.get("last_name") + "_" + UUID.randomUUID().toString();
+//        String fileName = payload.get("first_name")+" "+payload.get("last_name") + "_" + UUID.randomUUID().toString();
+        String fileName = payload.get("first_name")+"_"+payload.get("last_name");
         String cash_flow_chart = "src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg";
         String pie_chart_1 = "src/main/resources/templates/images/pie_chart_1"+fileName+".jpeg";
         String pie_chart_2 = "src/main/resources/templates/images/pie_chart_2"+fileName+".jpeg";
@@ -265,8 +267,8 @@ public class PdfService {
         try {
             List<String> xAxis = Arrays.asList("Income", "Expenses");
             List<String> values = Arrays.asList(annual_income, annual_expense);
-            cashFlowChartFile = createBarChart(xAxis, values, "", "in (₹)", "","cash_flow_chart"+fileName);
-            data.put("cash_flow_chart", cash_flow_chart);
+            cashFlowChartFile = createBarChart(xAxis, values, "", "in (₹)", "","src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg");
+            data.put("cash_flow_chart", "src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -404,13 +406,13 @@ public class PdfService {
         try {
             List<String> items = Arrays.asList("Equity ("+equity_percentage+"%)", "Debt ("+debt_percentage+"%)");
             List<Integer> itemValues = Arrays.asList(equity_percentage, debt_percentage);
-            pieChart1File = createPieChart(items, itemValues, "Current Asset Allocation", "pie_chart_1"+fileName);
-            data.put("pie_chart_1", pie_chart_1);
+            pieChart1File = createPieChart(items, itemValues, "Current Asset Allocation", "src/main/resources/templates/images/pie_chart_1"+fileName+".jpeg");
+            data.put("pie_chart_1", "src/main/resources/templates/images/pie_chart_1"+fileName+".jpeg");
 
             items = Arrays.asList("Equity ("+ideal_equity_percentage+"%)", "Debt ("+ideal_debt_percentage+"%)");
             itemValues = Arrays.asList(ideal_equity_percentage, ideal_debt_percentage);
-            pieChart2File = createPieChart(items, itemValues, "Recommended Asset Allocation", "pie_chart_2"+fileName);
-            data.put("pie_chart_2", pie_chart_2);
+            pieChart2File = createPieChart(items, itemValues, "Recommended Asset Allocation", "src/main/resources/templates/images/pie_chart_2"+fileName+".jpeg");
+            data.put("pie_chart_2", "src/main/resources/templates/images/pie_chart_2"+fileName+".jpeg");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -466,12 +468,12 @@ public class PdfService {
         try {
             List<String> xAxis = Arrays.asList("Total Required", "Current Available", "Additional Required");
             List<String> values = Arrays.asList(total_li_required+"", lis_amount+"", additional_li_required+"");
-            lifeInsuranceFile = createBarChart(xAxis, values, "Life Insurance Client", "in (₹)", "","life_insurance_chart"+fileName);
-            data.put("life_insurance_chart", life_insurance_chart);
+            lifeInsuranceFile = createBarChart(xAxis, values, "Life Insurance Client", "in (₹)", "","src/main/resources/templates/images/life_insurance_chart"+fileName+".jpeg");
+            data.put("life_insurance_chart", "src/main/resources/templates/images/life_insurance_chart"+fileName+".jpeg");
             xAxis = Arrays.asList("Total Required", "Current Available", "Additional Required");
             values = Arrays.asList(ideal_hi_amount+"", his_amount+"", additional_hi_required+"");
-            healthInsuranceFile = createBarChart(xAxis, values, "Health Insurance Client", "in (₹)", "","health_insurance_chart"+fileName);
-            data.put("health_insurance_chart", health_insurance_chart);
+            healthInsuranceFile = createBarChart(xAxis, values, "Health Insurance Client", "in (₹)", "","src/main/resources/templates/images/health_insurance_chart"+fileName+".jpeg");
+            data.put("health_insurance_chart", "src/main/resources/templates/images/health_insurance_chart"+fileName+".jpeg");
             //TODO: add chart name as health-ID(from DB)
         }catch (Exception e){
             e.printStackTrace();
@@ -565,7 +567,8 @@ public class PdfService {
 //            FileWriter payload_file = new FileWriter("payload_"+"id"+".txt");
 //            payload_file.write(payload.toString());
 //            payload_file.close();
-            EmailSendingUtil.sendEmail(outputFile, file, cash_flow_chart, pie_chart_1, pie_chart_2, life_insurance_chart, health_insurance_chart);
+            EmailSendingUtil emailSendingUtil = new EmailSendingUtil();
+            emailSendingUtil.sendEmail(outputFile, file, cash_flow_chart, pie_chart_1, pie_chart_2, life_insurance_chart, health_insurance_chart);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -592,9 +595,13 @@ public class PdfService {
         plot.getRenderer().setSeriesPaint(1, new Color(212, 76, 112));
         plot.getRenderer().setSeriesPaint(2, new Color(96, 232, 235));
 
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setMaximumBarWidth(.10);
+
         int width = 640;    /* Width of the image */
         int height = 480;   /* Height of the image */
-        File BarChart = new File( "src/main/resources/templates/images/"+fileName+".jpeg" );
+//        File BarChart = new File( "src/main/resources/templates/images/"+fileName+".jpeg" );
+        File BarChart = new File( fileName);
         ChartUtils.saveChartAsJPEG(BarChart , barChart , width , height);
         return BarChart;
     }
@@ -629,7 +636,8 @@ public class PdfService {
 
         int width = 600;   /* Width of the image */
         int height = 400;  /* Height of the image */
-        File pieChart = new File( "src/main/resources/templates/images/"+fileName+".jpeg" );
+//        File pieChart = new File( "src/main/resources/templates/images/"+fileName+".jpeg" );
+        File pieChart = new File( fileName );
         ChartUtils.saveChartAsJPEG( pieChart , chart , width , height );
         return pieChart;
     }
