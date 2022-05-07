@@ -1117,6 +1117,12 @@
 
             // Set the request header i.e. which type of content you are sending
             xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+
+            // xhr.setRequestHeader("Content-Type", "multipart/form-data;boundary=----WebKitFormBoundaryFZ0rcEUBUMK4vykk;charset=UTF-8");
+
 
             let localhost = "http://localhost:8080/registerSucess";
             let heroku = "https://koshantra-financials.herokuapp.com/registerSucess";
@@ -1228,6 +1234,22 @@
             console.log("in catch");
             window.location.href = "https://koshantra-financials.herokuapp.com/registerSucess";
         }
+
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/register",
+        //     data: data,
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     success: function(data) {
+        //         if (data.status === 'OK')
+        //             alert('Person has been added');
+        //         else
+        //             alert('Failed adding person: ' + data.status + ', ' + data.errorMessage);
+        //     }});
+
     }
 
     // $(function() {

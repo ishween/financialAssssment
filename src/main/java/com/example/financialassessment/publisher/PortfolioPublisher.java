@@ -64,7 +64,7 @@ public class PortfolioPublisher {
 //        MessageBuilder.withBody().andProperties(properties).build();
 //        template.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, payload);
         try {
-            template.setEncoding("UTF-8");
+//            template.setEncoding("UTF-8");
             template.convertAndSend(EXCHANGE, ROUTING_KEY, payload);
             return "register_success";
         }catch (Exception e){

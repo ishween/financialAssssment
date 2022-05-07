@@ -55,9 +55,9 @@ public class PortfolioConsumer {
 //        service.displayPortfolio(portfolio);
 
 //        List<Stock> stocks = new ArrayList<>();
-        System.out.println(payload.get("stocks_name").toString());
-        ArrayList<String> snames = (ArrayList<String>) payload.get("stocks_name");
-        System.out.println(snames);
+//        System.out.println(payload.get("stocks_name").toString());
+//        ArrayList<String> snames = (ArrayList<String>) payload.get("stocks_name");
+//        System.out.println(snames);
 //        ArrayList<String> stock_names = Stream.of(payload.get("stocks_name")).map(Object::toString).collect(Collectors.toList());
 
 
