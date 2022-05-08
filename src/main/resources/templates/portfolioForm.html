@@ -1,10 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<!--    <link href="src/main/resources/templates/static/css/portfolio_style.css" rel="stylesheet" type="text/css"/>-->
+    <meta name="viewport" content="width=device-width">
+    <!--    <link href="src/main/resources/templates/static/css/portfolio_style.css" rel="stylesheet" type="text/css"/>-->
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
     <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 <!--    <meta charset="ISO-8859-1">-->
+<!--    <style>-->
+<!--        img {-->
+<!--            min-width: 100%;-->
+<!--        }-->
+<!--    </style>-->
     <title>Koshantra Financial Assessment</title>
 </head>
 <body>
@@ -223,7 +229,7 @@
                 <input type="number" id="health-insurance-premium-amount" placeholder="Premium Amount" />
                 <input type="number" id="health-insurance-sum-insured" placeholder="Sum Insured"  />
                 Start Date: <input type="date" id="health-insurance-start-date" placeholder="Start Date" />
-                <label for="health-insurance-type">Choose a Frequency:</label>
+                <label for="health-insurance-type">Choose a Frequency Type:</label>
                 <select name="health-insurance-type" id="health-insurance-type">
                     <option value="Individual">Individual</option>
                     <option value="Floater">Floater</option>
@@ -258,7 +264,7 @@
             <div id="fd-input" hidden>
                 <input type="text" id="fd-name" placeholder="Bank/NBFC name" />
                 <input type="number" id="fd-invested" placeholder="Amount Invested" />
-                <input type="number" id="fd-investment-rate" placeholder="Investment Rate"  />
+                <input type="number" id="fd-investment-rate" placeholder="Interest Rate"  />
                 Start Date: <input type="date" id="fd-start-date" placeholder="Start Date" />
                 Maturity Date: <input type="date" id="fd-maturity-date" placeholder="Maturity Date" />
                 <div onclick="addFDs()" id="fd-add" class="button_add">Add</div>
@@ -293,9 +299,10 @@
             <input type="radio" id="loan-emi-no" name="loan-emi-yes-or-no" value="No"> No
             <div id="loan-emi-input" hidden>
                 <input type="number" id="loan-emi-amount" placeholder="Loan Amount" />
-                <input type="number" id="loan-emi-instalment-left" placeholder="Instalment Left"  />
+                <input type="number" id="loan-emi-instalment-left" placeholder="Number of Instalments Left"  />
                 <input type="number" id="loan-emi-amount-of-instalment" placeholder="Amount of Instalment"  />
                 Start Date: <input type="date" id="loan-emi-start-date" placeholder="Start Date" />
+                <label for="loan-type">Choose type:</label>
                 <select name="loan-type" id="loan-type">
                     <option value="None">None</option>
                     <option value="Home Loan">Home Loan</option>
