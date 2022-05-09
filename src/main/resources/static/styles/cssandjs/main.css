@@ -326,23 +326,23 @@ and (max-device-width : 1024px){
 and (min-device-width : 320px)
 and (max-device-width : 480px) {
     .button_add {
-        padding: 4px 10px 4px 10px;
+        padding: 3px 8px 3px 8px;
         margin-top: 5px;
         font-size: 16px;
         background-color: cyan;
-        border-radius: 12px;
-        width: 10%;
+        border-radius: 8px;
+        width: 5%;
         border: solid;
         align-content: center;
     }
 
     .button_add_dependents {
-        padding: 14px 40px 14px 40px;
+        padding: 10px 20px 10px 20px;
         margin-top: 5px;
         font-size: 16px;
         background-color: cyan;
-        border-radius: 12px;
-        width: 20%;
+        border-radius: 8px;
+        width: 10%;
         border: solid;
     }
 
@@ -405,14 +405,14 @@ and (max-device-width : 480px) {
         /*margin-top: 50px;*/
         padding-top: 4px;
         color: white;
-        width: 20%;
+        width: 50%;
         border-left-width: 0;
         border-right-width: 0;
     }
 
     #line_after_logo {
         color: white;
-        width: 10%;
+        width: 20%;
     }
 
     #koshantra_link {
@@ -468,10 +468,10 @@ and (max-device-width : 480px) {
         border-color: white;
         color: white;
         text-align: center;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        /*padding-top: 5px;*/
+        /*padding-bottom: 5px;*/
         /*padding-left: 10px;*/
-        border: 2px solid;
+        border: 1px solid;
     }
 
     td {
@@ -479,9 +479,9 @@ and (max-device-width : 480px) {
         text-align: center;
         border-width: 1px;
         border-color: white;
-        padding-top: 2px;
-        padding-bottom: 2px;
-        padding-left: 2px;
+        /*padding-top: 2px;*/
+        /*padding-bottom: 2px;*/
+        /*padding-left: 2px;*/
         /*border: 3px solid;*/
         word-wrap: break-word;
     }
