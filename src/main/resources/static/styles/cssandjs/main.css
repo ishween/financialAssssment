@@ -337,7 +337,7 @@ and (max-device-width : 480px) {
     }
 
     .button_add_dependents {
-        padding: 10px 20px 10px 20px;
+        padding: 15px 20px 10px 20px;
         margin-top: 5px;
         font-size: 12px;
         background-color: cyan;
@@ -412,7 +412,9 @@ and (max-device-width : 480px) {
 
     #line_after_logo {
         color: white;
-        width: 40%;
+        width: 50%;
+        border-left-width: 0;
+        border-right-width: 0;
     }
 
     #koshantra_link {
