@@ -412,10 +412,11 @@ and (max-device-width : 480px) {
 
     #line_after_logo {
         color: white;
-        width: 50%;
+        width: 40%;
         border-left-width: 0;
         border-right-width: 0;
         padding-left: 10px;
+        padding-right: 10px;
     }
 
     #koshantra_link {
@@ -473,6 +474,16 @@ and (max-device-width : 480px) {
     }
 
     #Gender:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    #Male:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    #Female:after{
         content:"\a";
         white-space: pre;
     }
