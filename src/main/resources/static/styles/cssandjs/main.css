@@ -337,7 +337,7 @@ and (max-device-width : 480px) {
     }
 
     .button_add_dependents {
-        padding: 15px 20px 10px 20px;
+        padding: 10px 30px 10px 20px;
         margin-top: 5px;
         font-size: 12px;
         background-color: cyan;
@@ -415,6 +415,7 @@ and (max-device-width : 480px) {
         width: 50%;
         border-left-width: 0;
         border-right-width: 0;
+        padding-left: 10px;
     }
 
     #koshantra_link {
@@ -444,7 +445,7 @@ and (max-device-width : 480px) {
     }
 
     .radio_box {
-        text-align: left;
+        text-align: center;
         width: 55%;
         padding: 12px 20px;
         margin: 8px 0;
@@ -460,7 +461,7 @@ and (max-device-width : 480px) {
     }
 
     table {
-        width: 100%;
+        width: 150%;
         table-layout: fixed;
     }
 
@@ -470,6 +471,7 @@ and (max-device-width : 480px) {
         border-color: white;
         color: white;
         text-align: center;
+        font-size: 15px;
         /*padding-top: 5px;*/
         /*padding-bottom: 5px;*/
         /*padding-left: 10px;*/
@@ -481,6 +483,7 @@ and (max-device-width : 480px) {
         text-align: center;
         border-width: 1px;
         border-color: white;
+        font-size: 10px;
         /*padding-top: 2px;*/
         /*padding-bottom: 2px;*/
         /*padding-left: 2px;*/
