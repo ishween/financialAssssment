@@ -47,6 +47,8 @@ and (max-device-width : 480px) {
         width: 400px;
         height: 50px;
         background-color: lightcoral;
+        color: black;
+        font-size: medium;
     }
     a{
         text-decoration: none;

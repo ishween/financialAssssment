@@ -331,7 +331,7 @@ and (max-device-width : 480px) {
         font-size: 16px;
         background-color: cyan;
         border-radius: 12px;
-        width: 2%;
+        width: 10%;
         border: solid;
         align-content: center;
     }
@@ -342,7 +342,7 @@ and (max-device-width : 480px) {
         font-size: 16px;
         background-color: cyan;
         border-radius: 12px;
-        width: 7%;
+        width: 20%;
         border: solid;
     }
 
@@ -363,6 +363,10 @@ and (max-device-width : 480px) {
         /*margin-bottom: 50px;*/
         padding-bottom: 20px;
         font-family: Helvetica, sans-serif;
+    }
+
+    #Koshantra_title{
+        font-size: medium;
     }
 
     #koshantra_header {
@@ -391,24 +395,24 @@ and (max-device-width : 480px) {
     #logo {
         float: left;
         width: 50px;
-        padding-left: 100px;
-        padding-top: 2px;
+        padding-left: 20px;
+        padding-top: 4px;
 
         /*position: absolute; left: 200px; top: 5px;*/
     }
 
     #line_before_logo {
         /*margin-top: 50px;*/
-        padding-top: 2px;
+        padding-top: 4px;
         color: white;
-        width: 80%;
+        width: 20%;
         border-left-width: 0;
         border-right-width: 0;
     }
 
     #line_after_logo {
         color: white;
-        width: 50%;
+        width: 10%;
     }
 
     #koshantra_link {
@@ -434,7 +438,7 @@ and (max-device-width : 480px) {
         margin: 8px 0;
         box-sizing: border-box;
         /*border: none;*/
-        /*border-bottom: 2px solid black;*/
+        border-bottom: 2px solid black;
     }
 
     .radio_box {
@@ -464,20 +468,20 @@ and (max-device-width : 480px) {
         border-color: white;
         color: white;
         text-align: center;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        border: 4px solid;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        /*padding-left: 10px;*/
+        border: 2px solid;
     }
 
     td {
         background-color: rgb(220, 231, 247);
         text-align: center;
-        border-width: 3px;
+        border-width: 1px;
         border-color: white;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 10px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 2px;
         /*border: 3px solid;*/
         word-wrap: break-word;
     }
