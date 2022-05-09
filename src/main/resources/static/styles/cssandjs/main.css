@@ -448,7 +448,7 @@ and (max-device-width : 480px) {
 
     .radio_box {
         text-align: center;
-        width: 55%;
+        width: 100%;
         padding: 12px 20px;
         margin: 8px 0;
         box-sizing: border-box;
@@ -470,7 +470,7 @@ and (max-device-width : 480px) {
     }
 
     .delete {
-        font-size: small;
+        font-size: xx-small;
     }
 
     #Gender:after{
