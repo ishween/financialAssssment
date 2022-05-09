@@ -326,13 +326,181 @@ and (max-device-width : 1024px){
 and (min-device-width : 320px)
 and (max-device-width : 480px) {
     .button_add {
-        padding: 4px 10px;
+        padding: 4px 10px 4px 10px;
         margin-top: 5px;
         font-size: 16px;
-        background-color: red;
+        background-color: cyan;
         border-radius: 12px;
         width: 2%;
         border: solid;
         align-content: center;
+    }
+
+    .button_add_dependents {
+        padding: 14px 40px 14px 40px;
+        margin-top: 5px;
+        font-size: 16px;
+        background-color: cyan;
+        border-radius: 12px;
+        width: 7%;
+        border: solid;
+    }
+
+    body {
+        font-family: "Times New Roman", sans-serif;
+    }
+
+    label {
+        font-family: Arial, "Comic Sans MS", sans-serif;
+        font-size: large;
+    }
+
+    #header {
+        background-image: linear-gradient(darkslategray, cyan);
+        /*background-color: cornflowerblue;*/
+        color: white;
+        background-size: 100% 100%;
+        /*margin-bottom: 50px;*/
+        padding-bottom: 20px;
+        font-family: Helvetica, sans-serif;
+    }
+
+    #koshantra_header {
+        /*padding-left: 100px;*/
+        /*margin-left: 200px;*/
+        text-align: center;
+        text-decoration: none;
+
+        /*text-align: center;*/
+        /*padding: 100px 0 0 0;*/
+        /*background-color: #CEDEF4;*/
+        /*font-weight:bold;*/
+        /*color: #224499;*/
+        /*border-radius: 10px;*/
+        /*position: relative;*/
+    }
+
+    input[type=date] {
+        text-transform: uppercase;
+    }
+
+    a {
+        color: black;
+    }
+
+    #logo {
+        float: left;
+        width: 50px;
+        padding-left: 100px;
+        padding-top: 2px;
+
+        /*position: absolute; left: 200px; top: 5px;*/
+    }
+
+    #line_before_logo {
+        /*margin-top: 50px;*/
+        padding-top: 2px;
+        color: white;
+        width: 80%;
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+
+    #line_after_logo {
+        color: white;
+        width: 50%;
+    }
+
+    #koshantra_link {
+        color: black;
+        text-decoration: none;
+        /*padding-bottom: 10px;*/
+    }
+
+    .plain_text {
+        text-align: left;
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        /*border-bottom: 2px solid black;*/
+    }
+
+    .dependent_plain_text {
+        text-align: left;
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        /*border-bottom: 2px solid black;*/
+    }
+
+    .radio_box {
+        text-align: left;
+        width: 55%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    .select_options {
+        text-align: center;
+        width: 330px;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    th {
+        background-color: lightblue;
+        /*border-width: 4px;*/
+        border-color: white;
+        color: white;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        border: 4px solid;
+    }
+
+    td {
+        background-color: rgb(220, 231, 247);
+        text-align: center;
+        border-width: 3px;
+        border-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        /*border: 3px solid;*/
+        word-wrap: break-word;
+    }
+
+    .vl {
+        align-self: center;
+        border-left: 6px solid green;
+        height: 500px;
+    }
+
+    #footer {
+        background-color: rgb(232, 88, 122);
+        color: white;
+        padding-top: 10px;
+        text-align: center;
+        padding-bottom: 10px;
+        font-family: Georgia, serif;
+    }
+
+    input[type=submit] {
+        padding: 14px 40px;
+        font-size: 16px;
+        background-color: #f44336;
+        border-radius: 12px;
     }
 }
