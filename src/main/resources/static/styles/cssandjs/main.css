@@ -469,7 +469,7 @@ and (max-device-width : 480px) {
         margin: 0 0 0 0;
     }
 
-    .button {
+    .delete {
         font-size: small;
     }
 
