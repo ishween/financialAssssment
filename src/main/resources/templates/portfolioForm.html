@@ -358,10 +358,11 @@
 
 <script>
 
-    var input = document.querySelectorAll('input');
-    for(i=0; i<input.length; i++){
-        input[i].setAttribute('size',input[i].getAttribute('placeholder').length);
-    }
+    var input = document.getElementById('loan-emi-instalment-left');
+    input.setAttribute('size', input.getAttribute('placeholder').length);
+    // for(i=0; i<input.length; i++){
+    //     input[i].setAttribute('size',input[i].getAttribute('placeholder').length);
+    // }
 
     document.getElementById('loan-emi-start-date').max = new Date().toLocaleDateString('en-ca');
     document.getElementById('stock-date-of-investment').max = new Date().toLocaleDateString('en-ca');
