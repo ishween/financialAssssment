@@ -304,7 +304,7 @@
             <input type="radio" id="loan-emi-no" name="loan-emi-yes-or-no" value="No"> No
             <div id="loan-emi-input" hidden>
                 <input type="number" id="loan-emi-amount" placeholder="Loan Amount" />
-                <input type="number" id="loan-emi-instalment-left" placeholder="No of Instalments Left"  />
+                <input type="number" id="loan-emi-instalment-left" placeholder="No of Instalments Left" size="50" />
                 <input type="number" id="loan-emi-amount-of-instalment" placeholder="Amount of Instalment"  />
                 Start Date: <input type="date" id="loan-emi-start-date" placeholder="Start Date" />
                 <label for="loan-type">Choose type:</label>
@@ -358,8 +358,8 @@
 
 <script>
 
-    var input = document.getElementById('loan-emi-instalment-left');
-    input.setAttribute('size', input.getAttribute('placeholder').length);
+    // var input = document.getElementById('loan-emi-instalment-left');
+    // input.setAttribute('size', input.getAttribute('placeholder').length);
     // for(i=0; i<input.length; i++){
     //     input[i].setAttribute('size',input[i].getAttribute('placeholder').length);
     // }
