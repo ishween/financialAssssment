@@ -550,6 +550,7 @@ and (max-device-width : 480px) {
 
     #dependent_border{
         padding-bottom: 2px;
+        width: 5%;
     }
 
     body {
