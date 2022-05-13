@@ -39,7 +39,7 @@ public class PdfService {
 
     public void generatePdf(Map<String, Object> payload){
 
-        ArrayList<String> snames = (ArrayList<String>) payload.get("stocks_name");
+//        ArrayList<String> snames = (ArrayList<String>) payload.get("stocks_name");
 
         System.out.println("service payload: " + payload);
 
@@ -74,13 +74,13 @@ public class PdfService {
 
         List<String> stocksColumns = Arrays.asList("Name", "Amount", "Market Value", "Date of Purchase", "Frequency");
         List<Map<String,Object>> stocksData = new ArrayList<>();
-        ArrayList<String> stocks_name = (ArrayList<String>) payload.get("stocks_name");
+//        ArrayList<String> stocks_name = (ArrayList<String>) payload.get("stocks_name");
         ArrayList<String> stock_amount = (ArrayList<String>) payload.get("stocks_amount");
         ArrayList<String> stocks_market_value = (ArrayList<String>) payload.get("stocks_market_value");
         ArrayList<String> stocks_date_of_purchase = (ArrayList<String>) payload.get("stocks_date_of_purchase");
         ArrayList<String> stocks_frequency = (ArrayList<String>) payload.get("stocks_frequency");
-        for(int i=0;i<stocks_name.size(); i++){
-            stocksData.add(Map.of("Name", stocks_name.get(i),
+        for(int i=0;i<stock_amount.size(); i++){
+            stocksData.add(Map.of(
                     "Amount", stock_amount.get(i),
                     "Market Value", stocks_market_value.get(i),
                     "Date of Purchase", stocks_date_of_purchase.get(i),
