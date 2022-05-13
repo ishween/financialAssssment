@@ -399,7 +399,7 @@
                 ' <option value="Spouse">Spouse</option>' +
                 ' <option value="Child">Child</option>' +
                 ' </select>' +
-                '<hr style="width: 50%; padding-bottom: 5px;">';
+                '<hr'+ 'id="dependent_border"' + 'style="width: 50%; padding-bottom: 5px;">';
             document.getElementById('DOB-'+num).max = new Date().toLocaleDateString('en-ca');
         }
         console.log("dependnets: " , dependents);

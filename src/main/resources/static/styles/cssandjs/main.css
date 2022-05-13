@@ -548,6 +548,11 @@ and (max-device-width : 480px) {
         border: solid;
     }
 
+    #dependent_border{
+        width: 10%;
+        padding-bottom: 2px;
+    }
+
     body {
         font-family: "Times New Roman", sans-serif;
     }
