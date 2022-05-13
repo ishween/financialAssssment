@@ -290,7 +290,7 @@ and (min-width: 1224px) {
     }
 
     #loan-emi-instalment-left{
-         width: 20px;
+         width: 150px;
      }
 }
 
@@ -402,7 +402,7 @@ and (max-device-width : 1024px){
     }
 
     #loan-emi-instalment-left{
-        width: 20px;
+        width: 150px;
     }
 
     .plain_text {
@@ -557,7 +557,7 @@ and (max-device-width : 480px) {
     }
 
     #loan-emi-instalment-left{
-        width: 20px;
+        width: 150px;
     }
 
     .button_add_dependents {
