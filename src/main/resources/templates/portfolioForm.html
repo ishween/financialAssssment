@@ -405,7 +405,7 @@
         console.log("dependnets: " , dependents);
     }
 
-    var stocks_name = [], stocks_amount = [], stocks_mkt_value = [], stocks_date_of_purchase = [], stocks_frequency = []
+    var stocks_amount = [], stocks_mkt_value = [], stocks_date_of_purchase = [], stocks_frequency = []
     var mf_type = [], mf_amount = [], mf_mkt_value = [], mf_date_of_purchase = [], mf_frequency = []
     var li_type = [], li_name = [], li_policy_term = [], li_premium_paying_term = [], li_sum_insured = [], li_start_date = []
     var hi_name = [], hi_premium_amount = [], hi_sum_insured = [], hi_start_date = [], hi_type = []
@@ -664,13 +664,12 @@
 
     function addStocks(){
         let ulElement = document.getElementById('stocks');
-        let stockName = document.getElementById('stock-name');
         let stockAmount = document.getElementById('stock-invested');
         let stockMktValue = document.getElementById('stock-market-value');
         let stockInvestmentDate = document.getElementById('stock-date-of-investment');
         let stockFrequency = document.getElementById('stock-frequency');
 
-        if(!stockName.value ||  !stockAmount.value || !stockMktValue.value || !stockInvestmentDate.value || !stockFrequency.value){
+        if(!stockAmount.value || !stockMktValue.value || !stockInvestmentDate.value || !stockFrequency.value){
             alert('Please fill all the values');
             return;
         }
@@ -685,8 +684,7 @@
         //     return;
         // }
 
-        ulElement.innerHTML += '<table><tr id='+idName+'>' +'<td class="stock-name">' +
-            stockName.value + '</td>' + '<td class="stock-invested">' +
+        ulElement.innerHTML += '<table><tr id='+idName+'>' + '<td class="stock-invested">' +
             stockAmount.value + '</td>' + '<td class="stock-market-value">' +
             stockMktValue.value + '</td>' + '<td class="stock-date-of-investment">' +
             stockInvestmentDate.value + '</td>' + '<td class="stock-frequency-class">' +
@@ -695,11 +693,9 @@
             '</tr></table>';
 
         stocks_amount.push(stockAmount.value);
-        stocks_name.push(stockName.value);
         stocks_mkt_value.push(stockMktValue.value);
         stocks_date_of_purchase.push(stockInvestmentDate.value);
         stocks_frequency.push(stockFrequency.value);
-        stockName.value = '';
         stockAmount.value = '';
         stockMktValue.value = '';
         stockInvestmentDate.value = '';
@@ -714,7 +710,6 @@
             stocks_date_of_purchase.splice(index,1);
             stocks_mkt_value.splice(index,1);
             stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -738,11 +733,13 @@
         console.log(event.target);
         if(event.target.innerText === 'Delete'){
             let index = event.target.parentElement.parentElement.id.substring(7);
-            stocks_frequency.splice(index, 1);
-            stocks_date_of_purchase.splice(index,1);
-            stocks_mkt_value.splice(index,1);
-            stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
+            li_policy_term.splice(index, 1);
+            li_name.splice(index,1);
+            li_type.splice(index,1);
+            li_sum_insured.splice(index,1);
+            li_sum_insured.splice(index, 1);
+            li_premium_paying_term.splice(index, 1);
+            li_start_date.splice(index, 1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -752,11 +749,11 @@
         console.log(event.target);
         if(event.target.innerText === 'Delete'){
             let index = event.target.parentElement.parentElement.id.substring(7);
-            stocks_frequency.splice(index, 1);
-            stocks_date_of_purchase.splice(index,1);
-            stocks_mkt_value.splice(index,1);
-            stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
+            hi_start_date.splice(index, 1);
+            hi_type.splice(index,1);
+            hi_sum_insured.splice(index,1);
+            hi_name.splice(index,1);
+            hi_premium_amount.splice(index, 1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -766,11 +763,10 @@
         console.log(event.target);
         if(event.target.innerText === 'Delete'){
             let index = event.target.parentElement.parentElement.id.substring(10);
-            stocks_frequency.splice(index, 1);
-            stocks_date_of_purchase.splice(index,1);
-            stocks_mkt_value.splice(index,1);
-            stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
+            bonds_maturity_date.splice(index, 1);
+            bonds_date_of_investment.splice(index,1);
+            bonds_invested.splice(index,1);
+            bonds_name.splice(index,1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -780,11 +776,10 @@
         console.log(event.target);
         if(event.target.innerText === 'Delete'){
             let index = event.target.parentElement.parentElement.id.substring(7);
-            stocks_frequency.splice(index, 1);
-            stocks_date_of_purchase.splice(index,1);
-            stocks_mkt_value.splice(index,1);
-            stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
+            fd_amount.splice(index, 1);
+            fd_name.splice(index,1);
+            fd_maturity_date.splice(index,1);
+            fd_start_date.splice(index,1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -794,11 +789,9 @@
         console.log(event.target);
         if(event.target.innerText === 'Delete'){
             let index = event.target.parentElement.parentElement.id.substring(8);
-            stocks_frequency.splice(index, 1);
-            stocks_date_of_purchase.splice(index,1);
-            stocks_mkt_value.splice(index,1);
-            stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
+            ppf_frequency.splice(index, 1);
+            ppf_date_of_investment.splice(index,1);
+            ppf_invested.splice(index,1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -808,11 +801,10 @@
         console.log(event.target);
         if(event.target.innerText === 'Delete'){
             let index = event.target.parentElement.parentElement.id.substring(13);
-            stocks_frequency.splice(index, 1);
-            stocks_date_of_purchase.splice(index,1);
-            stocks_mkt_value.splice(index,1);
-            stocks_amount.splice(index,1);
-            stocks_name.splice(index, 1);
+            loan_emi_type.splice(index, 1);
+            loan_emi_installement_left.splice(index,1);
+            loan_emi_installment_amount.splice(index,1);
+            loan_emi_start_date.splice(index,1);
             let deleteButton = event.target.parentElement.parentElement;
             deleteButton.remove();
         }
@@ -837,7 +829,6 @@
             if(document.querySelector('input[name="stocks-yes-or-no"]:checked').id === "stocks-no"){
                 document.getElementById('stocks-input').setAttribute('hidden',true);
                 document.getElementById('stocks').setAttribute('hidden', true);
-                stocks_name = [];
                 stocks_amount = [];
                 stocks_date_of_purchase = [];
                 stocks_mkt_value = [];
@@ -1100,7 +1091,6 @@
         // console.log("stock-invested- ", stock_investedAmount);
 
         try {
-            console.log(stocks_name);
             console.log(stocks_amount);
 
             first_name = document.getElementById("firstName").value;
@@ -1199,7 +1189,6 @@
                 "dependents_name": dependents_name,
                 "dependents_dob": dependents_dob,
                 "dependents_relation": dependents_relation,
-                "stocks_name": stocks_name,
                 "stocks_amount": stocks_amount,
                 "stocks_market_value": stocks_mkt_value,
                 "stocks_date_of_purchase": stocks_date_of_purchase,

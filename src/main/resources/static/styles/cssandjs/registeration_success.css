@@ -25,6 +25,42 @@ a{
     text-underline: none;
 }
 
+/*IPAD*/
+@media only screen
+    /*and (orientation : landscape)*/
+    /*and (-webkit-min-device-pixel-ratio: 1)*/
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+    div{
+        background-color: lightblue;
+        text-align: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        width: 50%;
+        margin-top: 20%;
+        /*margin-bottom: 50%;*/
+        margin-left: 25%;
+        /*margin-right: 50%;*/
+        border: lightcoral;
+        border-style: double;
+        border-width: 5px;
+    }
+
+    button{
+        width: 300px;
+        height: 50px;
+        background-color: lightcoral;
+        color: black;
+        font-size: medium;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+        font-size: medium;
+        text-underline: none;
+    }
+}
+
 @media only screen
 and (min-device-width : 320px)
 and (max-device-width : 480px) {
