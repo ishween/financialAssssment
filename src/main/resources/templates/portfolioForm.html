@@ -180,7 +180,6 @@
             <div id="mf-input" hidden>
                 <label for="mf-type">Choose MF Type</label>
                 <select name="mf-type" id="mf-type">
-                    <option value="Lumpsum">Lumpsum</option>
                     <option value="Growth">Growth</option>
                     <option value="Dividend">Dividend</option>
                     <option value="ELSS">ELSS</option>
@@ -190,6 +189,7 @@
                 Date of Investment: <input type="date" id="mf-date-of-investment" placeholder="Date of Investment" />
                 <label for="mf-frequency">Choose MF Frequency:</label>
                 <select name="mf-frequency" id="mf-frequency">
+                    <option value="Lumpsum">Lumpsum</option>
                     <option value="Daily">Daily</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Annually">Annually</option>
@@ -304,7 +304,7 @@
             <input type="radio" id="loan-emi-no" name="loan-emi-yes-or-no" value="No"> No
             <div id="loan-emi-input" hidden>
                 <input type="number" id="loan-emi-amount" placeholder="Loan Amount" />
-                <input type="number" id="loan-emi-instalment-left" placeholder="Number of Instalments Left"  />
+                <input type="number" id="loan-emi-instalment-left" placeholder="No of Instalments Left"  />
                 <input type="number" id="loan-emi-amount-of-instalment" placeholder="Amount of Instalment"  />
                 Start Date: <input type="date" id="loan-emi-start-date" placeholder="Start Date" />
                 <label for="loan-type">Choose type:</label>
@@ -357,6 +357,11 @@
 </div>
 
 <script>
+
+    var input = document.querySelectorAll('input');
+    for(i=0; i<input.length; i++){
+        input[i].setAttribute('size',input[i].getAttribute('placeholder').length);
+    }
 
     document.getElementById('loan-emi-start-date').max = new Date().toLocaleDateString('en-ca');
     document.getElementById('stock-date-of-investment').max = new Date().toLocaleDateString('en-ca');
