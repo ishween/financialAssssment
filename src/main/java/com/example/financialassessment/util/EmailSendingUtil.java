@@ -1,9 +1,15 @@
 package com.example.financialassessment.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.sun.mail.auth.OAuth2SaslClientFactory;
 import com.sun.mail.smtp.SMTPTransport;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +26,7 @@ import javax.security.sasl.SaslClientFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.client.RestTemplate;
 
 //1. GET SESSION
 //2. CREATE MESSAGE
@@ -43,10 +50,28 @@ public class EmailSendingUtil {
     // must be stored in a file.
     private static String oauthClientId = "699736610675-gjk00ngno3eat1i2mb1qc31ho88gglf1.apps.googleusercontent.com";
     private static String oauthSecret = "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";
-    private static String refreshToken = "1//04sKhRJw-kdjsCgYIARAAGAQSNwF-L9Irr6y7verEeOojmBIpRfyg-fCy92PCGm8AF8yrFLdX9T-MlE5ACYnQBZ_HHF7J_m9IADk";
+    private static String refreshToken = "1//047M0937lUSgVCgYIARAAGAQSNwF-L9Irq0Hxj6cOcfLNkJlUlEIbHLZIFAT_G0y82O73A49Fwaq-lDeBlbMFNjW3wldIOp6V7Ng";
     private static String accessToken = "ya29.A0ARrdaM9V3bK_Pkp8WtZFEZuUbmQjrSfaaimmSqbsk_XHk9623bz-TyhJc_oIbjbGvXb7XLI34MvwQ6Ow2m5JhuA_JdpWQ2NM9XrnQlIm_1-RNv64ECWqNv0yo76pvmymfnmGZxYJkRanqBS1IDfJCsz8cRhG";
     private static long tokenExpires = 1458168133864L;
     private MailSender mailSender;
+
+    public String refreshAccessToken() throws IOException {
+        try {
+            TokenResponse response = new GoogleRefreshTokenRequest(
+                    new NetHttpTransport(),
+                    new JacksonFactory(),
+                    refreshToken,
+                    oauthClientId,
+                    oauthSecret)
+                    .execute();
+            System.out.println("Access token: " + response.getAccessToken());
+
+            return response.getAccessToken();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /*
     Renew access token if expired
@@ -109,9 +134,6 @@ public class EmailSendingUtil {
 //        properties.put("mail.smtp.ssl.enable", sslEnable);
 //        properties.put("mail.smtp.auth", auth);
 
-        String accessTokenLocal = renewToken();
-
-        System.out.println(accessTokenLocal);
 
 //        ((JavaMailSenderImpl)this.mailSender).setPassword(accessTokenLocal);
 //
@@ -165,6 +187,11 @@ public class EmailSendingUtil {
         session.setDebug(true);
 
         try {
+
+            String accessTokenLocal = refreshAccessToken();
+
+            System.out.println(accessTokenLocal);
+
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
 

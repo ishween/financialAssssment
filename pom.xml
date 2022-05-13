@@ -106,6 +106,13 @@
 			<version>1.9.13</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client -->
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client</artifactId>
+			<version>1.33.3</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit -->
 <!--		<dependency>-->
