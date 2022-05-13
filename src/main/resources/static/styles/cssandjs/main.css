@@ -283,6 +283,11 @@ and (min-width: 1224px) {
         border: solid;
         align-content: center;
     }
+
+    #dependent_border{
+        /*padding-bottom: 2px;*/
+        width: 50%;
+    }
 }
 
 /*IPAD*/
@@ -502,6 +507,11 @@ and (max-device-width : 1024px){
         font-size: 16px;
         background-color: #f44336;
         border-radius: 12px;
+    }
+
+    #dependent_border{
+        /*padding-bottom: 2px;*/
+        width: 50%;
     }
 }
 
