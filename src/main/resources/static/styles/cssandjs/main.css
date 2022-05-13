@@ -645,7 +645,7 @@ and (max-device-width : 480px) {
         border-left-width: 0;
         border-right-width: 0;
         /*padding-left: 10px;*/
-        /*padding-right: 10px;*/
+        padding-right: 10px;
     }
 
     #koshantra_link {
