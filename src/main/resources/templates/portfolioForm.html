@@ -31,7 +31,8 @@
 <!--    <h1>Financial Assessment</h1>-->
 <!--    enctype="multipart/form-data"-->
 <!--    th:action="@{/register}"-->
-    <form id="input" onsubmit="return xsubmit()"
+<!--    onsubmit="return xsubmit()"-->
+    <form id="input"
     style="padding-bottom: 30px;">
         <label for="firstName">First Name</label>
         <input type="text" id="firstName" class="plain_text" name="firstName" required/>
@@ -325,7 +326,7 @@
 
         <!--        add js function to append content/section(class) or remove content/section(class)-->
 <!--        <i class="fa fa-plus-circle" th:attr="onclick='alert(\'a\');'"></i>-->
-        <input type="submit" value="Register">
+        <input type="submit" value="Register" id="register_btn">
 <!--        <div id="mybutton" onclick="myFunction()">Register</div>-->
 <!--        <button id="mybutton" onclick="myFunction()" type="submit">Register</button>-->
     </form>
@@ -1080,6 +1081,152 @@
         life_goals = lifeGoals();
         getDependents();
     }
+
+    document.getElementById('register_btn').addEventListener('click', function (evt){
+        evt.preventDefault();
+        // alert("yes");
+        first_name = document.getElementById("firstName").value;
+        last_name = document.getElementById("lastName").value;
+        dob = document.getElementById("DOB").value;
+        mobile_no = document.getElementById("mobileNo").value;
+        email = document.getElementById("email").value;
+        gender = document.querySelector('input[name="Gender"]:checked').value;
+        profession = document.querySelector('input[name="Profession"]:checked').value;
+        address = document.getElementById("address").value;
+        risk_profile = riskProfile();
+        // profession = document.getElementById("profession").value;
+        marital_status = document.querySelector('input[name="marital"]:checked').value;
+        income = document.getElementById("income").value;
+        expense = document.getElementById("expense").value;
+        life_goals = lifeGoals();
+        getDependents();
+        number_of_dependents = document.getElementById("noOfDependents").value;
+
+
+        // Creating a XHR object
+        let xhr = new XMLHttpRequest();
+        let url = "/register";
+
+        // open a connection
+        xhr.open("POST", url);
+
+        // Set the request header i.e. which type of content you are sending
+        xhr.setRequestHeader("Content-Type", "application/json");
+        // xhr.setRequestHeader("Accept", "application/json");
+        // xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+        // xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        // xhr.setRequestHeader("Access-Control-Allow-Methods", "*");
+
+        // xhr.setRequestHeader("Content-Type", "multipart/form-data;boundary=----WebKitFormBoundaryFZ0rcEUBUMK4vykk;charset=UTF-8");
+
+
+        let localhost = "http://localhost:8080/registerSucess";
+        let heroku = "https://koshantra-financials.herokuapp.com/registerSucess";
+        // Create a state change callback
+        xhr.onreadystatechange = function () {
+            console.log("state change");
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(this.responseText);
+                // Print received data from server
+                // result.innerHTML = this.responseText;
+                window.location.href = heroku;
+                // alert("HIIII");
+            } else {
+                console.log(this.responseText);
+                window.location.href = heroku;
+            }
+        };
+
+        xhr.onerror = function (){
+
+            console.log("error", this.responseText);
+            window.location.href = heroku;
+        }
+
+        // if (xhr.readyState === 4 && xhr.status === 200) {
+        //     console.log(this.responseText);
+        //     // Print received data from server
+        //     // result.innerHTML = this.responseText;
+        //     window.location.href = heroku;
+        // } else {
+        //     console.log(this.responseText);
+        //     window.location.href = heroku;
+        // }
+
+        // var data = JSON.stringify({ "stock-name": "heya", "stock-invested": "78"});
+        // console.log(data);
+        // Converting JSON data to string
+        // var names = [];
+        // for (var i=0;i<stock_name.length;i++) {
+        //     console.log("i: ", i)
+        //     console.log("name[i]: ", stock_name[i].innerText);
+        //     names.push(stock_name[i].innerText);
+        //     // var data = JSON.stringify({
+        //     //     "stock-name": stock_name[i].innerText
+        //     //     // "stock-investedAmount": 12
+        //     // });
+        // }
+        var data = JSON.stringify({
+            "first_name": first_name,
+            "last_name": last_name,
+            "dob": dob,
+            "profession": profession,
+            "income": income,
+            "expense": expense,
+            "mobile_no": mobile_no,
+            "email": email,
+            "gender": gender,
+            "address": address,
+            "risk_profile": risk_profile,
+            "life_goals": life_goals,
+            "number_of_dependents": number_of_dependents,
+            "dependents_name": dependents_name,
+            "dependents_dob": dependents_dob,
+            "dependents_relation": dependents_relation,
+            "stocks_amount": stocks_amount,
+            "stocks_market_value": stocks_mkt_value,
+            "stocks_date_of_purchase": stocks_date_of_purchase,
+            "stocks_frequency": stocks_frequency,
+            "mf_mkt_value": mf_mkt_value,
+            "mf_amount": mf_amount,
+            "mf_type": mf_type,
+            "mf_date_of_purchase": mf_date_of_purchase,
+            "mf_frequency": mf_frequency,
+            "li_start_date": li_start_date,
+            "li_premium_paying_term": li_premium_paying_term,
+            "li_type": li_type,
+            "li_sum_insured": li_sum_insured,
+            "li_name": li_name,
+            "li_policy_term": li_policy_term,
+            "hi_premium_amount": hi_premium_amount,
+            "hi_name": hi_name,
+            "hi_type": hi_type,
+            "hi_sum_insured": hi_sum_insured,
+            "hi_start_date": hi_start_date,
+            "bonds_name": bonds_name,
+            "bonds_invested": bonds_invested,
+            "bonds_date_of_investment": bonds_date_of_investment,
+            "bonds_maturity_date": bonds_maturity_date,
+            "ppf_invested": ppf_invested,
+            "ppf_date_of_investment": ppf_date_of_investment,
+            "ppf_frequency": ppf_frequency,
+            "fd_start_date": fd_start_date,
+            "fd_name": fd_name,
+            "fd_maturity_date": fd_maturity_date,
+            "fd_amount": fd_amount,
+            "loan_emi_start_date": loan_emi_start_date,
+            "loan_emi_installment_amount": loan_emi_installment_amount,
+            "loan_emi_installement_left": loan_emi_installement_left,
+            "loan_emi_type": loan_emi_type
+
+            // "selected-value": selectVal()
+            // "stock-investedAmount": 12
+        });
+        // console.log("data: ", data)
+        // var data = { 'user': 'myUser', 'pass': 'myPass' };
+        // Sending data with the request
+        xhr.send(data);
+    });
 
     function xsubmit() {
         // formInput = document.getElementById("input");
