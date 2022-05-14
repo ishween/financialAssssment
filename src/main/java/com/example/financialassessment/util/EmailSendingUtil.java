@@ -51,7 +51,7 @@ public class EmailSendingUtil {
     private static String oauthClientId = "699736610675-gjk00ngno3eat1i2mb1qc31ho88gglf1.apps.googleusercontent.com";
     private static String oauthSecret = "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";
     private static String refreshToken = "1//047M0937lUSgVCgYIARAAGAQSNwF-L9Irq0Hxj6cOcfLNkJlUlEIbHLZIFAT_G0y82O73A49Fwaq-lDeBlbMFNjW3wldIOp6V7Ng";
-    private static String accessToken = "ya29.A0ARrdaM9V3bK_Pkp8WtZFEZuUbmQjrSfaaimmSqbsk_XHk9623bz-TyhJc_oIbjbGvXb7XLI34MvwQ6Ow2m5JhuA_JdpWQ2NM9XrnQlIm_1-RNv64ECWqNv0yo76pvmymfnmGZxYJkRanqBS1IDfJCsz8cRhG";
+    private static String accessToken = "ya29.A0ARrdaM_qJfYogXPcvWZZizAVPpwlBYED-Cim2t5symkfNTKeuWq9Qz9YsEFvtEh5plBzDkKQ3sv0UbU4Ixj8QrvrtKQ-oK7f3uKrUrTWdR34TcmLLaJ5DreK8uses1YdV3eF6zUUvO5gynaqBISdunAtnjZl";
     private static long tokenExpires = 1458168133864L;
     private MailSender mailSender;
 
@@ -147,6 +147,10 @@ public class EmailSendingUtil {
 //
 //        mailSender.send(message);
 
+        String accessTokenLocal = renewToken();
+
+        System.out.println(accessTokenLocal);
+
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
@@ -157,7 +161,7 @@ public class EmailSendingUtil {
         props.put("mail.smtp.port", "587");
         props.put("mail.imaps.auth.login.disable", "true");
         props.put("mail.imaps.auth.plain.disable", "true");
-        props.put(OAUTH_TOKEN_PROP, accessToken);
+        props.put(OAUTH_TOKEN_PROP, accessTokenLocal);
         Session session = Session.getInstance(props);
 //        session.setDebug(true);
 //        MimeMessage mimeMessage = new MimeMessage(session);
@@ -187,10 +191,6 @@ public class EmailSendingUtil {
         session.setDebug(true);
 
         try {
-
-            String accessTokenLocal = refreshAccessToken();
-
-            System.out.println(accessTokenLocal);
 
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);

@@ -50,9 +50,10 @@ public class PortfolioPublisher {
 //        model.addAttribute("listProfession", listProfession);
 
         return "portfolioForm";
+//        return "index_register";
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", consumes = {"application/json"})
     public String submitForm(@RequestBody Map<String, Object> payload) {
 
 //        System.out.println(user);
@@ -79,7 +80,7 @@ public class PortfolioPublisher {
 
 
     @GetMapping("/error")
-    public String getError(Model model){
+    public String getError(){
         return "portfolioForm";
     }
 

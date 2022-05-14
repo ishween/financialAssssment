@@ -30,7 +30,8 @@
 
 <!--    <h1>Financial Assessment</h1>-->
 <!--    enctype="multipart/form-data"-->
-    <form id="input" action="#" th:action="@{/register}" method="post" enctype="multipart/form-data" onsubmit="myFunction()"
+<!--    th:action="@{/register}"-->
+    <form id="input" onsubmit="return xsubmit()"
     style="padding-bottom: 30px;">
         <label for="firstName">First Name</label>
         <input type="text" id="firstName" class="plain_text" name="firstName" required/>
@@ -356,7 +357,7 @@
 <!--    <h4 id="koshantra_contact">www.koshantrafinancials.com</h4>-->
 </div>
 
-<script>
+<script type="text/javascript">
 
     // var input = document.getElementById('loan-emi-instalment-left');
     // input.setAttribute('size', input.getAttribute('placeholder').length);
@@ -1080,7 +1081,7 @@
         getDependents();
     }
 
-    function myFunction() {
+    function xsubmit() {
         // formInput = document.getElementById("input");
         // console.log(formInput);
         // let stock_name = document.getElementsByClassName("stock-name");
@@ -1121,13 +1122,14 @@
             let url = "/register";
 
             // open a connection
-            xhr.open("POST", url, true);
+            xhr.open("POST", url);
 
             // Set the request header i.e. which type of content you are sending
             xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
-            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-            xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            // xhr.setRequestHeader("Accept", "application/json");
+            // xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+            // xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            // xhr.setRequestHeader("Access-Control-Allow-Methods", "*");
 
             // xhr.setRequestHeader("Content-Type", "multipart/form-data;boundary=----WebKitFormBoundaryFZ0rcEUBUMK4vykk;charset=UTF-8");
 
@@ -1142,6 +1144,7 @@
                     // Print received data from server
                     // result.innerHTML = this.responseText;
                     window.location.href = heroku;
+                    // alert("HIIII");
                 } else {
                     console.log(this.responseText);
                     window.location.href = heroku;
@@ -1237,6 +1240,8 @@
             // var data = { 'user': 'myUser', 'pass': 'myPass' };
             // Sending data with the request
             xhr.send(data);
+            alert("The content of this report is based on the information provided by you. The suggested financial plan to achieve " +
+                "your financial goals may not be accurate or yield expected results if the information provided by you is incorrect.");
         }catch (err){
             console.log("in catch");
             window.location.href = "https://koshantra-financials.herokuapp.com/registerSucess";
