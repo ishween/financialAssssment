@@ -45,13 +45,13 @@
 <table>
     <thead>
     <tr class="headings">
-        <th th:each="header: ${stocksColumns}" class="column-title" th:text="${header}" />
+        <th th:each="header: ${stocksColumnsAllData}" class="column-title" th:text="${header}" />
     </tr>
     </thead>
     <br/>
     <tbody>
     <tr class="even pointer" th:each="row: ${stocksData}" id="tablerow">
-        <td th:each="header: ${stocksColumns}" th:text="${row.get(header)}" />
+        <td th:each="header: ${stocksColumnsAllData}" th:text="${row.get(header)}" />
     </tr>
     </tbody>
 </table>
@@ -61,13 +61,13 @@
 <table>
     <thead>
     <tr class="headings">
-        <th th:each="header: ${mfsColumns}" class="column-title" th:text="${header}" />
+        <th th:each="header: ${mfsColumnsAllData}" class="column-title" th:text="${header}" />
     </tr>
     </thead>
     <br/>
     <tbody>
     <tr class="even pointer" th:each="row: ${mfsData}" id="tablerow">
-        <td th:each="header: ${mfsColumns}" th:text="${row.get(header)}" />
+        <td th:each="header: ${mfsColumnsAllData}" th:text="${row.get(header)}" />
     </tr>
     </tbody>
 </table>
@@ -125,13 +125,13 @@
 <table>
     <thead>
     <tr class="headings">
-        <th th:each="header: ${ppfsColumns}" class="column-title" th:text="${header}" />
+        <th th:each="header: ${ppfsColumnsAllData}" class="column-title" th:text="${header}" />
     </tr>
     </thead>
     <br/>
     <tbody>
     <tr class="even pointer" th:each="row: ${ppfsData}" id="tablerow">
-        <td th:each="header: ${ppfsColumns}" th:text="${row.get(header)}" />
+        <td th:each="header: ${ppfsColumnsAllData}" th:text="${row.get(header)}" />
     </tr>
     </tbody>
 </table>

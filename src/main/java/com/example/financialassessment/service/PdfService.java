@@ -24,8 +24,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.Period;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.function.Function;
@@ -43,14 +45,14 @@ public class PdfService {
 
         System.out.println("service payload: " + payload);
 
-        List<String> headers = Arrays.asList("ID", "Name", "Salary", "Status");
-        List<Map<String, Object>> rows = new ArrayList<>();
-        rows.add(Map.of("ID", "1", "Name", "Jim", "Salary", "50000", "Status", "active"));
-        rows.add(Map.of("ID", "2", "Name", "Sally", "Salary", "50000", "Status", "inactive"));
-
+//        List<String> headers = Arrays.asList("ID", "Name", "Salary", "Status");
+//        List<Map<String, Object>> rows = new ArrayList<>();
+//        rows.add(Map.of("ID", "1", "Name", "Jim", "Salary", "50000", "Status", "active"));
+//        rows.add(Map.of("ID", "2", "Name", "Sally", "Salary", "50000", "Status", "inactive"));
+//
         Map<String,Object> data = new HashMap<>();
-        data.put("headers", headers);
-        data.put("rows", rows);
+//        data.put("headers", headers);
+//        data.put("rows", rows);
 
         Map<String,Object> koshantra_data = new HashMap<>();
         koshantra_data.put("first_name", payload.get("first_name"));
@@ -73,6 +75,7 @@ public class PdfService {
         koshantra_data.put("dependentsData", dependentsData);
 
         List<String> stocksColumns = Arrays.asList("Name", "Amount", "Market Value", "Date of Purchase", "Frequency");
+        List<String> stocksColumnsAllData = Arrays.asList("Name", "Amount", "Original Amount", "Market Value", "Date of Purchase", "Frequency");
         List<Map<String,Object>> stocksData = new ArrayList<>();
 //        ArrayList<String> stocks_name = (ArrayList<String>) payload.get("stocks_name");
         ArrayList<String> stock_amount = (ArrayList<String>) payload.get("stocks_amount");
@@ -80,16 +83,21 @@ public class PdfService {
         ArrayList<String> stocks_date_of_purchase = (ArrayList<String>) payload.get("stocks_date_of_purchase");
         ArrayList<String> stocks_frequency = (ArrayList<String>) payload.get("stocks_frequency");
         for(int i=0;i<stock_amount.size(); i++){
+            long amount = getAmountFrom(stocks_frequency.get(i), stock_amount.get(i), stocks_date_of_purchase.get(i));
+
             stocksData.add(Map.of(
-                    "Amount", stock_amount.get(i),
+                    "Amount", amount,
+                    "Original Amount", stock_amount.get(i),
                     "Market Value", stocks_market_value.get(i),
                     "Date of Purchase", stocks_date_of_purchase.get(i),
                     "Frequency", stocks_frequency.get(i)));
         }
         koshantra_data.put("stocksColumns", stocksColumns);
         koshantra_data.put("stocksData", stocksData);
+        koshantra_data.put("stocksColumnsAllData", stocksColumnsAllData);
 
         List<String> mfsColumns = Arrays.asList("Market Value", "Amount", "Type", "Date of Purchase", "Frequency");
+        List<String> mfsColumnsAllData = Arrays.asList("Market Value", "Amount", "Original Amount", "Type", "Date of Purchase", "Frequency");
         List<Map<String,Object>> mfsData = new ArrayList<>();
         ArrayList<String> mfs_mkt_value = (ArrayList<String>) payload.get("mf_mkt_value");
         ArrayList<String> mf_amount = (ArrayList<String>) payload.get("mf_amount");
@@ -97,14 +105,17 @@ public class PdfService {
         ArrayList<String> mfs_date_of_purchase = (ArrayList<String>) payload.get("mf_date_of_purchase");
         ArrayList<String> mfs_frequency = (ArrayList<String>) payload.get("mf_frequency");
         for(int i=0;i<mfs_frequency.size(); i++){
+            long amount = getAmountFrom(mfs_frequency.get(i), mf_amount.get(i), mfs_date_of_purchase.get(i));
             mfsData.add(Map.of("Type", mfs_type.get(i),
-                    "Amount", mf_amount.get(i),
+                    "Amount", amount,
+                    "Original Amount", mf_amount.get(i),
                     "Market Value", mfs_mkt_value.get(i),
                     "Date of Purchase", mfs_date_of_purchase.get(i),
                     "Frequency", mfs_frequency.get(i)));
         }
         koshantra_data.put("mfsColumns", mfsColumns);
         koshantra_data.put("mfsData", mfsData);
+        koshantra_data.put("mfsColumnsAllData", mfsColumnsAllData);
 
         List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Insured", "Name", "Policy Term");
         List<Map<String,Object>> lisData = new ArrayList<>();
@@ -158,17 +169,21 @@ public class PdfService {
         koshantra_data.put("bondsData", bondsData);
 
         List<String> ppfsColumns = Arrays.asList("Invested", "Date of Investment", "Frequency");
+        List<String> ppfsColumnsAllData = Arrays.asList("Invested", "Original Amount", "Date of Investment", "Frequency");
         List<Map<String,Object>> ppfsData = new ArrayList<>();
         ArrayList<String> ppf_invested = (ArrayList<String>) payload.get("ppf_invested");
         ArrayList<String> ppf_date_of_investment = (ArrayList<String>) payload.get("ppf_date_of_investment");
         ArrayList<String> ppf_frequency = (ArrayList<String>) payload.get("ppf_frequency");
         for(int i=0;i<ppf_invested.size(); i++){
-            ppfsData.add(Map.of("Invested", ppf_invested.get(i),
+            long amount = getAmountFrom(ppf_frequency.get(i), ppf_invested.get(i), ppf_date_of_investment.get(i));
+            ppfsData.add(Map.of("Invested", amount,
+                    "Original Amount", ppf_invested.get(i),
                     "Date of Investment", ppf_date_of_investment.get(i),
                     "Frequency", ppf_frequency.get(i)));
         }
         koshantra_data.put("ppfsColumns", ppfsColumns);
         koshantra_data.put("ppfsData", ppfsData);
+        koshantra_data.put("ppfsColumnsAllData", ppfsColumnsAllData);
 
         List<String> fdsColumns = Arrays.asList("Name", "Amount", "Start Date", "Maturity Date");
         List<Map<String,Object>> fdsData = new ArrayList<>();
@@ -542,11 +557,11 @@ public class PdfService {
 
         try {
 //            PdfGeneratorUtil pdfGeneratorUtil1 = new PdfGeneratorUtil();
-            File outputFile = pdfGeneratorUtil.createPdf(fileName + "_customer_report",data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
+            File outputFile = pdfGeneratorUtil.createPdf(payload.get("first_name")+ "_" + payload.get("last_name") + "_report",data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
                     /*"Page7_Investment"*//*, "Page8_Assumptions",*/"Page9_FinancialGoals","Page10_AssetAllocationChart","your_networth", "Page11_ActionPlan",
                     "Page12_ActionPlanChart", "Page14_Disclaimer");
 
-            File file = pdfGeneratorUtil.createPdf(payload.get("first_name")+ " " + payload.get("last_name") + "_client_all_data", koshantra_data,
+            File file = pdfGeneratorUtil.createPdf(payload.get("first_name")+ "_" + payload.get("last_name") + "_customer_all_data", koshantra_data,
                     "clients_all_data");
 
 //            File file = new File("payload_"+"id"+".txt");
@@ -568,7 +583,7 @@ public class PdfService {
 //            payload_file.write(payload.toString());
 //            payload_file.close();
             EmailSendingUtil emailSendingUtil = new EmailSendingUtil();
-            emailSendingUtil.sendEmail(outputFile, file, cash_flow_chart, pie_chart_1, pie_chart_2, life_insurance_chart, health_insurance_chart);
+            emailSendingUtil.sendEmail(outputFile, file, payload.get("first_name") + "_" + payload.get("last_name"), cash_flow_chart, pie_chart_1, pie_chart_2, life_insurance_chart, health_insurance_chart);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -640,6 +655,28 @@ public class PdfService {
         File pieChart = new File( fileName );
         ChartUtils.saveChartAsJPEG( pieChart , chart , width , height );
         return pieChart;
+    }
+
+    private long getAmountFrom(String freq, String comp_amount, String date_of_purchase){
+        long amount = Long.parseLong(comp_amount);
+        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
+        LocalDate now = LocalDate.now(zoneId);
+        now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate started = LocalDate.parse(date_of_purchase);
+
+        if(freq.equals("Daily")){
+            amount = Duration.between(started.atStartOfDay(), now.atStartOfDay()).toDays() * amount;
+        }else if(freq.equals("Monthly")){
+            long monthsBetween = ChronoUnit.MONTHS.between(
+                    started.withDayOfMonth(1),
+                    now.withDayOfMonth(1)) + 1;
+            amount = monthsBetween * amount;
+            System.out.println(monthsBetween);
+
+//            int diffYear = now.getYear() - started.getYear();
+//            amount = (diffYear * 12L) + (now.getMonthValue()-started.getMonthValue() + 1) * amount;
+        }
+        return amount;
     }
 
 }

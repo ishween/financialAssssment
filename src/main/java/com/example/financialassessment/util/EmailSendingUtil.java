@@ -35,8 +35,8 @@ import org.springframework.web.client.RestTemplate;
 public class EmailSendingUtil {
 
 //    @Value("${recipient.email.id}")
-//    static String recipientEmailId = "info@koshantrafinancials.com";
-    static String recipientEmailId = "ishweenk999@gmail.com";
+    static String recipientEmailId = "info@koshantrafinancials.com";
+//    static String recipientEmailId = "ishweenk999@gmail.com";
 
     // For using Oauth2
 
@@ -119,7 +119,7 @@ public class EmailSendingUtil {
         return accessToken;
     }
 
-    public void sendEmail(File file, File fileWriter, String... files) throws MessagingException {
+    public void sendEmail(File file, File fileWriter, String file_name, String... files) throws MessagingException {
 
         final String from = "ishweenk999@gmail.com",
                 host = "smtp.gmail.com", port = "465",

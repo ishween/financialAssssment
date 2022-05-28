@@ -1,5 +1,6 @@
 package com.example.financialassessment.util;
 
+import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -32,7 +33,8 @@ public class PdfGeneratorUtil {
 //        File directory = new File("/Users/ishween.kaur/Documents/workspace/financialAssessment/");
         System.out.println("path: " + Path.of("").toAbsolutePath().toString() );
         File directory = new File(Path.of("").toAbsolutePath().toString());
-        final File outputFile = File.createTempFile(fileName, ".pdf", directory);
+        File parent = new File(System.getProperty("java.io.tmpdir"));
+        final File outputFile = new File(parent, fileName+".pdf");
 
         try {
             System.out.println(outputFile.getAbsolutePath() + " : " + outputFile.getPath() + " : " + outputFile.getCanonicalPath());
