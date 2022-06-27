@@ -3,11 +3,18 @@
 <head>
     <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
     <style>
-        @page {
-            @bottom-center {
-                content: "Page footer";
-            }
-        }
+        /*@page {*/
+        /*    @bottom-center {*/
+        /*        <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; padding-bottom: 40px; padding-top: 20px;"/>*/
+        /*        <p style="color: black; font-size: smaller">*/
+        /*        TERMS &#38; CONDITIONS:<br/>*/
+        /*    THE CONTENTS OF THIS PAGE ARE SOLELY BASED ON THE INFORMATION PROVIDED BY YOU.*/
+        /*    <br/><br/>*/
+        /*    PREPARED BY &#169; KOSHANTRA CONSULTANCY LLP<br/>*/
+        /*    Reproduction in whole or part without prior written permission from Koshantra Consultancy LLP is prohibited.*/
+        /*    </p>;*/
+        /*    }*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -35,5 +42,15 @@
     </tbody>
 </table>
 <!--<div th:replace="fragments/footer :: footer"></div>-->
+<footer>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; padding-bottom: 40px; padding-top: 20px;"/>
+    <p style="color: black; font-size: smaller">
+        TERMS &#38; CONDITIONS:<br/>
+        THE CONTENTS OF THIS PAGE ARE SOLELY BASED ON THE INFORMATION PROVIDED BY YOU.
+        <br/><br/>
+        PREPARED BY &#169; KOSHANTRA CONSULTANCY LLP<br/>
+        Reproduction in whole or part without prior written permission from Koshantra Consultancy LLP is prohibited.
+    </p>
+</footer>
 </body>
 </html>

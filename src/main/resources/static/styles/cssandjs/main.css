@@ -457,12 +457,12 @@ and (max-device-width : 1024px){
         white-space: pre;
     }
 
-    #Male:after{
+    #HeHim:after{
         content:"\a";
         white-space: pre;
     }
 
-    #Female:after{
+    #SheHer:after{
         content:"\a";
         white-space: pre;
     }
@@ -707,12 +707,12 @@ and (max-device-width : 480px) {
         white-space: pre;
     }
 
-    #Male:after{
+    #HeHim:after{
         content:"\a";
         white-space: pre;
     }
 
-    #Female:after{
+    #SheHer:after{
         content:"\a";
         white-space: pre;
     }

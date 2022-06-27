@@ -18,6 +18,11 @@
     font-family: "Comic Sans MS", sans-serif;
     font-size: small;
 }
+#index{
+    font-family: "Comic Sans MS", sans-serif;
+    font-size: medium;
+    font-weight: bold;
+}
 
 /*html{*/
 /*    height: 100%;*/
@@ -87,3 +92,14 @@ h4{
     margin-right: auto;
     width: 70%;
 }
+
+footer {
+     position: fixed;
+     left: 10px;
+     bottom: 5px;
+     right: 10px;
+     width: 95%;
+     /*background-color: gray;*/
+     /*color: white;*/
+     /*text-align: center;*/
+ }

@@ -202,7 +202,7 @@ public class EmailSendingUtil {
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(recipientEmailId));
 
             // Set Subject: header field
-            message.setSubject("Financial Assessment for client: " + file.toString());
+            message.setSubject("Financial Assessment for client: " + file.getName());
 
             // Create a multipar message
             Multipart multipart = new MimeMultipart();

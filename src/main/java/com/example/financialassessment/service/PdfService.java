@@ -261,16 +261,16 @@ public class PdfService {
         data.put("personalInfoData", personalInfoData);
 
         //Page4
-        List<String> incomeColumns = Arrays.asList("Income", "Monthly ₹", "Annually(₹)");
+        List<String> incomeColumns = Arrays.asList("Income", "Monthly(Rs.)", "Annually(Rs.)");
         List<Map<String,Object>> incomeData = new ArrayList<>();
         String annual_income = (String) payload.get("income");
         String annual_expense = (String) payload.get("expense");
         if(payload.get("profession").equals("Self Employed")){
-            incomeData.add(Map.of("Income", "Business Income", "Monthly ₹", Long.parseLong(annual_income)/12.0, "Annually(₹)", annual_income));
-            incomeData.add(Map.of("Income", "Income Salary", "Monthly ₹", "0", "Annually(₹)", "0"));
+            incomeData.add(Map.of("Income", "Business Income", "Monthly(Rs.)", Long.parseLong(annual_income)/12.0, "Annually(Rs.)", annual_income));
+            incomeData.add(Map.of("Income", "Income Salary", "Monthly(Rs.)", "0", "Annually(Rs.)", "0"));
         }else{
-            incomeData.add(Map.of("Income", "Business Income", "Monthly ₹", "0", "Annually(₹)", "0"));
-            incomeData.add(Map.of("Income", "Income Salary", "Monthly ₹", Long.parseLong(annual_income)/12.0, "Annually(₹)", annual_income));
+            incomeData.add(Map.of("Income", "Business Income", "Monthly(Rs.)", "0", "Annually(Rs.)", "0"));
+            incomeData.add(Map.of("Income", "Income Salary", "Monthly(Rs.)", Long.parseLong(annual_income)/12.0, "Annually(Rs.)", annual_income));
         }
 //        incomeData.add(Map.of("Income", "Business Income", "Monthly ₹", "0", "Annually(₹)", "0"));
 //        incomeData.add(Map.of("Income", "Income Salary", "Monthly ₹", "100", "Annually(₹)", "1200"));
@@ -278,7 +278,7 @@ public class PdfService {
         data.put("incomeColumns", incomeColumns);
         data.put("incomeData", incomeData);
         List<Map<String, Object>> incomeTotal = new ArrayList<>();
-        incomeTotal.add(Map.of("Income", "Total", "Monthly ₹", Long.parseLong(annual_income)/12.0, "Annually(₹)", annual_income));
+        incomeTotal.add(Map.of("Income", "Total", "Monthly(Rs.)", Long.parseLong(annual_income)/12.0, "Annually(Rs.)", annual_income));
         data.put("incomeTotal", incomeTotal);
 
         //Page5
@@ -477,7 +477,7 @@ public class PdfService {
 //                "Addl. Coverage Required", additional_li_required+"");
 //        List<String> HealthInsuranceData = Arrays.asList("Person To Be Insured", payload.get("first_name")+" "+payload.get("last_name"),
 //                "Addl. Coverage Required", additional_hi_required+"");
-        LifeInsuranceData.add(Map.of("Person To Be Insured", payload.get("first_name")+" "+payload.get("last_name"),
+        LifeInsuranceData.add(Map.of("Person To Be Assured", payload.get("first_name")+" "+payload.get("last_name"),
                 "Addl. Coverage Required", additional_li_required+""));
         HealthInsuranceData.add(Map.of("Person To Be Insured", payload.get("first_name")+" "+payload.get("last_name"),
                 "Addl. Coverage Required", additional_hi_required+""));
@@ -657,8 +657,8 @@ public class PdfService {
                 true,
                 false);
 
-        int width = 600;   /* Width of the image */
-        int height = 400;  /* Height of the image */
+        int width = 500;   /* Width of the image */
+        int height = 300;  /* Height of the image */
 //        File pieChart = new File( "src/main/resources/templates/images/"+fileName+".jpeg" );
         File pieChart = new File( fileName );
         ChartUtils.saveChartAsJPEG( pieChart , chart , width , height );
