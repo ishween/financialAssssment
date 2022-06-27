@@ -2,6 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+    <style>
+        @page {
+            @bottom-center {
+                content: "Page footer";
+            }
+        }
+    </style>
 </head>
 <body>
 <div th:replace="fragments/header :: head"></div>

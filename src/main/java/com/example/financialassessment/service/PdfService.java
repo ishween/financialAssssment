@@ -82,9 +82,10 @@ public class PdfService {
         ArrayList<String> stocks_market_value = (ArrayList<String>) payload.get("stocks_market_value");
         ArrayList<String> stocks_date_of_purchase = (ArrayList<String>) payload.get("stocks_date_of_purchase");
         ArrayList<String> stocks_frequency = (ArrayList<String>) payload.get("stocks_frequency");
+        Long stock_full_amount = 0L, mfs_full_amount = 0L, ppfs_full_amount = 0L;
         for(int i=0;i<stock_amount.size(); i++){
             long amount = getAmountFrom(stocks_frequency.get(i), stock_amount.get(i), stocks_date_of_purchase.get(i));
-
+            stock_full_amount += amount;
             stocksData.add(Map.of(
                     "Amount", amount,
                     "Original Amount", stock_amount.get(i),
@@ -106,6 +107,7 @@ public class PdfService {
         ArrayList<String> mfs_frequency = (ArrayList<String>) payload.get("mf_frequency");
         for(int i=0;i<mfs_frequency.size(); i++){
             long amount = getAmountFrom(mfs_frequency.get(i), mf_amount.get(i), mfs_date_of_purchase.get(i));
+            mfs_full_amount += amount;
             mfsData.add(Map.of("Type", mfs_type.get(i),
                     "Amount", amount,
                     "Original Amount", mf_amount.get(i),
@@ -117,19 +119,19 @@ public class PdfService {
         koshantra_data.put("mfsData", mfsData);
         koshantra_data.put("mfsColumnsAllData", mfsColumnsAllData);
 
-        List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Insured", "Name", "Policy Term");
+        List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Assured", "Name", "Policy Term");
         List<Map<String,Object>> lisData = new ArrayList<>();
         ArrayList<String> lis_start_date = (ArrayList<String>) payload.get("li_start_date");
         ArrayList<String> li_premium_paying_term = (ArrayList<String>) payload.get("li_premium_paying_term");
         ArrayList<String> li_type = (ArrayList<String>) payload.get("li_type");
-        ArrayList<String> li_sum_insured = (ArrayList<String>) payload.get("li_sum_insured");
+        ArrayList<String> li_sum_assured = (ArrayList<String>) payload.get("li_sum_assured");
         ArrayList<String> li_name = (ArrayList<String>) payload.get("li_name");
         ArrayList<String> li_policy_term = (ArrayList<String>) payload.get("li_policy_term");
         for(int i=0;i<li_name.size(); i++){
             lisData.add(Map.of("Name", li_name.get(i),
                     "Start Date", lis_start_date.get(i),
                     "Premium Paying Term", li_premium_paying_term.get(i),
-                    "Sum Insured", li_sum_insured.get(i),
+                    "Sum Assured", li_sum_assured.get(i),
                     "Type", li_type.get(i),
                     "Policy Term", li_policy_term.get(i)));
         }
@@ -176,6 +178,7 @@ public class PdfService {
         ArrayList<String> ppf_frequency = (ArrayList<String>) payload.get("ppf_frequency");
         for(int i=0;i<ppf_invested.size(); i++){
             long amount = getAmountFrom(ppf_frequency.get(i), ppf_invested.get(i), ppf_date_of_investment.get(i));
+            ppfs_full_amount += amount;
             ppfsData.add(Map.of("Invested", amount,
                     "Original Amount", ppf_invested.get(i),
                     "Date of Investment", ppf_date_of_investment.get(i),
@@ -301,7 +304,7 @@ public class PdfService {
         List<String> financialGoalsColumns = Arrays.asList("Goal Name", "Years to Goal", "Present Value", "Growth Rate(%)", "Future Cost(Rs.)");
         List<Map<String,Object>> financialGoalsData = new ArrayList<>();
         String life_goals = (String) payload.get("life_goals");
-        DecimalFormat df = new DecimalFormat("0.00");
+//        DecimalFormat df = new DecimalFormat("0.00"); /*df.format(futureCost)*/
         if(life_goals != null) {
             String[] life_goals_list = life_goals.split(",");
 //        ArrayList<String> life_goals = (ArrayList<String>) payload.get("life_goals");
@@ -315,23 +318,23 @@ public class PdfService {
                             if (age < 18) {
                                 double rate = 0.08;
                                 int present_value = 700000;
-                                double futureCost = (present_value) * Math.pow(1 + rate, age);
+                                double futureCost = (present_value) * Math.pow(1 + rate, (18-age));
 
                                 financialGoalsData.add(Map.of("Goal Name", dependents_name.get(i) + "-Graduation",
                                         "Years to Goal", (18 - age),
                                         "Present Value", present_value,
                                         "Growth Rate(%)", (rate*100),
-                                        "Future Cost(Rs.)", df.format(futureCost)));
+                                        "Future Cost(Rs.)", Math.round(futureCost)));
                             }
                             if (age < 21) {
                                 double rate = 0.08;
                                 int present_value = 2000000;
-                                double futureCost = (present_value) * Math.pow(1 + rate, age);
+                                double futureCost = (present_value) * Math.pow(1 + rate, (21 - age));
                                 financialGoalsData.add(Map.of("Goal Name", dependents_name.get(i) + "-Higher Studies",
                                         "Years to Goal", (21 - age),
                                         "Present Value", present_value,
                                         "Growth Rate(%)", (rate*100),
-                                        "Future Cost(Rs.)", df.format(futureCost)));
+                                        "Future Cost(Rs.)", Math.round(futureCost)));
                             }
                         }
                     }
@@ -340,23 +343,23 @@ public class PdfService {
                     LocalDate curDate = LocalDate.now();
                     int age = Period.between(LocalDate.parse((String) payload.get("dob")), curDate).getYears(), present_value = 2000000;
                     double rate = 0.06;
-                    double futureCost = (present_value) * Math.pow(1 + rate, age);
+                    double futureCost = (present_value) * Math.pow(1 + rate, (25 - age));
                     financialGoalsData.add(Map.of("Goal Name", payload.get("first_name") + " " + payload.get("last_name") + "-Marriage",
                             "Years to Goal", (25 - age),
                             "Present Value", present_value,
                             "Growth Rate(%)", (rate*100),
-                            "Future Cost(Rs.)", df.format(futureCost)));
+                            "Future Cost(Rs.)", Math.round(futureCost)));
                 }
                 if (life_goal.equals("Retirement")) {
                     LocalDate curDate = LocalDate.now();
                     int age = Period.between(LocalDate.parse((String) payload.get("dob")), curDate).getYears();
                     double rate = 0.06;
-                    double futureCost = (Long.parseLong(annual_expense)) * Math.pow(1 + rate, age);
+                    double futureCost = (Long.parseLong(annual_expense)) * Math.pow(1 + rate, (58 - age));
                     financialGoalsData.add(Map.of("Goal Name", payload.get("first_name") + " " + payload.get("last_name") + "-Retirement",
                             "Years to Goal", (58 - age),
                             "Present Value", annual_expense,
                             "Growth Rate(%)", (rate*100),
-                            "Future Cost(Rs.)", df.format(futureCost)));
+                            "Future Cost(Rs.)", Math.round(futureCost)));
                 }
                 if (life_goal.equals("Child Marriage")) {
                     for (int i = 0; i < dependents_relationship.size(); i++) {
@@ -365,12 +368,12 @@ public class PdfService {
                             int age = Period.between(LocalDate.parse(dependents_dob.get(i)), curDate).getYears();
                             double rate = 0.06;
                             int present_value = 2000000;
-                            double futureCost = (present_value) * Math.pow(1 + rate, age);
+                            double futureCost = (present_value) * Math.pow(1 + rate, (25 - age));
                             financialGoalsData.add(Map.of("Goal Name", dependents_name.get(i) + "-Marriage",
                                     "Years to Goal", (25 - age),
                                     "Present Value", present_value,
                                     "Growth Rate(%)", (rate*100),
-                                    "Future Cost(Rs.)", df.format(futureCost)));
+                                    "Future Cost(Rs.)", Math.round(futureCost)));
                         }
                     }
                 }
@@ -394,21 +397,22 @@ public class PdfService {
 //            }
 //        });
 
-        Long total_stocks_amount = stocks_amount == null || stocks_amount.isEmpty()? 0L : stocks_amount.stream().map(Long::parseLong).reduce(0L, Long::sum);
-        Long total_mfs_amount = mfs_amount == null || mfs_amount.isEmpty()? 0L : mfs_amount.stream().map(Long::parseLong).reduce(0L, Long::sum);
+//        Long total_stocks_amount = stocks_amount == null || stocks_amount.isEmpty()? 0L : stocks_amount.stream().map(Long::parseLong).reduce(0L, Long::sum);
+//        Long total_mfs_amount = mfs_amount == null || mfs_amount.isEmpty()? 0L : mfs_amount.stream().map(Long::parseLong).reduce(0L, Long::sum);
         Long total_bonds_amount = bonds_invested == null || bonds_invested.isEmpty()? 0L : bonds_invested.stream().map(Long::parseLong).reduce(0L, Long::sum);
-        Long total_ppfs_amount = ppfs_invested == null || ppfs_invested.isEmpty()? 0L : ppfs_invested.stream().map(Long::parseLong).reduce(0L, Long::sum);
+//        Long total_ppfs_amount = ppfs_invested == null || ppfs_invested.isEmpty()? 0L : ppfs_invested.stream().map(Long::parseLong).reduce(0L, Long::sum);
         Long total_fds_amount = fds_amount == null || fds_amount.isEmpty()? 0L : fds_amount.stream().map(Long::parseLong).reduce(0L, Long::sum);
 
-        Long existing_equity_amount = total_stocks_amount + total_mfs_amount;
-        Long existing_debt_amount = total_bonds_amount + total_ppfs_amount + total_fds_amount;
+        Long existing_equity_amount = stock_full_amount + mfs_full_amount;
+        Long existing_debt_amount = total_bonds_amount + ppfs_full_amount + total_fds_amount;
 
         Long total = existing_equity_amount + existing_debt_amount;
 
         int equity_percentage = 0, debt_percentage = 0;
         try {
             equity_percentage = total.equals(0L) ? 0 : (int) ((existing_equity_amount / (total*1.0)) * 100);
-            debt_percentage = total.equals(0L) ? 0 : (int) ((existing_debt_amount / (total*1.0)) * 100);
+//            debt_percentage = total.equals(0L) ? 0 : (int) ((existing_debt_amount / (total*1.0)) * 100);
+            debt_percentage = 100 - equity_percentage;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -433,10 +437,11 @@ public class PdfService {
         }
 
         //Page11
-        Long emergency_fund = Long.parseLong(annual_income)/4; //3 MONTH SALARY
+//        Long emergency_fund = Long.parseLong(annual_income)/4; //3 MONTH SALARY
+        Long emergency_fund = 6 * Long.parseLong(annual_expense);
         Long ideal_equity_amount = (ideal_equity_percentage * Long.parseLong(annual_income)/12)/ 100;
         Long ideal_debt_amount = (ideal_debt_percentage * Long.parseLong(annual_income)/12)/100;
-        Long lis_amount = ((ArrayList<String>) payload.get("li_sum_insured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
+        Long lis_amount = ((ArrayList<String>) payload.get("li_sum_assured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
         Long his_amount = ((ArrayList<String>) payload.get("hi_sum_insured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
 
         Long total_li_required = 20 * (Long.parseLong(annual_income));
@@ -462,7 +467,9 @@ public class PdfService {
             data.put("switch_out_in_equity_amount", ideal_equity_amount-existing_equity_amount);
             data.put("switch_out_in_debt_amount", ideal_debt_amount-existing_debt_amount);
         }
-        List<String> InsuranceColumns = Arrays.asList("Person To Be Insured", "Addl. Coverage Required");
+        List<String> LifeInsuranceColumns = Arrays.asList("Person To Be Assured", "Addl. Coverage Required");
+        List<String> HealthInsuranceColumns = Arrays.asList("Person To Be Insured", "Addl. Coverage Required");
+
         List<Map<String,Object>> LifeInsuranceData = new ArrayList<>();
         List<Map<String,Object>> HealthInsuranceData = new ArrayList<>();
 
@@ -475,7 +482,8 @@ public class PdfService {
         HealthInsuranceData.add(Map.of("Person To Be Insured", payload.get("first_name")+" "+payload.get("last_name"),
                 "Addl. Coverage Required", additional_hi_required+""));
 
-        data.put("InsuranceColumns", InsuranceColumns);
+        data.put("LifeInsuranceColumns", LifeInsuranceColumns);
+        data.put("HealthInsuranceColumns", HealthInsuranceColumns);
         data.put("LifeInsuranceData", LifeInsuranceData);
         data.put("HealthInsuranceData", HealthInsuranceData);
 
@@ -557,7 +565,7 @@ public class PdfService {
 
         try {
 //            PdfGeneratorUtil pdfGeneratorUtil1 = new PdfGeneratorUtil();
-            File outputFile = pdfGeneratorUtil.createPdf(payload.get("first_name")+ "_" + payload.get("last_name") + "_report",data, "Page1_Cover","Page2","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
+            File outputFile = pdfGeneratorUtil.createPdf(payload.get("first_name")+ "_" + payload.get("last_name") + "_report",data, "Page1_Cover","Page2","Page2.1_Index.html","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
                     /*"Page7_Investment"*//*, "Page8_Assumptions",*/"Page9_FinancialGoals","Page10_AssetAllocationChart","your_networth", "Page11_ActionPlan",
                     "Page12_ActionPlanChart", "Page14_Disclaimer");
 

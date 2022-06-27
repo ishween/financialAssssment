@@ -9,36 +9,36 @@
 <span>You need to have a emergency fund of Rs. </span><span th:text="${emergency_fund}"> You can accumulate this amount over a period of 6 months.</span>
 
 <h4>Goal Funding</h4>
-<span>For your goal of Wealth Creation you need to invest > Rs.</span> <span th:text="${ideal_equity_amount}"> per month in Equity, and ₹ </span><span th:text="${ideal_debt_amount}"> per month in Debt.</span>
+<span>For your goal of Wealth Creation you need to invest > Rs.</span> <span th:text="${ideal_equity_amount}"></span> <span> per month in Equity, and ₹ </span><span th:text="${ideal_debt_amount}"></span><span> per month in Debt.</span>
 
-<h4>Life Insurance</h4>
+<h4 style="padding-bottom: 0;">Life Insurance</h4>
 <table>
     <thead>
     <tr class="headings">
-        <th th:each="header: ${InsuranceColumns}" class="column-title" th:text="${header}" />
+        <th th:each="header: ${LifeInsuranceColumns}" class="column-title" th:text="${header}" />
     </tr>
     </thead>
 
     <tbody>
     <tr class="even pointer" th:each="row: ${LifeInsuranceData}" id="tablerow">
-        <td th:each="header: ${InsuranceColumns}" th:text="${row.get(header)}" />
+        <td th:each="header: ${LifeInsuranceColumns}" th:text="${row.get(header)}" />
     </tr>
     </tbody>
 </table>
 <p>
 </p>
 
-<h4>Medical Insurance</h4>
+<h4 style="padding-bottom: 0;">Medical Insurance</h4>
 <table>
     <thead>
     <tr class="headings">
-        <th th:each="header: ${InsuranceColumns}" class="column-title" th:text="${header}" />
+        <th th:each="header: ${HealthInsuranceColumns}" class="column-title" th:text="${header}" />
     </tr>
     </thead>
 
     <tbody>
     <tr class="even pointer" th:each="row: ${HealthInsuranceData}" id="tablerow">
-        <td th:each="header: ${InsuranceColumns}" th:text="${row.get(header)}" />
+        <td th:each="header: ${HealthInsuranceColumns}" th:text="${row.get(header)}" />
     </tr>
     </tbody>
 </table>

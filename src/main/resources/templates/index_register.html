@@ -46,7 +46,7 @@
 
   var stocks_amount = [], stocks_mkt_value = [], stocks_date_of_purchase = [], stocks_frequency = []
   var mf_type = [], mf_amount = [], mf_mkt_value = [], mf_date_of_purchase = [], mf_frequency = []
-  var li_type = [], li_name = [], li_policy_term = [], li_premium_paying_term = [], li_sum_insured = [], li_start_date = []
+  var li_type = [], li_name = [], li_policy_term = [], li_premium_paying_term = [], li_sum_assured = [], li_start_date = []
   var hi_name = [], hi_premium_amount = [], hi_sum_insured = [], hi_start_date = [], hi_type = []
   var fd_name = [], fd_amount = [], fd_start_date = [], fd_maturity_date = []
   var ppf_invested = [], ppf_date_of_investment = [], ppf_frequency = []
@@ -114,7 +114,7 @@
             liName.value + '</td>' + '<td class="life-insurance-policy-term">' +
             liPolicyTerm.value + '</td>' + '<td class="life-insurance-premium-paying-term">' +
             liPremiumPayingTerm.value + '</td>' + '<td class="life-insurance-sum-insured">' +
-            liSumInsured.value + '</td>' + '<td class="life-insurance-start-date">' +
+            liSumAssured.value + '</td>' + '<td class="life-insurance-start-date">' +
             liStartDate.value + '</td>' +
             '<td><button type="button" class="delete" contentEditable=false>Delete</button></td>'+
             '</tr></table>';
@@ -123,7 +123,7 @@
     li_name.push(liName.value);
     li_policy_term.push(liPolicyTerm.value);
     li_premium_paying_term.push(liPremiumPayingTerm.value);
-    li_sum_insured.push(liSumInsured.value);
+    li_sum_assured.push(liSumAssured.value);
     li_start_date.push(liStartDate.value);
     liType.value = '';
     liName.value = '';
@@ -374,8 +374,8 @@
       li_policy_term.splice(index, 1);
       li_name.splice(index,1);
       li_type.splice(index,1);
-      li_sum_insured.splice(index,1);
-      li_sum_insured.splice(index, 1);
+      li_sum_assured.splice(index,1);
+      li_sum_assured.splice(index, 1);
       li_premium_paying_term.splice(index, 1);
       li_start_date.splice(index, 1);
       let deleteButton = event.target.parentElement.parentElement;
@@ -496,7 +496,7 @@
               document.getElementById('life-insurance').setAttribute('hidden', true);
               li_type = [];
               li_policy_term = [];
-              li_sum_insured = [];
+              li_sum_assured = [];
               li_premium_paying_term = [];
               li_start_date = [];
             }
@@ -698,7 +698,7 @@
       "li_start_date": li_start_date,
       "li_premium_paying_term": li_premium_paying_term,
       "li_type": li_type,
-      "li_sum_insured": li_sum_insured,
+      "li_sum_assured": li_sum_assured,
       "li_name": li_name,
       "li_policy_term": li_policy_term,
       "hi_premium_amount": hi_premium_amount,
@@ -771,20 +771,20 @@
   <div class="radio_box">
     <label id="Gender">Gender:</label>
     <!--        <label class="container" for="Male">Male-->
-    <label for="Male">
-      <input type="radio" id="Male" name="Gender" value="Male" required>Male
+    <label for="He/Him">
+      <input type="radio" id="He/Him" name="Gender" value="He/Him" required>He/Him
       <!--        <span class="checkmark"></span>-->
     </label>
     <!--        </label>-->
     <!--        <label class="container" for="Female">Female-->
-    <label for="Female">
-      <input type="radio" id="Female" name="Gender" value="Female">Female
+    <label for="She/Her">
+      <input type="radio" id="She/Her" name="Gender" value="She/Her">She/Her
       <!--        <span class="checkmark"></span>-->
     </label>
     <!--        </label>-->
     <!--        <label class="container" for="Other">Other-->
-    <label for="Other">
-      <input type="radio" id="Other" name="Gender" value="Other">Other
+    <label for="Them/They">
+      <input type="radio" id="Them/They" name="Gender" value="Them/They">Them/They
       <!--        <span class="checkmark"></span>-->
     </label>
     <!--        </label>-->
