@@ -260,17 +260,19 @@ public class PdfService {
         data.put("personalInfoColumns", personalInfoColumns);
         data.put("personalInfoData", personalInfoData);
 
+        DecimalFormat df = new DecimalFormat("0.00"); /*df.format(futureCost)*/
+
         //Page4
         List<String> incomeColumns = Arrays.asList("Income", "Monthly(Rs.)", "Annually(Rs.)");
         List<Map<String,Object>> incomeData = new ArrayList<>();
         String annual_income = (String) payload.get("income");
         String annual_expense = (String) payload.get("expense");
         if(payload.get("profession").equals("Self Employed")){
-            incomeData.add(Map.of("Income", "Business Income", "Monthly(Rs.)", Long.parseLong(annual_income)/12.0, "Annually(Rs.)", annual_income));
+            incomeData.add(Map.of("Income", "Business Income", "Monthly(Rs.)", df.format(Long.parseLong(annual_income)/12.0), "Annually(Rs.)", annual_income));
             incomeData.add(Map.of("Income", "Income Salary", "Monthly(Rs.)", "0", "Annually(Rs.)", "0"));
         }else{
             incomeData.add(Map.of("Income", "Business Income", "Monthly(Rs.)", "0", "Annually(Rs.)", "0"));
-            incomeData.add(Map.of("Income", "Income Salary", "Monthly(Rs.)", Long.parseLong(annual_income)/12.0, "Annually(Rs.)", annual_income));
+            incomeData.add(Map.of("Income", "Income Salary", "Monthly(Rs.)", df.format(Long.parseLong(annual_income)/12.0), "Annually(Rs.)", annual_income));
         }
 //        incomeData.add(Map.of("Income", "Business Income", "Monthly ₹", "0", "Annually(₹)", "0"));
 //        incomeData.add(Map.of("Income", "Income Salary", "Monthly ₹", "100", "Annually(₹)", "1200"));
@@ -278,7 +280,7 @@ public class PdfService {
         data.put("incomeColumns", incomeColumns);
         data.put("incomeData", incomeData);
         List<Map<String, Object>> incomeTotal = new ArrayList<>();
-        incomeTotal.add(Map.of("Income", "Total", "Monthly(Rs.)", Long.parseLong(annual_income)/12.0, "Annually(Rs.)", annual_income));
+        incomeTotal.add(Map.of("Income", "Total", "Monthly(Rs.)", df.format(Long.parseLong(annual_income)/12.0), "Annually(Rs.)", annual_income));
         data.put("incomeTotal", incomeTotal);
 
         //Page5

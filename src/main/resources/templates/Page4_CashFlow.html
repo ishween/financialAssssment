@@ -29,7 +29,7 @@ will take. Procrastination is a deadly enemy of your goal to retire with financi
     <tr class="even pointer" th:each="row: ${incomeData}" id="tablerow">
         <td th:each="header: ${incomeColumns}" th:text="${row.get(header)}" />
     </tr>
-    <hr style="border-width:2px;width:315%;"/>
+    <hr style="border-width:2px;width:275%;"/>
     <tr class="even pointer" th:each="row: ${incomeTotal}" id="tablerow">
         <td th:each="header: ${incomeColumns}" th:text="${row.get(header)}" />
     </tr>
