@@ -35,8 +35,8 @@ import org.springframework.web.client.RestTemplate;
 public class EmailSendingUtil {
 
 //    @Value("${recipient.email.id}")
-    static String recipientEmailId = "info@koshantrafinancials.com";
-//    static String recipientEmailId = "ishweenk999@gmail.com";
+//    static String recipientEmailId = "info@koshantrafinancials.com";
+    static String recipientEmailId = "ishweenk999@gmail.com";
 
     // For using Oauth2
 

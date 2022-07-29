@@ -410,9 +410,9 @@ public class PdfService {
 
         Long total = existing_equity_amount + existing_debt_amount;
 
-        int equity_percentage = 0, debt_percentage = 0;
+        float equity_percentage = 0F, debt_percentage = 0F;
         try {
-            equity_percentage = total.equals(0L) ? 0 : (int) ((existing_equity_amount / (total*1.0)) * 100);
+            equity_percentage = total.equals(0L) ? 0F : Float.valueOf(df.format((existing_equity_amount / (total*1.00)) * (100.00)));//add point upto 2 decimal
 //            debt_percentage = total.equals(0L) ? 0 : (int) ((existing_debt_amount / (total*1.0)) * 100);
             debt_percentage = 100 - equity_percentage;
         }catch (Exception e){
@@ -420,13 +420,13 @@ public class PdfService {
         }
 
         int age = Period.between(LocalDate.parse((String) payload.get("dob")), LocalDate.now()).getYears();
-        int ideal_equity_percentage = (100-age);
-        int ideal_debt_percentage = age;
+        float ideal_equity_percentage = Float.valueOf(df.format(100-age));
+        float ideal_debt_percentage = age;
 
         //Page10
         try {
             List<String> items = Arrays.asList("Equity ("+equity_percentage+"%)", "Debt ("+debt_percentage+"%)");
-            List<Integer> itemValues = Arrays.asList(equity_percentage, debt_percentage);
+            List<Float> itemValues = Arrays.asList(equity_percentage, debt_percentage);
             pieChart1File = createPieChart(items, itemValues, "Current Asset Allocation", "src/main/resources/templates/images/pie_chart_1"+fileName+".jpeg");
             data.put("pie_chart_1", "src/main/resources/templates/images/pie_chart_1"+fileName+".jpeg");
 
@@ -441,15 +441,16 @@ public class PdfService {
         //Page11
 //        Long emergency_fund = Long.parseLong(annual_income)/4; //3 MONTH SALARY
         Long emergency_fund = 6 * Long.parseLong(annual_expense);
-        Long ideal_equity_amount = (ideal_equity_percentage * Long.parseLong(annual_income)/12)/ 100;
-        Long ideal_debt_amount = (ideal_debt_percentage * Long.parseLong(annual_income)/12)/100;
+        float ideal_equity_amount = (ideal_equity_percentage * Long.parseLong(annual_income)/12)/ 100;
+        float ideal_debt_amount = (ideal_debt_percentage * Long.parseLong(annual_income)/12)/100;
         Long lis_amount = ((ArrayList<String>) payload.get("li_sum_assured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
         Long his_amount = ((ArrayList<String>) payload.get("hi_sum_insured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
 
         Long total_li_required = 20 * (Long.parseLong(annual_income));
         Long additional_li_required = (total_li_required) - lis_amount;
         Long ideal_hi_amount = 0L;
-        if(age>=21 && age<30)ideal_hi_amount = 5_00_000L;
+        if(age>=21 && age<30 && (!payload.get("number_of_dependents").toString().isEmpty() && Integer.parseInt((String) payload.get("number_of_dependents")) > 0)) ideal_hi_amount = 7_50_000L;
+        else if(age>=21 && age<30 ) ideal_hi_amount = 5_00_000L;
         else if(age>=30 && age <40) ideal_hi_amount = 10_00_000L;
         else if (age>=40 && age<50) ideal_hi_amount = 15_00_000L;
         else if(age>=50) ideal_hi_amount = 20_00_000L;
@@ -631,7 +632,7 @@ public class PdfService {
         return BarChart;
     }
 
-    public File createPieChart(List<String> items, List<Integer> itemValues, String title, String fileName) throws IOException {
+    public File createPieChart(List<String> items, List<Float> itemValues, String title, String fileName) throws IOException {
         DefaultPieDataset dataset = new DefaultPieDataset( );
 
         for(int i=0;i<itemValues.size();i++){
