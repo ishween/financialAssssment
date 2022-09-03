@@ -221,7 +221,7 @@ public class PdfService {
 
         //Page 1
 //        data.put("logo", "src/main/resources/templates/images/koshantra_logo.PNG");
-        data.put("logo", "src/main/resources/templates/images/koshantra_logo_with_text.png");
+        data.put("logo", "src/main/resources/templates/images/WealthCreationLogo.png");
         data.put("client_name", payload.get("first_name")+" "+payload.get("last_name"));
 //        String fileName = payload.get("first_name")+" "+payload.get("last_name") + "_" + UUID.randomUUID().toString();
         String fileName = payload.get("first_name")+"_"+payload.get("last_name");
@@ -562,6 +562,8 @@ public class PdfService {
         data.put("assetsData", assetsData);
         data.put("liabilitiesData", liabilitiesData);
 
+        data.put("first_name", payload.get("first_name"));
+        data.put("last_name", payload.get("last_name"));
         //Page13
 
         //Page14
