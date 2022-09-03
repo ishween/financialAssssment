@@ -287,7 +287,7 @@ public class PdfService {
         try {
             List<String> xAxis = Arrays.asList("Income", "Expenses");
             List<String> values = Arrays.asList(annual_income, annual_expense);
-            cashFlowChartFile = createBarChart(xAxis, values, "", "in (₹)", "","src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg");
+            cashFlowChartFile = createBarChart(xAxis, values, "", "INR (₹)", "","src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg");
             data.put("cash_flow_chart", "src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg");
         }catch (Exception e){
             e.printStackTrace();
@@ -440,9 +440,9 @@ public class PdfService {
 
         //Page11
 //        Long emergency_fund = Long.parseLong(annual_income)/4; //3 MONTH SALARY
-        Long emergency_fund = 6 * Long.parseLong(annual_expense);
-        float ideal_equity_amount = (ideal_equity_percentage * Long.parseLong(annual_income)/12)/ 100;
-        float ideal_debt_amount = (ideal_debt_percentage * Long.parseLong(annual_income)/12)/100;
+        Long emergency_fund = Long.parseLong(annual_expense)/2; //Formual 6 * monthly expense
+        long ideal_equity_amount = ((long)ideal_equity_percentage * (Long.parseLong(annual_income)/12))* 100;
+        long ideal_debt_amount = ((long)ideal_debt_percentage * (Long.parseLong(annual_income)/12))*100;
         Long lis_amount = ((ArrayList<String>) payload.get("li_sum_assured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
         Long his_amount = ((ArrayList<String>) payload.get("hi_sum_insured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
 
@@ -494,11 +494,11 @@ public class PdfService {
         try {
             List<String> xAxis = Arrays.asList("Total Required", "Current Available", "Additional Required");
             List<String> values = Arrays.asList(total_li_required+"", lis_amount+"", additional_li_required+"");
-            lifeInsuranceFile = createBarChart(xAxis, values, "Life Insurance Client", "in (₹)", "","src/main/resources/templates/images/life_insurance_chart"+fileName+".jpeg");
+            lifeInsuranceFile = createBarChart(xAxis, values, "Life Insurance Client", "INR (₹)", "","src/main/resources/templates/images/life_insurance_chart"+fileName+".jpeg");
             data.put("life_insurance_chart", "src/main/resources/templates/images/life_insurance_chart"+fileName+".jpeg");
             xAxis = Arrays.asList("Total Required", "Current Available", "Additional Required");
             values = Arrays.asList(ideal_hi_amount+"", his_amount+"", additional_hi_required+"");
-            healthInsuranceFile = createBarChart(xAxis, values, "Health Insurance Client", "in (₹)", "","src/main/resources/templates/images/health_insurance_chart"+fileName+".jpeg");
+            healthInsuranceFile = createBarChart(xAxis, values, "Health Insurance Client", "INR (₹)", "","src/main/resources/templates/images/health_insurance_chart"+fileName+".jpeg");
             data.put("health_insurance_chart", "src/main/resources/templates/images/health_insurance_chart"+fileName+".jpeg");
             //TODO: add chart name as health-ID(from DB)
         }catch (Exception e){
