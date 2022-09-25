@@ -221,7 +221,7 @@ public class PdfService {
 
         //Page 1
 //        data.put("logo", "src/main/resources/templates/images/koshantra_logo.PNG");
-        data.put("logo", "src/main/resources/templates/images/WealthCreationLogo.png");
+        data.put("logo", "src/main/resources/templates/images/Wealth_Creation_Logo.png");
         data.put("client_name", payload.get("first_name")+" "+payload.get("last_name"));
 //        String fileName = payload.get("first_name")+" "+payload.get("last_name") + "_" + UUID.randomUUID().toString();
         String fileName = payload.get("first_name")+"_"+payload.get("last_name");
@@ -462,13 +462,19 @@ public class PdfService {
         data.put("additional_li_required", additional_li_required);
         data.put("additional_hi_required", additional_hi_required);
         if(existing_equity_amount > ideal_equity_amount){
-            data.put("switch_out_in", "Switch Out");
-            data.put("switch_out_in_equity_amount", existing_equity_amount-ideal_equity_amount);
-            data.put("switch_out_in_debt_amount", existing_debt_amount-ideal_debt_amount);
+            long switch_out_equity = (long) (((equity_percentage-ideal_equity_percentage) / (total==0?1:total)) * 100);
+            long switch_in_debt = total - switch_out_equity;
+            data.put("switch_out_in_equity", "Switch Out");
+            data.put("switch_out_in_debt", "Switch In");
+            data.put("switch_out_in_equity_amount", switch_out_equity);
+            data.put("switch_out_in_debt_amount", switch_in_debt);
         }else{
-            data.put("switch_out_in", "Switch In");
-            data.put("switch_out_in_equity_amount", ideal_equity_amount-existing_equity_amount);
-            data.put("switch_out_in_debt_amount", ideal_debt_amount-existing_debt_amount);
+            long switch_in_equity = (long) (((ideal_equity_percentage-equity_percentage) / (total==0?1:total)) * 100);
+            long switch_out_debt = switch_in_equity - total;
+            data.put("switch_out_in_equity", "Switch In");
+            data.put("switch_out_in_debt", "Switch Out");
+            data.put("switch_out_in_equity_amount", switch_in_equity);
+            data.put("switch_out_in_debt_amount", switch_out_debt);
         }
         List<String> LifeInsuranceColumns = Arrays.asList("Person To Be Assured", "Addl. Coverage Required");
         List<String> HealthInsuranceColumns = Arrays.asList("Person To Be Insured", "Addl. Coverage Required");
