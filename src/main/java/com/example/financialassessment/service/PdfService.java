@@ -470,7 +470,7 @@ public class PdfService {
             data.put("switch_out_in_debt_amount", switch_in_debt);
         }else{
             long switch_in_equity = (long) (((ideal_equity_percentage-equity_percentage) / (total==0?1:total)) * 100);
-            long switch_out_debt = switch_in_equity - total;
+            long switch_out_debt = total - switch_in_equity;
             data.put("switch_out_in_equity", "Switch In");
             data.put("switch_out_in_debt", "Switch Out");
             data.put("switch_out_in_equity_amount", switch_in_equity);
