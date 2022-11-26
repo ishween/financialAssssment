@@ -462,15 +462,15 @@ public class PdfService {
         data.put("additional_li_required", additional_li_required);
         data.put("additional_hi_required", additional_hi_required);
         if(existing_equity_amount > ideal_equity_amount){
-            long switch_out_equity = (long) (((equity_percentage-ideal_equity_percentage) / (total==0?1:total)) * 100);
-            long switch_in_debt = total - switch_out_equity;
+            long switch_out_equity = (long) (((ideal_equity_percentage-equity_percentage) * (total==0?1:total)) / 100);
+            long switch_in_debt = (long) (((ideal_debt_percentage-debt_percentage) * (total==0?1:total)) / 100);
             data.put("switch_out_in_equity", "Switch Out");
             data.put("switch_out_in_debt", "Switch In");
             data.put("switch_out_in_equity_amount", switch_out_equity);
             data.put("switch_out_in_debt_amount", switch_in_debt);
         }else{
-            long switch_in_equity = (long) (((ideal_equity_percentage-equity_percentage) / (total==0?1:total)) * 100);
-            long switch_out_debt = total - switch_in_equity;
+            long switch_in_equity = (long) (((ideal_equity_percentage-equity_percentage) * (total==0?1:total)) / 100);
+            long switch_out_debt = (long) (((ideal_debt_percentage-debt_percentage) * (total==0?1:total)) / 100);
             data.put("switch_out_in_equity", "Switch In");
             data.put("switch_out_in_debt", "Switch Out");
             data.put("switch_out_in_equity_amount", switch_in_equity);
