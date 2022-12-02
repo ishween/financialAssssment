@@ -1,6 +1,6 @@
 FROM  openjdk:11
 
-ADD target/*.jar financialAssessment.jar
+ADD *.jar financialAssessment.jar
 
 EXPOSE 8080
 RUN date
