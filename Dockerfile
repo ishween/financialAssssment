@@ -1,7 +1,6 @@
 FROM  openjdk:11
 
-#ADD target/*.war financialAssessment.war
-ADD java -jar target/financialAssessment-0.0.1-SNAPSHOT.jar/
+ADD target/*.jar financialAssessment.jar
 
 EXPOSE 8080
 RUN date
