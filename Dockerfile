@@ -8,6 +8,7 @@ RUN date
 #Sample JAVA_OPTS=-Xms256m -Xmx1600m -XX:+CrashOnOutOfMemoryError
 ENV JAVA_OPTS=
 #CMD java $JAVA_OPTS -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -jar irs.war
-CMD java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
-
+#CMD java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
+RUN javac FinancialAssessmentApplication.java
+CMD ["java", "FinancialAssessmentApplication"]
 
