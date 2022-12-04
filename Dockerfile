@@ -2,8 +2,6 @@ FROM openjdk:11 as rabbitmq
 EXPOSE 8080
 WORKDIR /app
 
-ADD target/financialAssessment-0.0.1-SNAPSHOT.jar financialAssessment.jar
-
 # Copy maven executable to the image
 COPY mvnw .
 COPY .mvn .mvn
@@ -18,6 +16,9 @@ COPY ./pom.xml ./pom.xml
 RUN chmod 755 /app/mvnw
 
 RUN ./mvnw package -DskipTests
+
+ADD target/financialAssessment-0.0.1-SNAPSHOT.jar financialAssessment.jar
+
 #CMD docker-compose up
 ENTRYPOINT ["java","-jar","financialAssessment.jar"]
 
