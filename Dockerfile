@@ -2,7 +2,7 @@ FROM openjdk:11 as rabbitmq
 EXPOSE 8080
 WORKDIR /app
 
-ADD target/financialAssessment-0.0.1-SNAPSHOT.jar financialAssessment.jar
+#ADD target/financialAssessment-0.0.1-SNAPSHOT.jar financialAssessment.jar
 
 # Copy maven executable to the image
 COPY mvnw .
