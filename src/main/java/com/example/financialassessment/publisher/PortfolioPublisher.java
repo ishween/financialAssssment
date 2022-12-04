@@ -111,6 +111,7 @@ public class PortfolioPublisher {
 
         System.out.println("heyaaaa");
         System.out.println(payload);
+        System.out.println(payload.get("name[first]"));
 //        MessageProperties properties = new MessageProperties();
 //        properties.setContentType("application/json");
 //        MessageBuilder.withBody().andProperties(properties).build();
