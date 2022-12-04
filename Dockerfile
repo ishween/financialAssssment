@@ -14,7 +14,7 @@ FROM openjdk:11
 EXPOSE 8080
 WORKDIR /app
 
-ADD target/financialAssessment-0.0.1-SNAPSHOT.jar financialAssessment.jar
+ADD out/artifacts/financialAssessment_jar/financialAssessment.jar financialAssessment.jar
 
 # Copy maven executable to the image
 COPY mvnw .
