@@ -1,0 +1,54 @@
+version: '3.3'
+
+services:
+  #service 1: definition of mysql database
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ishween
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  #service 3: definition of your spring-boot app
+  financialAssessment:                        #it is just a name, which will be used only in this file.
+    image: financial-assessment               #name of the image after dockerfile executes
+    container_name: financial-assessment-app  #name of the container created from docker image
+    build:
+      context: .                          #docker file path (. means root directory)
+      dockerfile: Dockerfile              #docker file name
+    ports:
+      - "8080:8080"                       #docker containter port with your os port
+    restart: always
+    environment:
+      - SPRING_RABBITMQ_HOST=ishween
+    depends_on:                           #define dependencies of this app
+      - rabbitmq                                #dependency name (which is defined with this name 'db' in this file earlier)
+
+#app:
+#  build: .
+#  environment:
+#    INSERTION_QUEUE: insertion.queue
+#    VALIDATION_QUEUE: validation.queue
+#    NUMBER_OF_VALIDATION_CONSUMERS: 1
+#    RESPONSE_EXCHANGE: financialAssessment_Exchange
+#    RESPONSE_ROUTING_KEY: financialAssessment_RoutingKey
+#    RABBITMQ_HOST: mqforkf.onrender.com
+#    RABBITMQ_PORT: 5672
+#    RABBITMQ_VHOST: /
+#    RABBITMQ_USERNAME: rabbitmq
+#    RABBITMQ_PASSWORD: ishweenK@1999
+##    JDBC_URL: jdbc:mysql://mysql:3306/hided
+#  links:
+##    - mysql:mysql
+#    - rabbitmq:rabbitmq
+##mysql:
+##  image: mysql:5.7
+##  environment:
+##    MYSQL_DATABASE: hided
+##    MYSQL_ROOT_PASSWORD: secret
+#rabbitmq:
+#  image: rabbitmq:3-management-alpine
+#  ports:
+#    - 5672:5672
+#    - 15672:15672
