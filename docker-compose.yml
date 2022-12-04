@@ -7,7 +7,7 @@ services:
     container_name: ishween
     restart: always
     ports:
-      - "15672:15672"
+      - "15675:15672"
       - "5672:5672"
 
   #service 3: definition of your spring-boot app
