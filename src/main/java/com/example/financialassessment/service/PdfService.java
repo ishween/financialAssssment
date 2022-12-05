@@ -12,6 +12,8 @@ import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -36,28 +39,61 @@ public class PdfService {
         data = new HashMap<>();
     }
 
-    private Map<String, Object> getAllData(Map<String, Object> payload) {
+    private Map<String, Object> getAllData(Map<String, String> payload) {
         Map<String, Object> koshantra_data = new HashMap<>();
 
-        koshantra_data.put("first_name", payload.get("first_name"));
-        koshantra_data.put("last_name", payload.get("last_name"));
-        koshantra_data.put("dob", payload.get("dob"));
+        koshantra_data.put("first_name", payload.get("name[first]"));
+        koshantra_data.put("last_name", payload.get("name[last]"));
+        koshantra_data.put("dob", payload.get("dateof[year]")+"-"+payload.get("dateof[month]")+"-"+payload.get("dateof[day]"));
         koshantra_data.put("profession", payload.get("profession"));
-        koshantra_data.put("income", payload.get("income"));
-        koshantra_data.put("expense", payload.get("expense"));
-        koshantra_data.put("mobile_no", payload.get("mobile_no"));
+        koshantra_data.put("income", payload.get("annualincome"));
+        koshantra_data.put("expense", payload.get("annualexpense"));
+        koshantra_data.put("mobile_no", payload.get("phonenumber[full]"));
         koshantra_data.put("gender", payload.get("gender"));
         koshantra_data.put("email", payload.get("email"));
-        koshantra_data.put("address", payload.get("address"));
-        koshantra_data.put("risk_profile", payload.get("risk_profile"));
-        koshantra_data.put("life_goals", payload.get("life_goals"));
-        koshantra_data.put("number_of_dependents", payload.get("number_of_dependents"));
+        koshantra_data.put("address", payload.get("address[addr_line1]")+","+payload.get("address[addr_line2]")+","+payload.get("address[city]")+","
+        +payload.get("address[state]")+","+payload.get("address[postal]"));
+        koshantra_data.put("risk_profile", payload.get("riskprofile"));
+        String[] lifeGoals = payload.get("lifegoals").split("\n");
+        System.out.println("LIFE GOALS: " + Arrays.toString(lifeGoals));
+        StringBuilder goals = new StringBuilder();
+        for(String lifeGoal: lifeGoals){
+            goals.append(lifeGoal).append(",");
+        }
+        System.out.println("GOALS: " + goals);
+        koshantra_data.put("life_goals", goals.substring(0, goals.length()-1));
 
         List<String> dependentsColumns = Arrays.asList("Name", "DOB", "Relation");
         List<Map<String,Object>> dependentsData = new ArrayList<>();
-        ArrayList<String> dependents_relationship = (ArrayList<String>) payload.get("dependents_relation");
-        ArrayList<String> dependents_dob = (ArrayList<String>) payload.get("dependents_dob");
-        ArrayList<String> dependents_name = (ArrayList<String>) payload.get("dependents_name");
+//        ArrayList<String> dependents_relationship = (ArrayList<String>) payload.get("dependents_relation");
+//        ArrayList<String> dependents_dob = (ArrayList<String>) payload.get("dependents_dob");
+//        ArrayList<String> dependents_name = (ArrayList<String>) payload.get("dependents_name");
+
+        JSONArray dependents = new JSONArray(payload.get("dependents"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> dependents_name = new ArrayList<>();
+        ArrayList<String> dependents_dob = new ArrayList<>();
+        ArrayList<String> dependents_relationship = new ArrayList<>();
+        System.out.println("Dependents FETCH");
+        for(int i=0; i<dependents.length(); i++){
+            System.out.println(dependents.get(i));
+            JSONObject object = new JSONObject(dependents.get(i).toString());
+            System.out.println("Dependents: i: " + i + " Name: " + object.getString("Name") + " Date of Birth : " + object.getString("Date of Birth")
+                    + " Relationship: " + object.getString("Relationship"));
+            dependents_name.add(object.getString("Name"));
+
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println(sdf2.format(sdf.parse(object.getString("Date of Birth"))));
+                dependents_dob.add(sdf2.format(sdf.parse(object.getString("Date of Birth"))));
+            } catch (Exception ex){
+
+            }
+//            dependents_dob.add(object.getString("Date of Birth"));
+            dependents_relationship.add(object.getString("Relationship"));
+        }
 
         for(int i = 0; i<dependents_name.size(); i++){
             dependentsData.add(Map.of("Name", dependents_name.get(i),
@@ -66,25 +102,49 @@ public class PdfService {
         }
         koshantra_data.put("dependentsColumns", dependentsColumns);
         koshantra_data.put("dependentsData", dependentsData);
+        koshantra_data.put("number_of_dependents", dependents_dob.size());
+
 
         List<String> stocksColumns = Arrays.asList("Name", "Amount", "Market Value", "Date of Purchase", "Frequency");
         List<String> stocksColumnsAllData = Arrays.asList("Name", "Amount", "Original Amount", "Market Value", "Date of Purchase", "Frequency");
         List<Map<String,Object>> stocksData = new ArrayList<>();
 
-        ArrayList<String> stock_amount = (ArrayList<String>) payload.get("stocks_amount");
-        ArrayList<String> stocks_market_value = (ArrayList<String>) payload.get("stocks_market_value");
-        ArrayList<String> stocks_date_of_purchase = (ArrayList<String>) payload.get("stocks_date_of_purchase");
-        ArrayList<String> stocks_frequency = (ArrayList<String>) payload.get("stocks_frequency");
+//        ArrayList<String> stock_amount = (ArrayList<String>) payload.get("stocks_amount");
+//        ArrayList<String> stocks_market_value = (ArrayList<String>) payload.get("stocks_market_value");
+//        ArrayList<String> stocks_date_of_purchase = (ArrayList<String>) payload.get("stocks_date_of_purchase");
+//        ArrayList<String> stocks_frequency = (ArrayList<String>) payload.get("stocks_frequency");
+
+        JSONArray stocks = new JSONArray(payload.get("stocks"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> stocksAmount = new ArrayList<>();
+        ArrayList<String> stocksMktValue = new ArrayList<>();
+        ArrayList<String> stocksDOI = new ArrayList<>();
+        ArrayList<String> stocksFreq = new ArrayList<>();
+
+        System.out.println("STOCKS FETCH");
+        for(int i=0; i<stocks.length(); i++){
+            System.out.println(stocks.get(i));
+            JSONObject object = new JSONObject(stocks.get(i).toString());
+            System.out.println("Stock: i: " + i + " Amount: " + object.getString("Amount") + " Mkt value: " +
+                    object.getString("Market Value") + " DOI: " + object.getString("Date of Investment") + " Freq: " + object.getString("Frequency"));
+            stocksAmount.add(object.getString("Amount"));
+            stocksMktValue.add(object.getString("Market Value"));
+            stocksDOI.add(object.getString("Date of Investment"));
+            stocksFreq.add(object.getString("Frequency"));
+        }
+
+
         Long stock_full_amount = 0L, mfs_full_amount = 0L, ppfs_full_amount = 0L;
-        for(int i=0;i<stock_amount.size(); i++){
-            long amount = getAmountFrom(stocks_frequency.get(i), stock_amount.get(i), stocks_date_of_purchase.get(i));
+        for(int i=0;i<stocksAmount.size(); i++){
+            long amount = getAmountFrom(stocksFreq.get(i), stocksAmount.get(i), stocksDOI.get(i));
             stock_full_amount += amount;
             stocksData.add(Map.of(
                     "Amount", amount,
-                    "Original Amount", stock_amount.get(i),
-                    "Market Value", stocks_market_value.get(i),
-                    "Date of Purchase", stocks_date_of_purchase.get(i),
-                    "Frequency", stocks_frequency.get(i)));
+                    "Original Amount", stocksAmount.get(i),
+                    "Market Value", stocksMktValue.get(i),
+                    "Date of Purchase", stocksDOI.get(i),
+                    "Frequency", stocksColumns.get(i)));
         }
         koshantra_data.put("stocksColumns", stocksColumns);
         koshantra_data.put("stocksData", stocksData);
@@ -93,20 +153,43 @@ public class PdfService {
         List<String> mfsColumns = Arrays.asList("Market Value", "Amount", "Type", "Date of Purchase", "Frequency");
         List<String> mfsColumnsAllData = Arrays.asList("Market Value", "Amount", "Original Amount", "Type", "Date of Purchase", "Frequency");
         List<Map<String,Object>> mfsData = new ArrayList<>();
-        ArrayList<String> mfs_mkt_value = (ArrayList<String>) payload.get("mf_mkt_value");
-        ArrayList<String> mf_amount = (ArrayList<String>) payload.get("mf_amount");
-        ArrayList<String> mfs_type = (ArrayList<String>) payload.get("mf_type");
-        ArrayList<String> mfs_date_of_purchase = (ArrayList<String>) payload.get("mf_date_of_purchase");
-        ArrayList<String> mfs_frequency = (ArrayList<String>) payload.get("mf_frequency");
-        for(int i=0;i<mfs_frequency.size(); i++){
-            long amount = getAmountFrom(mfs_frequency.get(i), mf_amount.get(i), mfs_date_of_purchase.get(i));
+//        ArrayList<String> mfs_mkt_value = (ArrayList<String>) payload.get("mf_mkt_value");
+//        ArrayList<String> mf_amount = (ArrayList<String>) payload.get("mf_amount");
+//        ArrayList<String> mfs_type = (ArrayList<String>) payload.get("mf_type");
+//        ArrayList<String> mfs_date_of_purchase = (ArrayList<String>) payload.get("mf_date_of_purchase");
+//        ArrayList<String> mfs_frequency = (ArrayList<String>) payload.get("mf_frequency");
+
+        JSONArray mfs = new JSONArray(payload.get("mutualfunds"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> mfsAmount = new ArrayList<>();
+        ArrayList<String> mfsMktValue = new ArrayList<>();
+        ArrayList<String> mfsType = new ArrayList<>();
+        ArrayList<String> mfsDOI = new ArrayList<>();
+        ArrayList<String> mfsFreq = new ArrayList<>();
+
+        System.out.println("MF FETCH");
+        for(int i=0; i<mfs.length(); i++){
+            System.out.println(mfs.get(i));
+            JSONObject object = new JSONObject(mfs.get(i).toString());
+            System.out.println("MF: i: " + i + " Amount: " + object.getString("Amount") + " DOI: " + object.getString("Date of Investment")
+                    + " Freq: " + object.getString("Frequency") + " Mrkt Value: " + object.getString("Market Value") + " Type: " + object.getString("Type"));
+            mfsAmount.add(object.getString("Amount"));
+            mfsDOI.add(object.getString("Date of Investment"));
+            mfsFreq.add(object.getString("Frequency"));
+            mfsMktValue.add(object.getString("Market Value"));
+            mfsType.add(object.getString("Type"));
+        }
+
+        for(int i=0;i<mfsFreq.size(); i++){
+            long amount = getAmountFrom(mfsFreq.get(i), mfsAmount.get(i), mfsDOI.get(i));
             mfs_full_amount += amount;
-            mfsData.add(Map.of("Type", mfs_type.get(i),
+            mfsData.add(Map.of("Type", mfsType.get(i),
                     "Amount", amount,
-                    "Original Amount", mf_amount.get(i),
-                    "Market Value", mfs_mkt_value.get(i),
-                    "Date of Purchase", mfs_date_of_purchase.get(i),
-                    "Frequency", mfs_frequency.get(i)));
+                    "Original Amount", mfsAmount.get(i),
+                    "Market Value", mfsMktValue.get(i),
+                    "Date of Purchase", mfsDOI.get(i),
+                    "Frequency", mfsFreq.get(i)));
         }
         koshantra_data.put("mfsColumns", mfsColumns);
         koshantra_data.put("mfsData", mfsData);
@@ -114,46 +197,123 @@ public class PdfService {
 
         List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Assured", "Name", "Policy Term");
         List<Map<String,Object>> lisData = new ArrayList<>();
-        ArrayList<String> lis_start_date = (ArrayList<String>) payload.get("li_start_date");
-        ArrayList<String> li_premium_paying_term = (ArrayList<String>) payload.get("li_premium_paying_term");
-        ArrayList<String> li_type = (ArrayList<String>) payload.get("li_type");
-        ArrayList<String> li_sum_assured = (ArrayList<String>) payload.get("li_sum_assured");
-        ArrayList<String> li_name = (ArrayList<String>) payload.get("li_name");
-        ArrayList<String> li_policy_term = (ArrayList<String>) payload.get("li_policy_term");
-        for(int i=0;i<li_name.size(); i++){
-            lisData.add(Map.of("Name", li_name.get(i),
-                    "Start Date", lis_start_date.get(i),
-                    "Premium Paying Term", li_premium_paying_term.get(i),
-                    "Sum Assured", li_sum_assured.get(i),
-                    "Type", li_type.get(i),
-                    "Policy Term", li_policy_term.get(i)));
+//        ArrayList<String> lis_start_date = (ArrayList<String>) payload.get("li_start_date");
+//        ArrayList<String> li_premium_paying_term = (ArrayList<String>) payload.get("li_premium_paying_term");
+//        ArrayList<String> li_type = (ArrayList<String>) payload.get("li_type");
+//        ArrayList<String> li_sum_assured = (ArrayList<String>) payload.get("li_sum_assured");
+//        ArrayList<String> li_name = (ArrayList<String>) payload.get("li_name");
+//        ArrayList<String> li_policy_term = (ArrayList<String>) payload.get("li_policy_term");
+
+        JSONArray lifeinsurance = new JSONArray(payload.get("lifeinsurance"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> lisSumInsured = new ArrayList<>();
+        ArrayList<String> liInsuranceName = new ArrayList<>();
+        ArrayList<String> lisType = new ArrayList<>();
+        ArrayList<String> liPolicyTerm = new ArrayList<>();
+        ArrayList<String> liPremiumAmount = new ArrayList<>();
+        ArrayList<String> liPremiumPayingTerm = new ArrayList<>();
+        ArrayList<String> liStartDate = new ArrayList<>();
+
+//         *typea20*=[[{"Type":"Term","Insurance Name":"li","Policy Term":"12","Premium Amount":"12","Premium Paying Term":"12","Sum Insured":"12","Start Date":"12-04-2022"}]],
+
+        System.out.println("LI FETCH");
+        for(int i=0; i<lifeinsurance.length(); i++){
+            System.out.println(lifeinsurance.get(i));
+            JSONObject object = new JSONObject(lifeinsurance.get(i).toString());
+            System.out.println("LI: i: " + i + " Sum Insured: " + object.getString("Sum Insured") + " Insurance Name: " + object.getString("Insurance Name")
+                    + " Policy Term: " + object.getString("Policy Term") + " Premium Amount: " + object.getString("Premium Amount")
+                    + " Type: " + object.getString("Type") + " Premium Paying Term: " + object.getString("Premium Paying Term")
+                    + " Start Date: " + object.getString("Start Date"));
+            lisSumInsured.add(object.getString("Sum Insured"));
+            liInsuranceName.add(object.getString("Insurance Name"));
+            liPolicyTerm.add(object.getString("Policy Term"));
+            liPremiumAmount.add(object.getString("Premium Amount"));
+            lisType.add(object.getString("Type"));
+            liPremiumPayingTerm.add(object.getString("Premium Paying Term"));
+            liStartDate.add(object.getString("Start Date"));
+        }
+
+        JSONArray healthinsurance = new JSONArray(payload.get("healthinsurance"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> hisSumInsured = new ArrayList<>();
+        ArrayList<String> hisInsuranceName = new ArrayList<>();
+        ArrayList<String> hisFrequencyType = new ArrayList<>();
+        ArrayList<String> hisPremiumAmount = new ArrayList<>();
+        ArrayList<String> hiStartDate = new ArrayList<>();
+
+//         *typea20*=[[{"Type":"Term","Insurance Name":"li","Policy Term":"12","Premium Amount":"12","Premium Paying Term":"12","Sum Insured":"12","Start Date":"12-04-2022"}]],
+
+        System.out.println("HI FETCH");
+        for(int i=0; i<healthinsurance.length(); i++){
+            System.out.println(healthinsurance.get(i));
+            JSONObject object = new JSONObject(healthinsurance.get(i).toString());
+            System.out.println("HI: i: " + i + " Sum Insured: " + object.getString("Sum Insured") + " Company Name : " + object.getString("Company Name")
+                    + " Premium Amount: " + object.getString("Premium Amount")
+                    + " Frequency Type: " + object.getString("Frequency Type") + " Start Date: " + object.getString("Start Date"));
+            hisSumInsured.add(object.getString("Sum Insured"));
+            hisInsuranceName.add(object.getString("Company Name"));
+            hisPremiumAmount.add(object.getString("Premium Amount"));
+            hisFrequencyType.add(object.getString("Frequency Type"));
+            hiStartDate.add(object.getString("Start Date"));
+        }
+
+
+        for(int i=0;i<liInsuranceName.size(); i++){
+            lisData.add(Map.of("Name", liInsuranceName.get(i),
+                    "Start Date", liStartDate.get(i),
+                    "Premium Paying Term", liPremiumPayingTerm.get(i),
+                    "Sum Assured", lisSumInsured.get(i),
+                    "Type", lisType.get(i),
+                    "Policy Term", liPolicyTerm.get(i),
+                    "Premium Amount", liPremiumAmount.get(i)));
         }
         koshantra_data.put("lisColumns", lisColumns);
         koshantra_data.put("lisData", lisData);
 
         List<String> hisColumns = Arrays.asList("Name", "Premium Amount", "Type", "Sum Insured", "Start Date");
         List<Map<String,Object>> hisData = new ArrayList<>();
-        ArrayList<String> hi_premium_amount = (ArrayList<String>) payload.get("hi_premium_amount");
-        ArrayList<String> hi_name = (ArrayList<String>) payload.get("hi_name");
-        ArrayList<String> hi_type = (ArrayList<String>) payload.get("hi_type");
-        ArrayList<String> hi_start_date = (ArrayList<String>) payload.get("hi_start_date");
-        ArrayList<String> hi_sum_insured = (ArrayList<String>) payload.get("hi_sum_insured");
-        for(int i=0;i<hi_start_date.size(); i++){
-            hisData.add(Map.of("Name", hi_name.get(i),
-                    "Premium Amount", hi_premium_amount.get(i),
-                    "Type", hi_type.get(i),
-                    "Sum Insured", hi_sum_insured.get(i),
-                    "Start Date", hi_start_date.get(i)));
+//        ArrayList<String> hi_premium_amount = (ArrayList<String>) payload.get("hi_premium_amount");
+//        ArrayList<String> hi_name = (ArrayList<String>) payload.get("hi_name");
+//        ArrayList<String> hi_type = (ArrayList<String>) payload.get("hi_type");
+//        ArrayList<String> hi_start_date = (ArrayList<String>) payload.get("hi_start_date");
+//        ArrayList<String> hi_sum_insured = (ArrayList<String>) payload.get("hi_sum_insured");
+        for(int i=0;i<hiStartDate.size(); i++){
+            hisData.add(Map.of("Name", hisInsuranceName.get(i),
+                    "Premium Amount", hisPremiumAmount.get(i),
+                    "Frequency Type", hisFrequencyType.get(i),
+                    "Sum Insured", hisSumInsured.get(i),
+                    "Start Date", hiStartDate.get(i)));
         }
         koshantra_data.put("hisColumns", hisColumns);
         koshantra_data.put("hisData", hisData);
 
         List<String> bondsColumns = Arrays.asList("Name", "Invested", "Maturity Date", "Date of Investment");
         List<Map<String,Object>> bondsData = new ArrayList<>();
-        ArrayList<String> bonds_name = (ArrayList<String>) payload.get("bonds_name");
-        ArrayList<String> bond_invested = (ArrayList<String>) payload.get("bonds_invested");
-        ArrayList<String> bonds_date_of_investment = (ArrayList<String>) payload.get("bonds_date_of_investment");
-        ArrayList<String> bonds_maturity_date = (ArrayList<String>) payload.get("bonds_maturity_date");
+//        ArrayList<String> bonds_name = (ArrayList<String>) payload.get("bonds_name");
+//        ArrayList<String> bond_invested = (ArrayList<String>) payload.get("bonds_invested");
+//        ArrayList<String> bonds_date_of_investment = (ArrayList<String>) payload.get("bonds_date_of_investment");
+//        ArrayList<String> bonds_maturity_date = (ArrayList<String>) payload.get("bonds_maturity_date");
+
+        JSONArray bonds = new JSONArray(payload.get("bonds"));
+        ArrayList<String> bond_invested = new ArrayList<>();
+        ArrayList<String> bonds_name = new ArrayList<>();
+        ArrayList<String> bonds_date_of_investment = new ArrayList<>();
+        ArrayList<String> bonds_maturity_date = new ArrayList<>();
+
+        System.out.println("bonds FETCH");
+        for(int i=0; i<bonds.length(); i++){
+            System.out.println(bonds.get(i));
+            JSONObject object = new JSONObject(bonds.get(i).toString());
+            System.out.println("bonds: i: " + i + " Name: " + object.getString("Name") + " Amount: " +
+                    object.getString("Amount") + " DOI: " + object.getString("Date of Investment") + " Maturity Date: " + object.getString("Maturity Date"));
+            bond_invested.add(object.getString("Amount"));
+            bonds_name.add(object.getString("Name"));
+            bonds_date_of_investment.add(object.getString("Date of Investment"));
+            bonds_maturity_date.add(object.getString("Maturity Date"));
+        }
+
         for(int i=0;i<bonds_name.size(); i++){
             bondsData.add(Map.of("Name", bonds_name.get(i),
                     "Invested", bond_invested.get(i),
@@ -166,16 +326,35 @@ public class PdfService {
         List<String> ppfsColumns = Arrays.asList("Invested", "Date of Investment", "Frequency");
         List<String> ppfsColumnsAllData = Arrays.asList("Invested", "Original Amount", "Date of Investment", "Frequency");
         List<Map<String,Object>> ppfsData = new ArrayList<>();
-        ArrayList<String> ppf_invested = (ArrayList<String>) payload.get("ppf_invested");
-        ArrayList<String> ppf_date_of_investment = (ArrayList<String>) payload.get("ppf_date_of_investment");
-        ArrayList<String> ppf_frequency = (ArrayList<String>) payload.get("ppf_frequency");
-        for(int i=0;i<ppf_invested.size(); i++){
-            long amount = getAmountFrom(ppf_frequency.get(i), ppf_invested.get(i), ppf_date_of_investment.get(i));
+//        ArrayList<String> ppf_invested = (ArrayList<String>) payload.get("ppf_invested");
+//        ArrayList<String> ppf_date_of_investment = (ArrayList<String>) payload.get("ppf_date_of_investment");
+//        ArrayList<String> ppf_frequency = (ArrayList<String>) payload.get("ppf_frequency");
+
+        JSONArray ppfs = new JSONArray(payload.get("ppf"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> ppfsInvested = new ArrayList<>();
+        ArrayList<String> ppfsDOI = new ArrayList<>();
+        ArrayList<String> ppfsFreq = new ArrayList<>();
+
+        System.out.println("PPF FETCH");
+        for(int i=0; i<ppfs.length(); i++){
+            System.out.println(ppfs.get(i));
+            JSONObject object = new JSONObject(ppfs.get(i).toString());
+            System.out.println("PPF: i: " + i + " Amount: " + object.getString("Amount") + " DOI: " + object.getString("Date of Investment")
+                    + " Freq: " + object.getString("Frequency"));
+            ppfsInvested.add(object.getString("Amount"));
+            ppfsDOI.add(object.getString("Date of Investment"));
+            ppfsFreq.add(object.getString("Frequency"));
+        }
+
+        for(int i=0;i<ppfsInvested.size(); i++){
+            long amount = getAmountFrom(ppfsFreq.get(i), ppfsInvested.get(i), ppfsDOI.get(i));
             ppfs_full_amount += amount;
             ppfsData.add(Map.of("Invested", amount,
-                    "Original Amount", ppf_invested.get(i),
-                    "Date of Investment", ppf_date_of_investment.get(i),
-                    "Frequency", ppf_frequency.get(i)));
+                    "Original Amount", ppfsInvested.get(i),
+                    "Date of Investment", ppfsDOI.get(i),
+                    "Frequency", ppfsFreq.get(i)));
         }
         koshantra_data.put("ppfsColumns", ppfsColumns);
         koshantra_data.put("ppfsData", ppfsData);
@@ -183,30 +362,80 @@ public class PdfService {
 
         List<String> fdsColumns = Arrays.asList("Name", "Amount", "Start Date", "Maturity Date");
         List<Map<String,Object>> fdsData = new ArrayList<>();
-        ArrayList<String> fd_start_date = (ArrayList<String>) payload.get("fd_start_date");
-        ArrayList<String> fd_name = (ArrayList<String>) payload.get("fd_name");
-        ArrayList<String> fd_maturity_date = (ArrayList<String>) payload.get("fd_maturity_date");
-        ArrayList<String> fd_amount = (ArrayList<String>) payload.get("fd_amount");
-        for(int i=0;i<fd_name.size(); i++){
-            fdsData.add(Map.of("Name", fd_name.get(i),
-                    "Amount", fd_amount.get(i),
-                    "Start Date", fd_start_date.get(i),
-                    "Maturity Date", fd_maturity_date.get(i)));
+//        ArrayList<String> fd_start_date = (ArrayList<String>) payload.get("fd_start_date");
+//        ArrayList<String> fd_name = (ArrayList<String>) payload.get("fd_name");
+//        ArrayList<String> fd_maturity_date = (ArrayList<String>) payload.get("fd_maturity_date");
+//        ArrayList<String> fd_amount = (ArrayList<String>) payload.get("fd_amount");
+
+        JSONArray fds = new JSONArray(payload.get("fixeddeposits"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> fdsName = new ArrayList<>();
+        ArrayList<String> fdsAmountInvested = new ArrayList<>();
+        ArrayList<String> fdsInterestRate = new ArrayList<>();
+        ArrayList<String> fdsStartDate = new ArrayList<>();
+        ArrayList<String> fdsMaturityDate = new ArrayList<>();
+
+        System.out.println("fds FETCH");
+        for(int i=0; i<fds.length(); i++){
+            System.out.println(fds.get(i));
+            JSONObject object = new JSONObject(fds.get(i).toString());
+            System.out.println("fds: i: " + i + " Bank/NBFC Name: " + object.getString("Bank/NBFC Name") + " Amount Invested: " +
+                    object.getString("Amount Invested") + " Interest Rate: " + object.getString("Interest Rate")
+                    + " Start Date: " + object.getString("Start Date") + " Maturity Date: " + object.getString("Maturity Date"));
+            fdsName.add(object.getString("Bank/NBFC Name"));
+            fdsAmountInvested.add(object.getString("Amount Invested"));
+            fdsStartDate.add(object.getString("Start Date"));
+            fdsInterestRate.add(object.getString("Interest Rate"));
+            fdsMaturityDate.add(object.getString("Maturity Date"));
+
+        }
+
+        for(int i=0;i<fdsName.size(); i++){
+            fdsData.add(Map.of("Name", fdsName.get(i),
+                    "Amount", fdsAmountInvested.get(i),
+                    "Start Date", fdsStartDate.get(i),
+                    "Maturity Date", fdsMaturityDate.get(i),
+                    "Interest Rate", fdsInterestRate.get(i)));
         }
         koshantra_data.put("fdsColumns", fdsColumns);
         koshantra_data.put("fdsData", fdsData);
 
         List<String> loanoremisColumns = Arrays.asList("Start Date", "Installment Amount", "Installment Left", "Type");
         List<Map<String,Object>> loanoremisData = new ArrayList<>();
-        ArrayList<String> loan_emi_start_date = (ArrayList<String>) payload.get("loan_emi_start_date");
-        ArrayList<String> loan_emi_installment_amount = (ArrayList<String>) payload.get("loan_emi_installment_amount");
-        ArrayList<String> loan_emi_installement_left = (ArrayList<String>) payload.get("loan_emi_installement_left");
-        ArrayList<String> loan_emi_type = (ArrayList<String>) payload.get("loan_emi_type");
-        for(int i=0;i<loan_emi_installment_amount.size(); i++){
-            loanoremisData.add(Map.of("Start Date", loan_emi_start_date.get(i),
-                    "Installment Amount", loan_emi_installment_amount.get(i),
-                    "Installment Left", loan_emi_installement_left.get(i),
-                    "Type", loan_emi_type.get(i)));
+//        ArrayList<String> loan_emi_start_date = (ArrayList<String>) payload.get("loan_emi_start_date");
+//        ArrayList<String> loan_emi_installment_amount = (ArrayList<String>) payload.get("loan_emi_installment_amount");
+//        ArrayList<String> loan_emi_installement_left = (ArrayList<String>) payload.get("loan_emi_installement_left");
+//        ArrayList<String> loan_emi_type = (ArrayList<String>) payload.get("loan_emi_type");
+        JSONArray loanemi = new JSONArray(payload.get("loanemi"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> loanAmount = new ArrayList<>();
+        ArrayList<String> loanNoInstallments = new ArrayList<>();
+        ArrayList<String> loanAmountInstallment = new ArrayList<>();
+        ArrayList<String> loanType = new ArrayList<>();
+        ArrayList<String> loanStartDate = new ArrayList<>();
+
+//         *typea20*=[[{"Type":"Term","Insurance Name":"li","Policy Term":"12","Premium Amount":"12","Premium Paying Term":"12","Sum Insured":"12","Start Date":"12-04-2022"}]],
+
+        System.out.println("loanemi FETCH");
+        for(int i=0; i<loanemi.length(); i++){
+            System.out.println(loanemi.get(i));
+            JSONObject object = new JSONObject(loanemi.get(i).toString());
+            System.out.println("Loan: i: " + i + " Loan Amount: " + object.getString("Loan Amount") + " No of Installments Left : " + object.getString("No of Installments Left")
+                    + " Amount of Installment:: " + object.getString("Amount of Installment")
+                    + " Type: " + object.getString("Type") + " Start Date: " + object.getString("Start Date"));
+            loanAmount.add(object.getString("Loan Amount"));
+            loanNoInstallments.add(object.getString("No of Installments Left"));
+            loanAmountInstallment.add(object.getString("Amount of Installment"));
+            loanType.add(object.getString("Type"));
+            loanStartDate.add(object.getString("Start Date"));
+        }
+        for(int i=0;i<loanAmountInstallment.size(); i++){
+            loanoremisData.add(Map.of("Start Date", loanStartDate.get(i),
+                    "Installment Amount", loanAmountInstallment.get(i),
+                    "Installment Left", loanNoInstallments.get(i),
+                    "Type", loanType.get(i)));
         }
         koshantra_data.put("loanoremisColumns", loanoremisColumns);
         koshantra_data.put("loanoremisData", loanoremisData);
@@ -215,7 +444,7 @@ public class PdfService {
     }
 
 
-    private void getPersonalInformation(String name, Object dateOfBirth, Object profession, Object mobileNo, ArrayList<String> dependentsName, ArrayList<String> dependentsRelation, ArrayList<String> dependentsDOB) {
+    private void getPersonalInformation(String name, Object dateOfBirth, String profession, String mobileNo, ArrayList<String> dependentsName, ArrayList<String> dependentsRelation, ArrayList<String> dependentsDOB) {
         List<String> personalInfoColumns = Arrays.asList("Relationship", "Name", "DOB", "Occupation", "Mobile No.");
         List<Map<String,Object>> personalInfoData = new ArrayList<>();
         personalInfoData.add(Map.of("Relationship", "Self", "Name", name, "DOB", dateOfBirth, "Occupation", profession, "Mobile No.", mobileNo));
@@ -338,9 +567,11 @@ public class PdfService {
         List<String> financialGoalsColumns = Arrays.asList("Goal Name", "Years to Goal", "Present Value", "Growth Rate(%)", "Future Cost(Rs.)");
         List<Map<String,Object>> financialGoalsData = new ArrayList<>();
         if(lifeGoals != null) {
-            String[] life_goals_list = lifeGoals.split(",");
+//            String[] life_goals_list = lifeGoals.split(",");
+            String[] life_goals_list = lifeGoals.split("\n");
+            System.out.println("life goals: " + Arrays.toString(life_goals_list));
             for (String life_goal : life_goals_list) {
-                if (life_goal.equals("Child Education")) {
+                if (life_goal.trim().equals("Child's Education")) {
                     //child dependents
                     for (int i = 0; i < dependentsRelation.size(); i++) {
                         if (dependentsRelation.get(i).equals("Child")) {
@@ -370,7 +601,7 @@ public class PdfService {
                         }
                     }
                 }
-                if (life_goal.equals("Self Marriage")) {
+                if (life_goal.trim().equals("Self Marriage")) {
                     LocalDate curDate = LocalDate.now();
                     int age = Period.between(LocalDate.parse(DOB), curDate).getYears(), present_value = 2000000;
                     double rate = 0.06;
@@ -381,7 +612,7 @@ public class PdfService {
                             "Growth Rate(%)", (rate*100),
                             "Future Cost(Rs.)", Math.round(futureCost)));
                 }
-                if (life_goal.equals("Retirement")) {
+                if (life_goal.trim().equals("Retirement")) {
                     LocalDate curDate = LocalDate.now();
                     int age = Period.between(LocalDate.parse(DOB), curDate).getYears();
                     double rate = 0.06;
@@ -392,7 +623,7 @@ public class PdfService {
                             "Growth Rate(%)", (rate*100),
                             "Future Cost(Rs.)", Math.round(futureCost)));
                 }
-                if (life_goal.equals("Child Marriage")) {
+                if (life_goal.trim().equals("Child's Marriage")) {
                     for (int i = 0; i < dependentsRelation.size(); i++) {
                         if (dependentsRelation.get(i).equals("Child")) {
                             LocalDate curDate = LocalDate.now();
@@ -510,24 +741,59 @@ public class PdfService {
         data.put("liabilitiesData", liabilitiesData);
     }
 
-    private void getFormattedData(Map<String, Object> payload) {
+    private void getFormattedData(Map<String, String> payload) {
 //        Map<String,Object> data = new HashMap<>();
 
-        data.put("first_name", payload.get("first_name"));
-        data.put("last_name", payload.get("last_name"));
+        data.put("first_name", payload.get("name[first]"));
+        data.put("last_name", payload.get("name[last]"));
+
+
+        JSONArray dependents = new JSONArray(payload.get("dependents"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> dependentsName = new ArrayList<>();
+        ArrayList<String> dependentsDOB = new ArrayList<>();
+        ArrayList<String> dependentsRelation = new ArrayList<>();
+        System.out.println("Dependents FETCH");
+        for(int i=0; i<dependents.length(); i++){
+            System.out.println(dependents.get(i));
+            JSONObject object = new JSONObject(dependents.get(i).toString());
+            System.out.println("Dependents: i: " + i + " Name: " + object.getString("Name") + " Date of Birth : " + object.getString("Date of Birth")
+                    + " Relationship: " + object.getString("Relationship"));
+            dependentsName.add(object.getString("Name"));
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println(sdf2.format(sdf.parse(object.getString("Date of Birth"))));
+                dependentsDOB.add(sdf2.format(sdf.parse(object.getString("Date of Birth"))));
+            }catch (Exception ex){
+
+            }
+            dependentsRelation.add(object.getString("Relationship"));
+        }
 
         //PI
         data.put("logo", "src/main/resources/templates/images/Wealth_Creation_Logo.png");
-        data.put("client_name", payload.get("first_name")+" "+payload.get("last_name"));
+        data.put("client_name", payload.get("name[first]")+" "+payload.get("name[last]"));
 
-        String fileName = payload.get("first_name")+"_"+payload.get("last_name");
+        String fileName = payload.get("name[first]")+"_"+payload.get("name[last]");
         data.put("ID",fileName);
 
         DecimalFormat df = new DecimalFormat("0.00"); /*df.format(futureCost)*/
 
 
-        getPersonalInformation(payload.get("first_name")+" "+payload.get("last_name"), payload.get("dob"), payload.get("profession"),
-                payload.get("mobile_no"), (ArrayList<String>) payload.get("dependents_name"), (ArrayList<String>) payload.get("dependents_relation"), (ArrayList<String>) payload.get("dependents_dob"));
+        String dob = payload.get("dateof[year]") + "-" + payload.get("dateof[month]") + "-" + payload.get("dateof[day]");
+//        String dateOfpurchase = "";
+//        try {
+//            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+//            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+//            System.out.println(sdf2.format(sdf.parse(date_of_purchase)));
+//            dateOfpurchase = sdf2.format(sdf.parse(date_of_purchase));
+//        }catch (Exception e){
+//
+//        }
+        getPersonalInformation(payload.get("name[first]")+" "+payload.get("name[last]"), dob, payload.get("profession"),
+                payload.get("phonenumber[full]"), dependentsName, dependentsRelation, dependentsDOB);
 
 //        List<String> personalInfoColumns = Arrays.asList("Relationship", "Name", "DOB", "Occupation", "Mobile No.");
 //        List<Map<String,Object>> personalInfoData = new ArrayList<>();
@@ -545,7 +811,7 @@ public class PdfService {
 //        data.put("personalInfoColumns", personalInfoColumns);
 //        data.put("personalInfoData", personalInfoData);
 
-        getIncomeInfo((String) payload.get("income"), (String) payload.get("profession"), df);
+        getIncomeInfo(payload.get("annualincome"), (String) payload.get("profession"), df);
 //        DecimalFormat df = new DecimalFormat("0.00"); /*df.format(futureCost)*/
 
         //Page4
@@ -563,7 +829,7 @@ public class PdfService {
 //        data.put("incomeColumns", incomeColumns);
 //        data.put("incomeData", incomeData);
 
-        getCashFlow((String) payload.get("income"), (String) payload.get("expense"), fileName);
+        getCashFlow((String) payload.get("annualincome"), (String) payload.get("annualexpense"), fileName);
 
 //        List<Map<String, Object>> incomeTotal = new ArrayList<>();
 //        incomeTotal.add(Map.of("Income", "Total", "Monthly(Rs.)", df.format(Long.parseLong(annual_income)/12.0), "Annually(Rs.)", annual_income));
@@ -580,8 +846,8 @@ public class PdfService {
 //            e.printStackTrace();
 //        }
 
-        getFinancialGoals((String) payload.get("life_goals"), (String) payload.get("dob"), payload.get("first_name")+" "+payload.get("last_name"),
-                (String) payload.get("expense"), (ArrayList<String>) payload.get("dependents_name"), (ArrayList<String>) payload.get("dependents_relation"), (ArrayList<String>) payload.get("dependents_dob"));
+        getFinancialGoals((String) payload.get("lifegoals"), dob, payload.get("name[first]")+" "+payload.get("name[last]"),
+                (String) payload.get("annualexpense"), dependentsName, dependentsRelation, dependentsDOB);
 
         //Page9
 //        List<String> financialGoalsColumns = Arrays.asList("Goal Name", "Years to Goal", "Present Value", "Growth Rate(%)", "Future Cost(Rs.)");
@@ -665,9 +931,52 @@ public class PdfService {
 //        data.put("financialGoalsColumns", financialGoalsColumns);
 //        data.put("financialGoalsData", financialGoalsData);
 
-        Long bondsFullAmount = getTotalBondsAmount((ArrayList<String>) payload.get("bonds_invested"));
+        JSONArray bonds = new JSONArray(payload.get("bonds"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
 
-        Long fdFullAmount = getTotalFDsAmount((ArrayList<String>) payload.get("fd_amount"));
+        ArrayList<String> bondsAmount = new ArrayList<>();
+        ArrayList<String> bondsName = new ArrayList<>();
+        ArrayList<String> bondsDOI = new ArrayList<>();
+        ArrayList<String> bondsMaturityDate = new ArrayList<>();
+
+        System.out.println("bonds FETCH");
+        for(int i=0; i<bonds.length(); i++){
+            System.out.println(bonds.get(i));
+            JSONObject object = new JSONObject(bonds.get(i).toString());
+            System.out.println("bonds: i: " + i + " Name: " + object.getString("Name") + " Amount: " +
+                    object.getString("Amount") + " DOI: " + object.getString("Date of Investment") + " Maturity Date: " + object.getString("Maturity Date"));
+            bondsAmount.add(object.getString("Amount"));
+            bondsName.add(object.getString("Name"));
+            bondsDOI.add(object.getString("Date of Investment"));
+            bondsMaturityDate.add(object.getString("Maturity Date"));
+        }
+
+        Long bondsFullAmount = getTotalBondsAmount(bondsAmount);
+
+        JSONArray fds = new JSONArray(payload.get("fixeddeposits"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> fdsName = new ArrayList<>();
+        ArrayList<String> fdsAmountInvested = new ArrayList<>();
+        ArrayList<String> fdsInterestRate = new ArrayList<>();
+        ArrayList<String> fdsStartDate = new ArrayList<>();
+        ArrayList<String> fdsMaturityDate = new ArrayList<>();
+
+        System.out.println("fds FETCH");
+        for(int i=0; i<fds.length(); i++){
+            System.out.println(fds.get(i));
+            JSONObject object = new JSONObject(fds.get(i).toString());
+            System.out.println("fds: i: " + i + " Bank/NBFC Name: " + object.getString("Bank/NBFC Name") + " Amount Invested: " +
+                    object.getString("Amount Invested") + " Interest Rate: " + object.getString("Interest Rate")
+                    + " Start Date: " + object.getString("Start Date") + " Maturity Date: " + object.getString("Maturity Date"));
+            fdsName.add(object.getString("Bank/NBFC Name"));
+            fdsAmountInvested.add(object.getString("Amount Invested"));
+            fdsStartDate.add(object.getString("Start Date"));
+            fdsInterestRate.add(object.getString("Interest Rate"));
+            fdsMaturityDate.add(object.getString("Maturity Date"));
+
+        }
+        Long fdFullAmount = getTotalFDsAmount(fdsAmountInvested);
 
 
 
@@ -677,8 +986,32 @@ public class PdfService {
 //        Long total_bonds_amount = bonds_invested == null || bonds_invested.isEmpty()? 0L : bonds_invested.stream().map(Long::parseLong).reduce(0L, Long::sum);
 //        Long total_fds_amount = fds_amount == null || fds_amount.isEmpty()? 0L : fds_amount.stream().map(Long::parseLong).reduce(0L, Long::sum);
 
-        Long stockFullAmount = getStocksInfo((ArrayList<String>) payload.get("stocks_amount"), (ArrayList<String>) payload.get("stocks_market_value"),
-                (ArrayList<String>) payload.get("stocks_date_of_purchase"), (ArrayList<String>) payload.get("stocks_frequency"));
+//        String str = payload.get("stocks");
+        JSONArray stocks = new JSONArray(payload.get("stocks"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> stocksAmount = new ArrayList<>();
+        ArrayList<String> stocksMktValue = new ArrayList<>();
+        ArrayList<String> stocksDOI = new ArrayList<>();
+        ArrayList<String> stocksFreq = new ArrayList<>();
+
+        System.out.println("STOCKS FETCH");
+        for(int i=0; i<stocks.length(); i++){
+            System.out.println(stocks.get(i));
+            JSONObject object = new JSONObject(stocks.get(i).toString());
+            System.out.println("Stock: i: " + i + " Amount: " + object.getString("Amount") + " Mkt value: " +
+                    object.getString("Market Value") + " DOI: " + object.getString("Date of Investment") + " Freq: " + object.getString("Frequency"));
+            stocksAmount.add(object.getString("Amount"));
+            stocksMktValue.add(object.getString("Market Value"));
+            stocksDOI.add(object.getString("Date of Investment"));
+            stocksFreq.add(object.getString("Frequency"));
+        }
+//        System.out.println(array);
+//        System.out.println(array.get(i));
+//        Long stockFullAmount = getStocksInfo((ArrayList<String>) payload.get("stocks_amount"), (ArrayList<String>) payload.get("stocks_market_value"),
+//                (ArrayList<String>) payload.get("stocks_date_of_purchase"), (ArrayList<String>) payload.get("stocks_frequency"));
+
+        Long stockFullAmount = getStocksInfo(stocksAmount, stocksMktValue,stocksDOI, stocksFreq);
 
 
 //        ArrayList<String> stock_amount = (ArrayList<String>) payload.get("stocks_amount");
@@ -699,7 +1032,24 @@ public class PdfService {
 //                    "Frequency", stocks_frequency.get(i)));
 //        }
 
-        Long ppfFullAmount = getPPFsInfo((ArrayList<String>) payload.get("ppf_invested"), (ArrayList<String>) payload.get("ppf_date_of_investment"), (ArrayList<String>) payload.get("ppf_frequency"));
+        JSONArray ppfs = new JSONArray(payload.get("ppf"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> ppfsInvested = new ArrayList<>();
+        ArrayList<String> ppfsDOI = new ArrayList<>();
+        ArrayList<String> ppfsFreq = new ArrayList<>();
+
+        System.out.println("PPF FETCH");
+        for(int i=0; i<ppfs.length(); i++){
+            System.out.println(ppfs.get(i));
+            JSONObject object = new JSONObject(ppfs.get(i).toString());
+            System.out.println("PPF: i: " + i + " Amount: " + object.getString("Amount") + " DOI: " + object.getString("Date of Investment")
+                    + " Freq: " + object.getString("Frequency"));
+            ppfsInvested.add(object.getString("Amount"));
+            ppfsDOI.add(object.getString("Date of Investment"));
+            ppfsFreq.add(object.getString("Frequency"));
+        }
+        Long ppfFullAmount = getPPFsInfo(ppfsInvested, ppfsDOI, ppfsFreq);
 
 
 //        List<Map<String,Object>> ppfsData = new ArrayList<>();
@@ -715,8 +1065,30 @@ public class PdfService {
 //                    "Frequency", ppf_frequency.get(i)));
 //        }
 
-        Long mfFullAmount = getMFsInfo((ArrayList<String>) payload.get("mf_amount"), (ArrayList<String>) payload.get("mf_mkt_value"),
-                (ArrayList<String>) payload.get("mf_type"), (ArrayList<String>) payload.get("mf_date_of_purchase"), (ArrayList<String>) payload.get("mf_frequency"));
+
+        JSONArray mfs = new JSONArray(payload.get("mutualfunds"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> mfsAmount = new ArrayList<>();
+        ArrayList<String> mfsMktValue = new ArrayList<>();
+        ArrayList<String> mfsType = new ArrayList<>();
+        ArrayList<String> mfsDOI = new ArrayList<>();
+        ArrayList<String> mfsFreq = new ArrayList<>();
+
+        System.out.println("MF FETCH");
+        for(int i=0; i<mfs.length(); i++){
+            System.out.println(mfs.get(i));
+            JSONObject object = new JSONObject(mfs.get(i).toString());
+            System.out.println("MF: i: " + i + " Amount: " + object.getString("Amount") + " DOI: " + object.getString("Date of Investment")
+                    + " Freq: " + object.getString("Frequency") + " Mrkt Value: " + object.getString("Market Value") + " Type: " + object.getString("Type"));
+            mfsAmount.add(object.getString("Amount"));
+            mfsDOI.add(object.getString("Date of Investment"));
+            mfsFreq.add(object.getString("Frequency"));
+            mfsMktValue.add(object.getString("Market Value"));
+            mfsType.add(object.getString("Type"));
+        }
+
+        Long mfFullAmount = getMFsInfo(mfsAmount, mfsMktValue,mfsType, mfsDOI, mfsFreq);
 
 
 //        List<Map<String,Object>> mfsData = new ArrayList<>();
@@ -750,7 +1122,8 @@ public class PdfService {
             e.printStackTrace();
         }
 
-        int age = Period.between(LocalDate.parse((String) payload.get("dob")), LocalDate.now()).getYears();
+
+        int age = Period.between(LocalDate.parse(dob), LocalDate.now()).getYears();
         float ideal_equity_percentage = Float.valueOf(df.format(100-age));
         float ideal_debt_percentage = age;
 
@@ -771,21 +1144,77 @@ public class PdfService {
 //            e.printStackTrace();
 //        }
 
-        Long lis_amount = ((ArrayList<String>) payload.get("li_sum_assured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
-        Long his_amount = ((ArrayList<String>) payload.get("hi_sum_insured")).stream().map(Long::parseLong).reduce(0L, Long::sum);
+        JSONArray lifeinsurance = new JSONArray(payload.get("lifeinsurance"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
 
-        Long total_li_required = 20 * (Long.parseLong((String) payload.get("income")));
+        ArrayList<String> lisSumInsured = new ArrayList<>();
+        ArrayList<String> liInsuranceName = new ArrayList<>();
+        ArrayList<String> lisType = new ArrayList<>();
+        ArrayList<String> liPolicyTerm = new ArrayList<>();
+        ArrayList<String> liPremiumAmount = new ArrayList<>();
+        ArrayList<String> liPremiumPayingTerm = new ArrayList<>();
+        ArrayList<String> liStartDate = new ArrayList<>();
+
+//         *typea20*=[[{"Type":"Term","Insurance Name":"li","Policy Term":"12","Premium Amount":"12","Premium Paying Term":"12","Sum Insured":"12","Start Date":"12-04-2022"}]],
+
+        System.out.println("LI FETCH");
+        for(int i=0; i<lifeinsurance.length(); i++){
+            System.out.println(lifeinsurance.get(i));
+            JSONObject object = new JSONObject(lifeinsurance.get(i).toString());
+            System.out.println("LI: i: " + i + " Sum Insured: " + object.getString("Sum Insured") + " Insurance Name: " + object.getString("Insurance Name")
+                    + " Policy Term: " + object.getString("Policy Term") + " Premium Amount: " + object.getString("Premium Amount")
+                    + " Type: " + object.getString("Type") + " Premium Paying Term: " + object.getString("Premium Paying Term")
+                    + " Start Date: " + object.getString("Start Date"));
+            lisSumInsured.add(object.getString("Sum Insured"));
+            liInsuranceName.add(object.getString("Insurance Name"));
+            liPolicyTerm.add(object.getString("Policy Term"));
+            liPremiumAmount.add(object.getString("Premium Amount"));
+            lisType.add(object.getString("Type"));
+            liPremiumPayingTerm.add(object.getString("Premium Paying Term"));
+            liStartDate.add(object.getString("Start Date"));
+        }
+
+        JSONArray healthinsurance = new JSONArray(payload.get("healthinsurance"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> hisSumInsured = new ArrayList<>();
+        ArrayList<String> hisInsuranceName = new ArrayList<>();
+        ArrayList<String> hisFrequencyType = new ArrayList<>();
+        ArrayList<String> hisPremiumAmount = new ArrayList<>();
+        ArrayList<String> hiStartDate = new ArrayList<>();
+
+//         *typea20*=[[{"Type":"Term","Insurance Name":"li","Policy Term":"12","Premium Amount":"12","Premium Paying Term":"12","Sum Insured":"12","Start Date":"12-04-2022"}]],
+
+        System.out.println("HI FETCH");
+        for(int i=0; i<healthinsurance.length(); i++){
+            System.out.println(healthinsurance.get(i));
+            JSONObject object = new JSONObject(healthinsurance.get(i).toString());
+            System.out.println("HI: i: " + i + " Sum Insured: " + object.getString("Sum Insured") + " Company Name : " + object.getString("Company Name")
+                    + " Premium Amount: " + object.getString("Premium Amount")
+                    + " Frequency Type: " + object.getString("Frequency Type") + " Start Date: " + object.getString("Start Date"));
+            hisSumInsured.add(object.getString("Sum Insured"));
+            hisInsuranceName.add(object.getString("Company Name"));
+            hisPremiumAmount.add(object.getString("Premium Amount"));
+            hisFrequencyType.add(object.getString("Frequency Type"));
+            hiStartDate.add(object.getString("Start Date"));
+        }
+
+
+        Long lis_amount = (lisSumInsured).stream().map(Long::parseLong).reduce(0L, Long::sum);
+        Long his_amount = (hisSumInsured).stream().map(Long::parseLong).reduce(0L, Long::sum);
+
+        Long total_li_required = 20 * (Long.parseLong((String) payload.get("annualincome")));
         Long additional_li_required = (total_li_required) - lis_amount;
         Long ideal_hi_amount = 0L;
-        if(age>=21 && age<30 && (!payload.get("number_of_dependents").toString().isEmpty() && Integer.parseInt((String) payload.get("number_of_dependents")) > 0)) ideal_hi_amount = 7_50_000L;
+        if(age>=21 && age<30 && (!dependentsDOB.isEmpty())) ideal_hi_amount = 7_50_000L;
         else if(age>=21 && age<30 ) ideal_hi_amount = 5_00_000L;
         else if(age>=30 && age <40) ideal_hi_amount = 10_00_000L;
         else if (age>=40 && age<50) ideal_hi_amount = 15_00_000L;
         else if(age>=50) ideal_hi_amount = 20_00_000L;
         Long additional_hi_required = ideal_hi_amount - his_amount;
 
-        getActionPlan((String) payload.get("expense"), (String) payload.get("income"), ideal_equity_percentage, ideal_debt_percentage,
-                additional_li_required, additional_hi_required, existing_equity_amount, equity_percentage, debt_percentage, total, payload.get("first_name")+" "+payload.get("last_name"));
+        getActionPlan((String) payload.get("annualexpense"), (String) payload.get("annualincome"), ideal_equity_percentage, ideal_debt_percentage,
+                additional_li_required, additional_hi_required, existing_equity_amount, equity_percentage, debt_percentage, total, payload.get("name[first]")+" "+payload.get("name[last]"));
 
 
 //        //Page11
@@ -860,7 +1289,31 @@ public class PdfService {
 //        }
 
 
-        getNetworth((ArrayList<String>) payload.get("loan_emi_type"), (ArrayList<String>) payload.get("loan_emi_installment_amount"),
+        JSONArray loanemi = new JSONArray(payload.get("loanemi"));
+//[{"Date of Investment":"12-04-2022","Amount":"111","Frequency":"Lumpsum","Market Value":"111"},{"Date of Investment":"12-04-2022","Amount":"222","Frequency":"Lumpsum","Market Value":"222"}]
+
+        ArrayList<String> loanAmount = new ArrayList<>();
+        ArrayList<String> loanNoInstallments = new ArrayList<>();
+        ArrayList<String> loanAmountInstallment = new ArrayList<>();
+        ArrayList<String> loanType = new ArrayList<>();
+        ArrayList<String> loanStartDate = new ArrayList<>();
+
+//         *typea20*=[[{"Type":"Term","Insurance Name":"li","Policy Term":"12","Premium Amount":"12","Premium Paying Term":"12","Sum Insured":"12","Start Date":"12-04-2022"}]],
+
+        System.out.println("loanemi FETCH");
+        for(int i=0; i<loanemi.length(); i++){
+            System.out.println(loanemi.get(i));
+            JSONObject object = new JSONObject(loanemi.get(i).toString());
+            System.out.println("Loan: i: " + i + " Loan Amount: " + object.getString("Loan Amount") + " No of Installments Left : " + object.getString("No of Installments Left")
+                    + " Amount of Installment:: " + object.getString("Amount of Installment")
+                    + " Type: " + object.getString("Type") + " Start Date: " + object.getString("Start Date"));
+            loanAmount.add(object.getString("Loan Amount"));
+            loanNoInstallments.add(object.getString("No of Installments Left"));
+            loanAmountInstallment.add(object.getString("Amount of Installment"));
+            loanType.add(object.getString("Type"));
+            loanStartDate.add(object.getString("Start Date"));
+        }
+        getNetworth(loanType, loanAmountInstallment,
                 existing_equity_amount, equity_percentage, existing_debt_amount, debt_percentage, total);
 
         //YOUR NETWORTH
@@ -897,14 +1350,14 @@ public class PdfService {
 //        return data;
     }
 
-    public void generatePdf(Map<String, Object> payload){
+    public void generatePdf(Map<String, String> payload){
 
         System.out.println("service payload: " + payload);
 
         getFormattedData(payload);
         Map<String,Object> koshantra_data = getAllData(payload);
 
-        String fileName = payload.get("first_name")+"_"+payload.get("last_name");
+        String fileName = payload.get("name[first]")+"_"+payload.get("name[last]");
         String cash_flow_chart = "src/main/resources/templates/images/cash_flow_chart"+fileName+".jpeg";
         String pie_chart_1 = "src/main/resources/templates/images/pie_chart_1"+fileName+".jpeg";
         String pie_chart_2 = "src/main/resources/templates/images/pie_chart_2"+fileName+".jpeg";
@@ -1432,11 +1885,11 @@ public class PdfService {
         //Page14
 
         try {
-            File outputFile = pdfGeneratorUtil.createPdf(payload.get("first_name")+ "_" + payload.get("last_name") + "_report",this.data, "Page1_Cover","Page2","Page2.1_Index.html","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
+            File outputFile = pdfGeneratorUtil.createPdf(payload.get("name[first]")+ "_" + payload.get("name[last]") + "_report",this.data, "Page1_Cover","Page2","Page2.1_Index.html","Page3_PI","Page4_CashFlow", "Page5_CashFlowGraph",
                     /*"Page7_Investment"*//*, "Page8_Assumptions",*/"Page9_FinancialGoals","Page10_AssetAllocationChart","your_networth", "Page11_ActionPlan",
                     "Page12_ActionPlanChart", "Page14_Disclaimer");
 
-            File file = pdfGeneratorUtil.createPdf(payload.get("first_name")+ "_" + payload.get("last_name") + "_customer_all_data", koshantra_data,
+            File file = pdfGeneratorUtil.createPdf(payload.get("name[first]")+ "_" + payload.get("name[last]") + "_customer_all_data", koshantra_data,
                     "clients_all_data");
 
 //            File file = new File("payload_"+"id"+".txt");
@@ -1537,7 +1990,17 @@ public class PdfService {
         ZoneId zoneId = ZoneId.of("Asia/Kolkata");
         LocalDate now = LocalDate.now(zoneId);
         now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate started = LocalDate.parse(date_of_purchase);
+        String dateOfpurchase = "";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            System.out.println(sdf2.format(sdf.parse(date_of_purchase)));
+            dateOfpurchase = sdf2.format(sdf.parse(date_of_purchase));
+        }catch (Exception e){
+
+        }
+
+        LocalDate started = LocalDate.parse(dateOfpurchase);
 
         if(freq.equals("Daily")){
             amount = Duration.between(started.atStartOfDay(), now.atStartOfDay()).toDays() * amount;
