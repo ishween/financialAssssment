@@ -9,12 +9,16 @@
 #USER rabbitmq:rabbitmq
 #
 
-FROM openjdk:11
+FROM openjdk:11 as rabbitmq
 #as rabbitmq
 EXPOSE 8080
 WORKDIR /app
 
-ADD out/artifacts/financialAssessment_jar/financialAssessment.jar financialAssessment.jar
+ADD target/financialAssessment.jar financialAssessment.jar
+COPY rabbitmq.conf /etc/rabbitmq/
+ENV RABBITMQ_NODENAME=rabbit@localhost
+RUN chown rabbitmq:rabbitmq /etc/rabbitmq/rabbitmq.conf
+USER rabbitmq:rabbitmq
 
 # Copy maven executable to the image
 COPY mvnw .
