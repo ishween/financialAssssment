@@ -17,7 +17,7 @@ WORKDIR /app
 ADD target/financialAssessment.jar financialAssessment.jar
 COPY rabbitmq.conf /etc/rabbitmq/
 ENV RABBITMQ_NODENAME=rabbit@localhost
-RUN chown rabbitmq:rabbitmq rabbitmq.conf
+#RUN chown rabbitmq:rabbitmq rabbitmq.conf
 USER rabbitmq:rabbitmq
 
 # Copy maven executable to the image
