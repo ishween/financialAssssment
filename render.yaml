@@ -1,23 +1,23 @@
-services:
-  - type: worker
-    name: rabbitmq
-    env: docker
-    envVars:
-      - key: RABBITMQ_ERLANG_COOKIE
-        generateValue: true
-      - key: RABBITMQ_DEFAULT_USER
-        value: rabbitmq
-      - key: RABBITMQ_DEFAULT_PASS
-        generateValue: true
-    disk:
-      name: rabbitmq
-      mountPath: /var/lib/rabbitmq
-      sizeGB: 10
-  - type: worker
-    name: koshantraFinancials
-    env: docker
-    envVars:
-      - key: SPRING_RABBITMQ_HOST
-        value: rabbitmq
-      - key: PORT
-        value: 8080
+#services:
+#  - type: worker
+#    name: rabbitmq
+#    env: docker
+#    envVars:
+#      - key: RABBITMQ_ERLANG_COOKIE
+#        generateValue: true
+#      - key: RABBITMQ_DEFAULT_USER
+#        value: rabbitmq
+#      - key: RABBITMQ_DEFAULT_PASS
+#        generateValue: true
+#    disk:
+#      name: rabbitmq
+#      mountPath: /var/lib/rabbitmq
+#      sizeGB: 10
+#  - type: worker
+#    name: koshantraFinancials
+#    env: docker
+#    envVars:
+#      - key: SPRING_RABBITMQ_HOST
+#        value: rabbitmq
+#      - key: PORT
+#        value: 8080

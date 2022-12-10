@@ -9,14 +9,14 @@
 #USER rabbitmq:rabbitmq
 #
 
-FROM openjdk:11 as rabbitmq
+FROM openjdk:11
 #as rabbitmq
 EXPOSE 8080
 WORKDIR /app
 
 ADD target/financialAssessment-0.0.1-SNAPSHOT.jar financialAssessment.jar
-COPY rabbitmq.conf /etc/rabbitmq/
-ENV RABBITMQ_NODENAME=rabbit@localhost
+#COPY rabbitmq.conf /etc/rabbitmq/
+#ENV RABBITMQ_NODENAME=rabbit@localhost
 #RUN chown rabbitmq:rabbitmq rabbitmq.conf
 #USER rabbitmq:rabbitmq
 

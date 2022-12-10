@@ -37,20 +37,20 @@ public class MessagingConfig {
     private String EXCHANGE;
     @Value("${rabbitmq.routingkey}")
     private String ROUTING_KEY;
-//    @Value("${rabbitmq.username}")
-//    private String username;
-//    @Value("${rabbitmq.password}")
-//    private String password;
-//    @Value("${rabbitmq.host}")
-//    private String host;
-//    @Value("${rabbitmq.virtualhost}")
-//    private String virtualHost;
-//    @Value("${rabbitmq.reply.timeout}")
-//    private Integer replyTimeout;
-//    @Value("${rabbitmq.concurrent.consumers}")
-//    private Integer concurrentConsumers;
-//    @Value("${rabbitmq.max.concurrent.consumers}")
-//    private Integer maxConcurrentConsumers;
+    @Value("${rabbitmq.username}")
+    private String username;
+    @Value("${rabbitmq.password}")
+    private String password;
+    @Value("${rabbitmq.host}")
+    private String host;
+    @Value("${rabbitmq.virtualhost}")
+    private String virtualHost;
+    @Value("${rabbitmq.reply.timeout}")
+    private Integer replyTimeout;
+    @Value("${rabbitmq.concurrent.consumers}")
+    private Integer concurrentConsumers;
+    @Value("${rabbitmq.max.concurrent.consumers}")
+    private Integer maxConcurrentConsumers;
 
 //    public MessagingConfig(){
 //        QUEUE = System.getenv("QUEUE");
@@ -85,48 +85,48 @@ public class MessagingConfig {
         return template;
     }
 
-//    @Bean
-//    public ConnectionFactory connectionFactory() {
-//        System.out.println("Trying to connect");
-//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-//        System.out.println("Trying to connect 1");
-//        connectionFactory.setVirtualHost(virtualHost);
-//        connectionFactory.setHost(host);
-//        connectionFactory.setUsername(username);
-//        connectionFactory.setPassword(password);
-//        System.out.println("Trying to connect 2");
-//        return connectionFactory;
-//    }
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        System.out.println("Trying to connect");
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        System.out.println("Trying to connect 1");
+        connectionFactory.setVirtualHost(virtualHost);
+        connectionFactory.setHost(host);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
+        System.out.println("Trying to connect 2");
+        return connectionFactory;
+    }
 
-//    @Bean
-//    public AmqpAdmin amqpAdmin() {
-//        return new RabbitAdmin(connectionFactory());
-//    }
-//    @Bean
-//    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
-//        final SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-//        factory.setConnectionFactory(connectionFactory());
-//        factory.setMessageConverter(converter());
-//        factory.setConcurrentConsumers(concurrentConsumers);
-//        factory.setMaxConcurrentConsumers(maxConcurrentConsumers);
-//        factory.setErrorHandler(errorHandler());
-//        return factory;
-//    }
-//    @Bean
-//    public ErrorHandler errorHandler() {
-//        return new ConditionalRejectingErrorHandler(new MyFatalExceptionStrategy());
-//    }
-//    public static class MyFatalExceptionStrategy extends ConditionalRejectingErrorHandler.DefaultExceptionStrategy {
-////        private final Logger logger = LogManager.getLogger(getClass());
-//        @Override
-//        public boolean isFatal(Throwable t) {
-//            if (t instanceof ListenerExecutionFailedException) {
-//                ListenerExecutionFailedException lefe = (ListenerExecutionFailedException) t;
-//                logger.error("Failed to process inbound message from queue "
-//                        + lefe.getFailedMessage().getMessageProperties().getConsumerQueue()
-//                        + "; failed message: " + lefe.getFailedMessage(), t);
-//            }
-//            return super.isFatal(t);
-//        }
-//    }
+    @Bean
+    public AmqpAdmin amqpAdmin() {
+        return new RabbitAdmin(connectionFactory());
+    }
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
+        final SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory());
+        factory.setMessageConverter(converter());
+        factory.setConcurrentConsumers(concurrentConsumers);
+        factory.setMaxConcurrentConsumers(maxConcurrentConsumers);
+        factory.setErrorHandler(errorHandler());
+        return factory;
+    }
+    @Bean
+    public ErrorHandler errorHandler() {
+        return new ConditionalRejectingErrorHandler(new MyFatalExceptionStrategy());
+    }
+    public static class MyFatalExceptionStrategy extends ConditionalRejectingErrorHandler.DefaultExceptionStrategy {
+//        private final Logger logger = LogManager.getLogger(getClass());
+        @Override
+        public boolean isFatal(Throwable t) {
+            if (t instanceof ListenerExecutionFailedException) {
+                ListenerExecutionFailedException lefe = (ListenerExecutionFailedException) t;
+                logger.error("Failed to process inbound message from queue "
+                        + lefe.getFailedMessage().getMessageProperties().getConsumerQueue()
+                        + "; failed message: " + lefe.getFailedMessage(), t);
+            }
+            return super.isFatal(t);
+        }
+    }
 }
