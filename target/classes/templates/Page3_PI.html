@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+    <style>
+        /*@page {*/
+        /*    @bottom-center {*/
+        /*        <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; padding-bottom: 40px; padding-top: 20px;"/>*/
+        /*        <p style="color: black; font-size: smaller">*/
+        /*        TERMS &#38; CONDITIONS:<br/>*/
+        /*    THE CONTENTS OF THIS PAGE ARE SOLELY BASED ON THE INFORMATION PROVIDED BY YOU.*/
+        /*    <br/><br/>*/
+        /*    PREPARED BY &#169; KOSHANTRA CONSULTANCY LLP<br/>*/
+        /*    Reproduction in whole or part without prior written permission from Koshantra Consultancy LLP is prohibited.*/
+        /*    </p>;*/
+        /*    }*/
+        /*}*/
+    </style>
+</head>
+<body>
+<header>
+    <img width="80" height="80" src="src/main/resources/templates/images/koshantra_logo_header.jpeg" style="padding-left: 5%;"/>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; "/>
+</header>
+<div th:replace="fragments/header :: head"></div>
+<h1>
+<!--    <img width="50" height="50" style="float:left;" src="src/main/resources/templates/images/person-icon.png"></img>-->
+    Personal Information
+<!--    <img width="50" height="50" style="float:right;" src="src/main/resources/templates/images/person-icon.png"></img>-->
+</h1>
+<p style="color: blue">
+<img width="50" height="50" src="src/main/resources/templates/images/person-icon.png" style="vertical-align: middle; padding-left: 45%;"/>
+<p style="vertical-align: middle; padding-left: 43%;" th:text="${client_name}"></p>
+</p>
+<br/>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${personalInfoColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${personalInfoData}" id="tablerow">
+        <td th:each="header: ${personalInfoColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+<footer>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; padding-bottom: 40px; padding-top: 20px;"/>
+    <p style="color: black; font-size: smaller">
+        TERMS &#38; CONDITIONS:<br/>
+        THE CONTENTS OF THIS PAGE ARE SOLELY BASED ON THE INFORMATION PROVIDED BY YOU.
+        <br/><br/>
+        PREPARED BY &#169; KOSHANTRA CONSULTANCY LLP<br/>
+        Reproduction in whole or part without prior written permission from Koshantra Consultancy LLP is prohibited.
+    </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--<html lang="en">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+    <style>
+        table{
+            background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+
+<h3  th:text="'First Name: ' + ${first_name}"></h3><br/>
+<h3  th:text="'Last Name: ' + ${last_name}"></h3><br/>
+<h3  th:text="'Date of Birth: ' + ${dob}"></h3><br/>
+<h3  th:text="'Profession: ' + ${profession}"></h3><br/>
+<h3  th:text="'Income: ' + ${income}"></h3><br/>
+<h3  th:text="'Expense: ' + ${expense}"></h3><br/>
+<h3  th:text="'Email: ' + ${email}"></h3><br/>
+<h3  th:text="'Mobile No: ' + ${mobile_no}"></h3><br/>
+<h3  th:text="'Gender: ' + ${gender}"></h3><br/>
+<h3  th:text="'Address: ' + ${address}"></h3><br/>
+<h3  th:text="'Risk Profile: ' + ${risk_profile}"></h3><br/>
+<h3  th:text="'Life Goals: ' + ${life_goals}"></h3><br/>
+
+<h1>Dependents</h1>
+<h3  th:text="'Number of Dependents: ' + ${number_of_dependents}"></h3><br/>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${dependentsColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${dependentsData}" id="tablerow">
+        <td th:each="header: ${dependentsColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>Stocks</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${stocksColumnsAllData}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${stocksData}" id="tablerow">
+        <td th:each="header: ${stocksColumnsAllData}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>MFs</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${mfsColumnsAllData}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${mfsData}" id="tablerow">
+        <td th:each="header: ${mfsColumnsAllData}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>Life Insurance</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${lisColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${lisData}" id="tablerow">
+        <td th:each="header: ${lisColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>Health Insurance</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${hisColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${hisData}" id="tablerow">
+        <td th:each="header: ${hisColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>Bonds</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${bondsColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${bondsData}" id="tablerow">
+        <td th:each="header: ${bondsColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>PPF</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${ppfsColumnsAllData}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${ppfsData}" id="tablerow">
+        <td th:each="header: ${ppfsColumnsAllData}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>Fixed Deposits</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${fdsColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${fdsData}" id="tablerow">
+        <td th:each="header: ${fdsColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<h1>Loan Or EMI</h1>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${loanoremisColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+    <br/>
+    <tbody>
+    <tr class="even pointer" th:each="row: ${loanoremisData}" id="tablerow">
+        <td th:each="header: ${loanoremisColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

@@ -1,0 +1,769 @@
+/*LAPTOP*/
+@media only screen
+and (min-width: 1224px) {
+
+    /*h1 {*/
+    /*    font-family: sans-serif;*/
+    /*    font-size: 1.5em;*/
+    /*    text-transform: uppercase;*/
+    /*    color: blue;*/
+    /*}*/
+    /*strong {*/
+    /*    font-weight: 700;*/
+    /*    background-color: yellow;*/
+    /*}*/
+    /*p {*/
+    /*    font-family: sans-serif;*/
+    /*}*/
+    body {
+        font-family: "Times New Roman", sans-serif;
+    }
+
+    label {
+        font-family: Arial, "Comic Sans MS", sans-serif;
+        font-size: large;
+    }
+
+    #header {
+        background-image: linear-gradient(darkslategray, cyan);
+        /*background-color: cornflowerblue;*/
+        color: white;
+        background-size: 100% 100%;
+        /*margin-bottom: 50px;*/
+        padding-bottom: 20px;
+        font-family: Helvetica, sans-serif;
+    }
+
+    #koshantra_header {
+        /*padding-left: 100px;*/
+        /*margin-left: 200px;*/
+        text-align: center;
+        text-decoration: none;
+
+        /*text-align: center;*/
+        /*padding: 100px 0 0 0;*/
+        /*background-color: #CEDEF4;*/
+        /*font-weight:bold;*/
+        /*color: #224499;*/
+        /*border-radius: 10px;*/
+        /*position: relative;*/
+    }
+
+    input[type=date] {
+        text-transform: uppercase;
+    }
+
+    a {
+        color: black;
+    }
+
+    #logo {
+        float: left;
+        width: 120px;
+        padding-left: 200px;
+        padding-top: 5px;
+
+        /*position: absolute; left: 200px; top: 5px;*/
+    }
+
+    #line_before_logo {
+        /*margin-top: 50px;*/
+        padding-top: 5px;
+        color: white;
+        width: 80%;
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+
+    #line_after_logo {
+        color: white;
+        width: 50%;
+    }
+
+    #koshantra_link {
+        color: black;
+        text-decoration: none;
+        /*padding-bottom: 10px;*/
+    }
+
+    /*.left{*/
+    /*    float: left;*/
+    /*    width: 100%;*/
+    /*    border: none;*/
+    /*    border-bottom: 2px solid black;*/
+    /*    padding-bottom: 10px;*/
+    /*}*/
+    .plain_text {
+        text-align: left;
+        width: 50%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        /*border-bottom: 2px solid black;*/
+    }
+
+    .dependent_plain_text {
+        text-align: left;
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        /*border-bottom: 2px solid black;*/
+    }
+
+    /*.plain_text_right {*/
+    /*    text-align: right;*/
+    /*    width: 50%;*/
+    /*    padding: 12px 20px;*/
+    /*    margin: 8px 0;*/
+    /*    box-sizing: border-box;*/
+    /*    !*border: none;*!*/
+    /*    !*border-bottom: 2px solid black;*!*/
+    /*}*/
+    /*textarea {*/
+    /*    text-align: left;*/
+    /*    width: 50%;*/
+    /*    height: 100px;*/
+    /*    padding: 12px 20px;*/
+    /*    box-sizing: border-box;*/
+    /*    border: 2px solid #ccc;*/
+    /*    border-radius: 4px;*/
+    /*    background-color: #f8f8f8;*/
+    /*    !*resize: none;*!*/
+    /*}*/
+    /*.right{*/
+    /*    float: right;*/
+    /*    width: 30%;*/
+    /*    border: none;*/
+    /*    border-bottom: 2px solid black;*/
+    /*    padding-bottom: 10px;*/
+    /*}*/
+    .radio_box {
+        text-align: left;
+        width: 55%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    .select_options {
+        text-align: center;
+        width: 330px;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    /* The container */
+    /*.container {*/
+    /*    display: block;*/
+    /*    position: relative;*/
+    /*    !*padding-left: 35px;*!*/
+    /*    !*margin-bottom: 12px;*!*/
+    /*    cursor: pointer;*/
+    /*    !*font-size: 22px;*!*/
+    /*    -webkit-user-select: none;*/
+    /*    -moz-user-select: none;*/
+    /*    -ms-user-select: none;*/
+    /*    user-select: none;*/
+    /*}*/
+    /*!* Hide the browser's default radio button *!*/
+    /*.container input {*/
+    /*    position: absolute;*/
+    /*    opacity: 0;*/
+    /*    cursor: pointer;*/
+    /*}*/
+    /*!* Create a custom radio button *!*/
+    /*.checkmark {*/
+    /*    position: absolute;*/
+    /*    top: 0;*/
+    /*    left: 0;*/
+    /*    !*height: 25px;*!*/
+    /*    !*width: 25px;*!*/
+    /*    background-color: #eee;*/
+    /*    !*border-radius: 50%;*!*/
+    /*}*/
+    /*!* On mouse-over, add a grey background color *!*/
+    /*.container:hover input ~ .checkmark {*/
+    /*    background-color: #ccc;*/
+    /*}*/
+    /*!* When the radio button is checked, add a blue background *!*/
+    /*.container input:checked ~ .checkmark {*/
+    /*    background-color: #2196F3;*/
+    /*}*/
+    /*!* Create the indicator (the dot/circle - hidden when not checked) *!*/
+    /*.checkmark:after {*/
+    /*    content: "";*/
+    /*    position: absolute;*/
+    /*    display: none;*/
+    /*}*/
+    /*!* Show the indicator (dot/circle) when checked *!*/
+    /*.container input:checked ~ .checkmark:after {*/
+    /*    display: block;*/
+    /*}*/
+    /*!* Style the indicator (dot/circle) *!*/
+    /*.container .checkmark:after {*/
+    /*    top: 9px;*/
+    /*    left: 9px;*/
+    /*    width: 8px;*/
+    /*    height: 8px;*/
+    /*    border-radius: 50%;*/
+    /*    background: white;*/
+    /*}*/
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    th {
+        background-color: lightblue;
+        /*border-width: 4px;*/
+        border-color: white;
+        color: white;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        border: 4px solid;
+    }
+
+    td {
+        background-color: rgb(220, 231, 247);
+        text-align: center;
+        border-width: 3px;
+        border-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        /*border: 3px solid;*/
+        word-wrap: break-word;
+    }
+
+    .vl {
+        align-self: center;
+        border-left: 6px solid green;
+        height: 500px;
+    }
+
+    #footer {
+        background-color: rgb(232, 88, 122);
+        color: white;
+        padding-top: 10px;
+        text-align: center;
+        padding-bottom: 10px;
+        font-family: Georgia, serif;
+    }
+
+    input[type=submit] {
+        padding: 14px 40px;
+        font-size: 16px;
+        background-color: #f44336;
+        border-radius: 12px;
+    }
+
+    .button_add_dependents {
+        padding: 14px 40px;
+        margin-top: 5px;
+        font-size: 16px;
+        background-color: cyan;
+        border-radius: 12px;
+        width: 7%;
+        border: solid;
+    }
+
+    .button_add {
+        padding: 4px 10px;
+        margin-top: 5px;
+        font-size: 16px;
+        background-color: cyan;
+        border-radius: 12px;
+        width: 2%;
+        border: solid;
+        align-content: center;
+    }
+
+    #dependent_border{
+        /*padding-bottom: 2px;*/
+        width: 50%;
+    }
+
+    #loan-emi-instalment-left{
+         width: 150px;
+     }
+}
+
+/*IPAD*/
+@media only screen
+/*and (orientation : landscape)*/
+/*and (-webkit-min-device-pixel-ratio: 1)*/
+and (min-device-width : 768px)
+and (max-device-width : 1024px){
+    .button_add {
+        padding: 4px 9px 4px 9px;
+        margin-top: 5px;
+        font-size: 14px;
+        background-color: cyan;
+        border-radius: 2px;
+        width: 5%;
+        border: solid;
+        align-content: center;
+    }
+
+    .button_add_dependents {
+        padding: 15px 35px 15px 25px;
+        margin-top: 5px;
+        font-size: 15px;
+        background-color: cyan;
+        border-radius: 8px;
+        width: 10%;
+        border: solid;
+    }
+
+    body {
+        font-family: "Times New Roman", sans-serif;
+    }
+
+    label {
+        font-family: Arial, "Comic Sans MS", sans-serif;
+        font-size: large;
+    }
+
+    #header {
+        background-image: linear-gradient(darkslategray, cyan);
+        /*background-color: cornflowerblue;*/
+        color: white;
+        background-size: 100% 100%;
+        /*margin-bottom: 50px;*/
+        padding-bottom: 20px;
+        font-family: Helvetica, sans-serif;
+    }
+
+    #Koshantra_title{
+        font-size: medium;
+    }
+
+    #koshantra_header {
+        /*padding-left: 100px;*/
+        /*margin-left: 200px;*/
+        text-align: center;
+        text-decoration: none;
+
+        /*text-align: center;*/
+        /*padding: 100px 0 0 0;*/
+        /*background-color: #CEDEF4;*/
+        /*font-weight:bold;*/
+        /*color: #224499;*/
+        /*border-radius: 10px;*/
+        /*position: relative;*/
+    }
+
+    input[type=date] {
+        text-transform: uppercase;
+    }
+
+    a {
+        color: black;
+    }
+
+    #logo {
+        float: left;
+        width: 65px;
+        padding-left: 20px;
+        padding-top: 4px;
+
+        /*position: absolute; left: 200px; top: 5px;*/
+    }
+
+    #line_before_logo {
+        /*margin-top: 50px;*/
+        padding-top: 4px;
+        color: white;
+        width: 50%;
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+
+    #line_after_logo {
+        color: white;
+        width: 30%;
+        border-left-width: 0;
+        border-right-width: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #koshantra_link {
+        font-size: small;
+        color: black;
+        text-decoration: none;
+        /*padding-bottom: 10px;*/
+    }
+
+    #loan-emi-instalment-left{
+        width: 150px;
+    }
+
+    .plain_text {
+        text-align: left;
+        width: 60%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        /*border-bottom: 2px solid black;*/
+    }
+
+    .dependent_plain_text {
+        text-align: left;
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        border-bottom: 2px solid black;
+    }
+
+    .radio_box {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    .select_options {
+        text-align: center;
+        width: 330px;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+    }
+
+    .delete {
+        font-size: xx-small;
+    }
+
+    #Gender:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    #HeHim:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    #SheHer:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    th {
+        background-color: lightblue;
+        /*border-width: 4px;*/
+        border-color: white;
+        color: white;
+        text-align: center;
+        font-size: 15px;
+        /*padding-top: 5px;*/
+        /*padding-bottom: 5px;*/
+        /*padding-left: 10px;*/
+        border: 1px solid;
+        padding: 0 0 0 0;
+    }
+
+    td {
+        background-color: rgb(220, 231, 247);
+        text-align: center;
+        border-width: 1px;
+        border-color: white;
+        font-size: 10px;
+        /*padding-top: 2px;*/
+        /*padding-bottom: 2px;*/
+        /*padding-left: 2px;*/
+        /*border: 3px solid;*/
+        word-wrap: break-word;
+        padding: 0 0 0 0;
+    }
+
+    .vl {
+        align-self: center;
+        border-left: 6px solid green;
+        height: 500px;
+    }
+
+    #footer {
+        background-color: rgb(232, 88, 122);
+        color: white;
+        padding-top: 10px;
+        text-align: center;
+        padding-bottom: 10px;
+        font-family: Georgia, serif;
+    }
+
+    input[type=submit] {
+        padding: 14px 40px;
+        font-size: 16px;
+        background-color: #f44336;
+        border-radius: 12px;
+    }
+
+    #dependent_border{
+        /*padding-bottom: 2px;*/
+        width: 50%;
+    }
+}
+
+
+/*DESKTOP*/
+/*@media only screen*/
+/*and (min-width: 1370px)*/
+/*and (max-width: 1605px){*/
+/*    .button_add {*/
+/*        padding: 4px 10px;*/
+/*        margin-top: 5px;*/
+/*        font-size: 16px;*/
+/*        background-color: yellow;*/
+/*        border-radius: 12px;*/
+/*        width: 2%;*/
+/*        border: solid;*/
+/*        align-content: center;*/
+/*    }*/
+/*}*/
+
+
+    /*MOBILE*/
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+    .button_add {
+        padding: 3px 8px 3px 8px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: cyan;
+        border-radius: 2px;
+        width: 5%;
+        border: solid;
+        align-content: center;
+    }
+
+    #loan-emi-instalment-left{
+        width: 150px;
+    }
+
+    .button_add_dependents {
+        padding: 10px 30px 10px 20px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: cyan;
+        border-radius: 3px;
+        width: 10%;
+        border: solid;
+    }
+
+    #dependent_border{
+        /*padding-bottom: 2px;*/
+        width: 50%;
+    }
+
+    body {
+        font-family: "Times New Roman", sans-serif;
+    }
+
+    label {
+        font-family: Arial, "Comic Sans MS", sans-serif;
+        font-size: large;
+    }
+
+    #header {
+        background-image: linear-gradient(darkslategray, cyan);
+        /*background-color: cornflowerblue;*/
+        color: white;
+        background-size: 100% 100%;
+        /*margin-bottom: 50px;*/
+        padding-bottom: 20px;
+        font-family: Helvetica, sans-serif;
+    }
+
+    #Koshantra_title{
+        font-size: medium;
+    }
+
+    #koshantra_header {
+        /*padding-left: 100px;*/
+        /*margin-left: 200px;*/
+        text-align: center;
+        text-decoration: none;
+
+        /*text-align: center;*/
+        /*padding: 100px 0 0 0;*/
+        /*background-color: #CEDEF4;*/
+        /*font-weight:bold;*/
+        /*color: #224499;*/
+        /*border-radius: 10px;*/
+        /*position: relative;*/
+    }
+
+    input[type=date] {
+        text-transform: uppercase;
+    }
+
+    a {
+        color: black;
+    }
+
+    #logo {
+        float: left;
+        width: 50px;
+        padding-left: 20px;
+        padding-top: 4px;
+
+        /*position: absolute; left: 200px; top: 5px;*/
+    }
+
+    #line_before_logo {
+        /*margin-top: 50px;*/
+        padding-top: 4px;
+        color: white;
+        width: 50%;
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+
+    #line_after_logo {
+        color: white;
+        width: 40%;
+        border-left-width: 0;
+        border-right-width: 0;
+        /*padding-left: 5px;*/
+        /*padding-right: 10px;*/
+    }
+
+    #koshantra_link {
+        font-size: small;
+        color: black;
+        text-decoration: none;
+        /*padding-bottom: 10px;*/
+    }
+
+    .plain_text {
+        text-align: left;
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        /*border-bottom: 2px solid black;*/
+    }
+
+    .dependent_plain_text {
+        text-align: left;
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        /*border: none;*/
+        border-bottom: 2px solid black;
+    }
+
+    .radio_box {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    .select_options {
+        text-align: center;
+        width: 330px;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+    }
+
+    .delete {
+        font-size: xx-small;
+    }
+
+    #Gender:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    #HeHim:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    #SheHer:after{
+        content:"\a";
+        white-space: pre;
+    }
+
+    th {
+        background-color: lightblue;
+        /*border-width: 4px;*/
+        border-color: white;
+        color: white;
+        text-align: center;
+        font-size: 15px;
+        /*padding-top: 5px;*/
+        /*padding-bottom: 5px;*/
+        /*padding-left: 10px;*/
+        border: 1px solid;
+        padding: 0 0 0 0;
+    }
+
+    td {
+        background-color: rgb(220, 231, 247);
+        text-align: center;
+        border-width: 1px;
+        border-color: white;
+        font-size: 10px;
+        /*padding-top: 2px;*/
+        /*padding-bottom: 2px;*/
+        /*padding-left: 2px;*/
+        /*border: 3px solid;*/
+        word-wrap: break-word;
+        padding: 0 0 0 0;
+    }
+
+    .vl {
+        align-self: center;
+        border-left: 6px solid green;
+        height: 500px;
+    }
+
+    #footer {
+        background-color: rgb(232, 88, 122);
+        color: white;
+        padding-top: 10px;
+        text-align: center;
+        padding-bottom: 10px;
+        font-family: Georgia, serif;
+    }
+
+    input[type=submit] {
+        padding: 14px 40px;
+        font-size: 16px;
+        background-color: #f44336;
+        border-radius: 12px;
+    }
+}

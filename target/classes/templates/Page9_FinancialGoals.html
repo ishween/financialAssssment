@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <img width="80" height="80" src="src/main/resources/templates/images/koshantra_logo_header.png" style="padding-left: 5%;"/>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; "/>
+</header>
+<h1>Your Financial Goals</h1>
+<p>The first step in creating a financial plan is to identify your financial goals. You have mentioned the below financial goals for you and
+your family:</p>
+<br/><br/>
+<!--<p>Rupee sign: &#8377; &#x20B9;</p>-->
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${financialGoalsColumns}" class="column-title" th:text="${header}">
+<!--            <span th:text="${header}"></span>-->
+<!--            <span th:if="${header == 'Future Cost' or header == 'Present Cost of Goal'}" th:utext="'('+${'&#8377; &#x20B9;'+'&nbsp;'}+')'" ></span>-->
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="even pointer" th:each="row: ${financialGoalsData}" id="tablerow">
+        <td th:each="header: ${financialGoalsColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+<footer>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; padding-bottom: 40px; padding-top: 20px;"/>
+    <p style="color: black; font-size: smaller">
+        TERMS &#38; CONDITIONS:<br/>
+        THE CONTENTS OF THIS PAGE ARE SOLELY BASED ON THE INFORMATION PROVIDED BY YOU.
+        <br/><br/>
+        PREPARED BY &#169; KOSHANTRA CONSULTANCY LLP<br/>
+        Reproduction in whole or part without prior written permission from Koshantra Consultancy LLP is prohibited.
+    </p>
+</footer>
+<!--<br/>-->
+<!--<p>Identifying and prioritising your goals and the associated costs is the first step in your journey towards a financially secure future.</p>-->
+<!--<br/>-->
+<!--<p>Inflation is an important thing to understand here. The costs of goods and services, or in short inflation, has been on an uptrend-->
+<!--over the last few years. Inflation decreases the purchasing power of the money. So you will need more amount of money for your goals at the time-->
+<!--of their realization.</p>-->
+</body>
+</html>

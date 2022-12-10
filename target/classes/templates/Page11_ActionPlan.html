@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="src/main/resources/templates/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <img width="80" height="80" src="src/main/resources/templates/images/koshantra_logo_header.png" style="padding-left: 5%;"/>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; "/>
+</header>
+<h1>Recommended Action Plan</h1>
+<h4>Emergency Fund</h4>
+<span>You need to have a emergency fund of Rs. </span><span th:text="${emergency_fund}"> You can accumulate this amount over a period of 6 months.</span>
+
+<!--<h4>Goal Funding</h4>-->
+<!--<span>For your goal of Wealth Creation you need to invest Rs.</span> <span th:text="${ideal_equity_amount}"></span> <span> per month in Equity, and ₹ </span><span th:text="${ideal_debt_amount}"></span><span> per month in Debt.</span>-->
+
+<h4 style="padding-bottom: 0;">Life Insurance</h4>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${LifeInsuranceColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="even pointer" th:each="row: ${LifeInsuranceData}" id="tablerow">
+        <td th:each="header: ${LifeInsuranceColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+<p>
+</p>
+
+<h4 style="padding-bottom: 0;">Medical Insurance</h4>
+<table>
+    <thead>
+    <tr class="headings">
+        <th th:each="header: ${HealthInsuranceColumns}" class="column-title" th:text="${header}" />
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="even pointer" th:each="row: ${HealthInsuranceData}" id="tablerow">
+        <td th:each="header: ${HealthInsuranceColumns}" th:text="${row.get(header)}" />
+    </tr>
+    </tbody>
+</table>
+
+<h4>Portfolio Re-Balancing</h4>
+<p>To maintain the required asset allocation you need re-balance the portfolio as given below-
+<ul>
+    <li><span th:text="${switch_out_in_equity}"></span> (Rs.) Equity worth <span th:text="${switch_out_in_equity_amount}"></span></li>
+<li><span th:text="${switch_out_in_debt}"></span> (Rs.) Debt worth <span th:text="${switch_out_in_debt_amount}"></span></li>
+</ul>
+</p>
+<footer>
+    <hr style="border-color: lightblue; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; padding-bottom: 40px; padding-top: 20px;"/>
+    <p style="color: black; font-size: smaller">
+        TERMS &#38; CONDITIONS:<br/>
+        THE CONTENTS OF THIS PAGE ARE SOLELY BASED ON THE INFORMATION PROVIDED BY YOU.
+        <br/><br/>
+        PREPARED BY &#169; KOSHANTRA CONSULTANCY LLP<br/>
+        Reproduction in whole or part without prior written permission from Koshantra Consultancy LLP is prohibited.
+    </p>
+</footer>
+</body>
+</html>
