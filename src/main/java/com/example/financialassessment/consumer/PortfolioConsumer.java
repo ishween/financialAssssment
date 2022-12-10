@@ -24,7 +24,8 @@ public class PortfolioConsumer {
 //    }
 
 //    @RabbitListener(queues = MessagingConfig.QUEUE)
-    @RabbitListener(queues = {"${QUEUE}"})
+//    @RabbitListener(queues = {"${QUEUE}"})
+    @RabbitListener(queues = {"${rabbitmq.queue}"})
     public void consumeQueue(Map<String, String> payload){
 
         try {

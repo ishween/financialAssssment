@@ -19,10 +19,10 @@ public class PortfolioPublisher {
     @Autowired
     private RabbitTemplate template;
 
-    @Value("${EXCHANGE}")
+    @Value("${rabbitmq.exchange}")
     private String EXCHANGE;
 
-    @Value("${ROUTING_KEY}")
+    @Value("${rabbitmq.routingkey}")
     private String ROUTING_KEY;
 
 //    @PostMapping("/")
