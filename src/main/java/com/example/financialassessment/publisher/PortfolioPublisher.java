@@ -70,7 +70,7 @@ public class PortfolioPublisher {
 //    }
 
     @PostMapping(value = "/register", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public void submitForm(@RequestParam Map<String, String > payload) {
+    public String submitForm(@RequestParam Map<String, String > payload) {
 
 //        System.out.println(user);
 //        System.out.println(stockList);
@@ -116,9 +116,9 @@ public class PortfolioPublisher {
         try {
 //            template.setEncoding("UTF-8");
             template.convertAndSend(EXCHANGE, ROUTING_KEY, payload);
-//            return "register_success";
+            return "register_success";
         }catch (Exception e){
-//            return "register_success";
+            return "register_success";
         }
     }
 
