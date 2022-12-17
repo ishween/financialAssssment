@@ -24,6 +24,12 @@ a{
     font-size: medium;
     text-underline: none;
 }
+body{
+    background-image: url('src/main/resources/templates/images/background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
 
 /*IPAD*/
 @media only screen
@@ -59,6 +65,12 @@ and (max-device-width : 1024px) {
         font-size: medium;
         text-underline: none;
     }
+    #thankYou {
+        background-image: url('src/main/resources/templates/images/background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
 }
 
 @media only screen
@@ -91,5 +103,11 @@ and (max-device-width : 480px) {
         color: black;
         font-size: medium;
         text-underline: none;
+    }
+    #thankYou {
+        background-image: url('src/main/resources/templates/images/background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
     }
 }
