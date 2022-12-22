@@ -379,8 +379,8 @@ public class PdfService {
 
             dependents_name.add(object.getString(DEPENDENTS_NAME));
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
                 System.out.println(sdf2.format(sdf.parse(object.getString(DEPENDENTS_DOB))));
                 dependents_dob.add(sdf2.format(sdf.parse(object.getString(DEPENDENTS_DOB))));
             } catch (Exception ex){
@@ -1047,11 +1047,11 @@ public class PdfService {
         long amount = Long.parseLong(comp_amount);
         ZoneId zoneId = ZoneId.of(ZONE);
         LocalDate now = LocalDate.now(zoneId);
-        now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         String dateOfpurchase = "";
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
             System.out.println(sdf2.format(sdf.parse(date_of_purchase)));
             dateOfpurchase = sdf2.format(sdf.parse(date_of_purchase));
         }catch (Exception e){
