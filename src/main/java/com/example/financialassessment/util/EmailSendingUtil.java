@@ -90,7 +90,7 @@ public class EmailSendingUtil {
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
                 PrintWriter out = new PrintWriter(conn.getOutputStream());
-                out.print(request);
+//                 out.print(request);
                 out.flush();
                 out.close();
                 conn.connect();
@@ -107,9 +107,9 @@ public class EmailSendingUtil {
                 } catch (IOException e) {
                     String line;
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                    while ((line = in.readLine()) != null) {
-                        System.out.println(line);
-                    }
+//                     while ((line = in.readLine()) != null) {
+//                         System.out.println(line);
+//                     }
                     System.out.flush();
                 }
             } catch (Exception e) {
@@ -188,7 +188,7 @@ public class EmailSendingUtil {
 //            }
 //        });
 
-        session.setDebug(true);
+//         session.setDebug(true);
 
         try {
 
