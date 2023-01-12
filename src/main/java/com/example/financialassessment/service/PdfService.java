@@ -473,7 +473,7 @@ public class PdfService {
         koshantra_data.put("mfsData", mfsData);
         koshantra_data.put("mfsColumnsAllData", mfsColumnsAllData);
 
-        List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Assured", "Name", "Policy Term");
+        List<String> lisColumns = Arrays.asList("Start Date", "Premium Paying Term", "Type", "Sum Assured", "Name", "Policy Term", "Premium Amount");
         List<Map<String,Object>> lisData = new ArrayList<>();
         Map<String, ArrayList<String>> liPayload = getLIData(payload);
         Map<String, ArrayList<String>> hiPayload = getHIData(payload);
@@ -533,7 +533,7 @@ public class PdfService {
         koshantra_data.put("ppfsData", ppfsData);
         koshantra_data.put("ppfsColumnsAllData", ppfsColumnsAllData);
 
-        List<String> fdsColumns = Arrays.asList("Name", "Amount", "Start Date", "Maturity Date");
+        List<String> fdsColumns = Arrays.asList("Name", "Amount", "Start Date", "Maturity Date", "Interest Rate");
         List<Map<String,Object>> fdsData = new ArrayList<>();
 
         Map<String, ArrayList<String>> fdPayload = getFDsData(payload);
@@ -548,7 +548,7 @@ public class PdfService {
         koshantra_data.put("fdsColumns", fdsColumns);
         koshantra_data.put("fdsData", fdsData);
 
-        List<String> loanoremisColumns = Arrays.asList("Start Date", "Installment Amount", "Installment Left", "Type");
+        List<String> loanoremisColumns = Arrays.asList("Start Date", "Installment Amount", "Installment Left", "Type", "Amount");
         List<Map<String,Object>> loanoremisData = new ArrayList<>();
 
         Map<String, ArrayList<String>> loanPayload = getLoanEmiData(payload);
