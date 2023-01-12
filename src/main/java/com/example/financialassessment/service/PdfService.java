@@ -921,7 +921,7 @@ public class PdfService {
         getAssetAllocationChart(fileName, equity_percentage, debt_percentage, ideal_equity_percentage, ideal_debt_percentage);
 
         Map<String, ArrayList<String>> liPayload = getLIData(payload);
-        Map<String, ArrayList<String>> hiPayload = getLIData(payload);
+        Map<String, ArrayList<String>> hiPayload = getHIData(payload);
 
         Long lis_amount = (liPayload.get(LI_SUM_INSURED)).stream().map(Long::parseLong).reduce(0L, Long::sum);
         Long his_amount = (hiPayload.get(HI_SUM_INSURED)).stream().map(Long::parseLong).reduce(0L, Long::sum);
