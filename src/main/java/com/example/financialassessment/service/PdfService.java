@@ -927,6 +927,7 @@ public class PdfService {
         Long his_amount = (hiPayload.get(HI_SUM_INSURED)).stream().map(Long::parseLong).reduce(0L, Long::sum);
 
         Long total_li_required = 20 * (Long.parseLong(payload.get("annualincome")));
+        System.out.println("Total & List: " + lis_amount + " : "+ total_li_required);
         Long additional_li_required = (total_li_required) - lis_amount;
         Long ideal_hi_amount = 0L;
         if(age>=21 && age<30 && (!dependentsMap.get(DEPENDENTS_DOB).isEmpty())) ideal_hi_amount = 7_50_000L;
