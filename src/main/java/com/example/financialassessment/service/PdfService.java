@@ -781,6 +781,7 @@ public class PdfService {
         data.put("ideal_debt_amount", idealDebtAmount);
         data.put("additional_li_required", additionalLiRequired);
         data.put("additional_hi_required", additionalHiRequired);
+        System.out.println("getAction() additional_hi_required: " + additionalHiRequired);
         if(existingEquityAmount > idealEquityAmount){
             long switch_out_equity = (long) (((idealEquityPercentage-equityPercentage) * (total==0?1:total)) / 100);
             long switch_in_debt = (long) (((idealDebtPercentage-debtPercentage) * (total==0?1:total)) / 100);
@@ -936,6 +937,7 @@ public class PdfService {
         else if (age>=40 && age<50) ideal_hi_amount = 15_00_000L;
         else if(age>=50) ideal_hi_amount = 20_00_000L;
         Long additional_hi_required = ideal_hi_amount - his_amount;
+        System.out.println("getFormattedData() additional_hi_required: " + additional_hi_required + " : " + ideal_hi_amount + " : "+ his_amount);
 
         getActionPlan(payload.get("annualexpense"), payload.get("annualincome"), ideal_equity_percentage, ideal_debt_percentage,
                 additional_li_required, additional_hi_required, existing_equity_amount, equity_percentage, debt_percentage, total, payload.get("name[first]")+" "+payload.get("name[last]"));
