@@ -78,7 +78,8 @@ public class EmailSendingUtil {
      */
     public String renewToken() {
 
-
+        System.out.println("System.currentTimeMillis(): " + System.currentTimeMillis());
+        System.out.println("tokenExpires: " + tokenExpires);
         if (System.currentTimeMillis() > tokenExpires) {
 
             try {
@@ -90,7 +91,7 @@ public class EmailSendingUtil {
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
                 PrintWriter out = new PrintWriter(conn.getOutputStream());
-//                 out.print(request);
+                 out.print(request);
                 out.flush();
                 out.close();
                 conn.connect();
