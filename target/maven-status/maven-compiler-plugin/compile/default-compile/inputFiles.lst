@@ -13,6 +13,7 @@
 /Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/publisher/PortfolioPublisher.java
 /Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/dto/PPF.java
 /Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/consumer/PortfolioConsumer.java
+/Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/service/ServiceConstants.java
 /Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/util/EmailSendingUtil.java
 /Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/dto/FD.java
 /Users/ishween.kaur/Documents/workspace/financialAssessment/src/main/java/com/example/financialassessment/dto/MF.java

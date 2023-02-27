@@ -496,7 +496,7 @@ public class PdfService {
         for(int i=0;i<hiPayload.get(HI_PREMIUM_AMOUNT).size(); i++){
             hisData.add(Map.of("Name", hiPayload.get(HI_COMPANY_NAME).get(i),
                     "Premium Amount", hiPayload.get(HI_PREMIUM_AMOUNT).get(i),
-                    "Frequency Type", hiPayload.get(HI_FREQ_TYPE).get(i),
+                    "Type", hiPayload.get(HI_FREQ_TYPE).get(i),
                     "Sum Insured", hiPayload.get(HI_SUM_INSURED).get(i),
                     "Start Date", hiPayload.get(HI_START_DATE).get(i)));
         }
