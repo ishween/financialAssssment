@@ -405,7 +405,7 @@ public class PdfService {
         koshantra_data.put("profession", payload.get("profession"));
         koshantra_data.put("income", payload.get("annualincome"));
         koshantra_data.put("expense", payload.get("annualexpense"));
-        koshantra_data.put("mobile_no", payload.get("phonenumber[full]"));
+        koshantra_data.put("mobile_no", payload.get("phonenumber").split("[A-Z]+\\s")[1]);
         koshantra_data.put("gender", payload.get("gender"));
         koshantra_data.put("email", payload.get("email"));
         koshantra_data.put("address", payload.get("address[addr_line1]")+","+payload.get("address[addr_line2]")+","+payload.get("address[city]")+","
@@ -880,8 +880,9 @@ public class PdfService {
 
 
         String dob = payload.get("dateof[year]") + "-" + payload.get("dateof[month]") + "-" + payload.get("dateof[day]");
+        System.out.println(Arrays.toString(payload.get("phonenumber").split("[A-Z]+\\s")));
         getPersonalInformation(payload.get("name[first]")+" "+payload.get("name[last]"), dob, payload.get("profession"),
-                payload.get("phonenumber[full]"), dependentsMap.get(DEPENDENTS_NAME), dependentsMap.get(DEPENDENTS_RELATION), dependentsMap.get(DEPENDENTS_DOB));
+                payload.get("phonenumber").split("[A-Z]+\\s")[1], dependentsMap.get(DEPENDENTS_NAME), dependentsMap.get(DEPENDENTS_RELATION), dependentsMap.get(DEPENDENTS_DOB));
 
         getIncomeInfo(payload.get("annualincome"), payload.get("profession"), df);
 
