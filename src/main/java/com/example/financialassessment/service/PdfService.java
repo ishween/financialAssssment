@@ -401,7 +401,8 @@ public class PdfService {
 
         koshantra_data.put("first_name", payload.get("name[first]"));
         koshantra_data.put("last_name", payload.get("name[last]"));
-        koshantra_data.put("dob", payload.get("dateof[year]")+"-"+payload.get("dateof[month]")+"-"+payload.get("dateof[day]"));
+//        koshantra_data.put("dob", payload.get("dateof[year]")+"-"+payload.get("dateof[month]")+"-"+payload.get("dateof[day]"));
+        koshantra_data.put("dob", payload.get("dateofbirth"));
         koshantra_data.put("profession", payload.get("profession"));
         koshantra_data.put("income", payload.get("annualincome"));
         koshantra_data.put("expense", payload.get("annualexpense"));
@@ -879,7 +880,10 @@ public class PdfService {
         DecimalFormat df = new DecimalFormat("0.00"); /*df.format(futureCost)*/
 
 
-        String dob = payload.get("dateof[year]") + "-" + payload.get("dateof[month]") + "-" + payload.get("dateof[day]");
+        String dob = payload.get("dateofbirth");
+//        payload.get("dateof[year]") + "-" + payload.get("dateof[month]") + "-" + payload.get("dateof[day]");
+//        String dobn = payload.get("dateOfBirth");
+        System.out.println("DOB NEW: " + dob);
         System.out.println(Arrays.toString(payload.get("phonenumber").split("[A-Z]+\\s")));
         getPersonalInformation(payload.get("name[first]")+" "+payload.get("name[last]"), dob, payload.get("profession"),
                 payload.get("phonenumber").split("[A-Z]+\\s")[1], dependentsMap.get(DEPENDENTS_NAME), dependentsMap.get(DEPENDENTS_RELATION), dependentsMap.get(DEPENDENTS_DOB));
